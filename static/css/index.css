@@ -760,3 +760,9 @@ a:focus {
     height: 100%;
 }
 
+.method-card:hover {
+    transform: translateY(-5px); 
+    box-shadow: var(--shadow-lg); 
+    border-color: var(--primary); 
+    background-color: var(--primary-light);
+}
