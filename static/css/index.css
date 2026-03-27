@@ -913,3 +913,12 @@ body, button, input, optgroup, select, textarea {
     flex-shrink: 1;
     padding: 0.75rem;
 }
+
+.fig-caption {
+    margin: 0.75rem auto 0;
+    font-size: 0.82rem;
+    color: var(--text-light);
+    line-height: 1.55;
+    text-align: center;
+    max-width: 860px;
+}
