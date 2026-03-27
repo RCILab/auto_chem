@@ -779,3 +779,8 @@ a:focus {
     padding: 2px 8px;
     margin-bottom: 0.65rem;
 }
+
+.column.is-half, .column.is-half-tablet {
+    flex: none;
+    width: 50%;
+}
