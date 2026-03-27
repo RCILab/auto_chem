@@ -362,32 +362,6 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Method Overview</h2>
-    <div class="content has-text-justified">
-      <p>
-        RMRRT constructs a Riemannian barrier metric on the tangent space of the equality-constrained manifold that encodes the local geometry induced by inequality constraints. This metric is integrated into both steering and nearest-neighbor selection, enabling inequality-aware exploration while strictly maintaining equality-manifold feasibility.
-      </p>
-    </div>
-    <div class="columns is-centered" style="margin-top:1.5rem;">
-      <div class="column is-10 has-text-centered">
-        <img src="static/images/fig2.png" alt="Conceptual illustration of inequality-induced geometry on an equality-constrained manifold" style="width:100%; border-radius:4px;"/>
-        <p class="has-text-centered" style="font-size:0.9rem; margin-top:0.5rem;">
-          <b>(a)</b> Equality-constrained manifold under full admissibility. <b>(b)</b> The same manifold with infeasible regions (holes) induced by inequality constraints. RMRRT accounts for this geometry through a Riemannian metric defined on the tangent space.
-        </p>
-      </div>
-    </div>
-    <div class="columns is-centered" style="margin-top:1.5rem;">
-      <div class="column is-10 has-text-centered">
-        <img src="static/images/fig3.png" alt="Riemannian metric-based steering and nearest-neighbor selection" style="width:100%; border-radius:4px;"/>
-        <p class="has-text-centered" style="font-size:0.9rem; margin-top:0.5rem;">
-          <b>(a)</b> Metric-induced tangent-space steering biases expansion away from inequality boundaries. <b>(b)</b> Riemannian nearest-neighbor selection favors nodes that admit feasible, low-cost motions toward the target.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section class="section is-light">
   <div class="container is-max-desktop">
@@ -498,54 +472,6 @@
     <div class="container">
       <h2 class="title is-3">Result Video</h2>
       <div class="columns is-multiline is-centered">
-        <div class="column is-half">
-          <div class="has-text-centered">
-            <img src="static/images/RMRRT_panda_orientation.gif" alt="Single-arm cabinet reaching with fixed orientation constraint" loading="lazy" style="height:300px; object-fit:contain; border-radius:4px;"/>
-            <h2 class="subtitle has-text-centered" style="font-size:0.9rem; margin-top:0.5rem;">
-              Single-arm cabinet reaching under a fixed end-effector orientation constraint (Scenario 1).
-            </h2>
-          </div>
-        </div>
-        <div class="column is-half">
-          <div class="has-text-centered">
-            <img src="static/images/RMRRT_panda_dual_.gif" alt="Dual-arm constrained transfer with orientation constraint" loading="lazy" style="height:300px; object-fit:contain; border-radius:4px;"/>
-            <h2 class="subtitle has-text-centered" style="font-size:0.9rem; margin-top:0.5rem;">
-              Dual-arm constrained transfer  (Scenario 2).
-            </h2>
-          </div>
-        </div>
-        <div class="column is-half">
-          <div class="has-text-centered">
-            <img src="static/images/RMRRT_dual_orientation.gif" alt="Dual-arm constrained transfer with orientation constraint" loading="lazy" style="height:300px; object-fit:contain; border-radius:4px;"/>
-            <h2 class="subtitle has-text-centered" style="font-size:0.9rem; margin-top:0.5rem;">
-              Dual-arm constrained transfer with a fixed orientation constraint (Scenario 3).
-            </h2>
-          </div>
-        </div>
-        <div class="column is-half">
-          <div class="has-text-centered">
-            <img src="static/images/RMRRT_panda_triple.gif" alt="Triple-arm cooperative manipulation" loading="lazy" style="height:300px; object-fit:contain; border-radius:4px;"/>
-            <h2 class="subtitle has-text-centered" style="font-size:0.9rem; margin-top:0.5rem;">
-              Triple-arm cooperative manipulation under closed-chain grasp and collision avoidance constraints (Scenario 4).
-            </h2>
-          </div>
-        </div>
-        <div class="column is-half">
-          <div class="has-text-centered">
-            <img src="static/images/RMRRT_h1_2.gif" alt="Humanoid dual-arm constrained transfer" loading="lazy" style="height:300px; object-fit:contain; border-radius:4px;"/>
-            <h2 class="subtitle has-text-centered" style="font-size:0.9rem; margin-top:0.5rem;">
-              Unitree H1-2 humanoid dual-arm constrained transfer.
-            </h2>
-          </div>
-        </div>
-        <div class="column is-half">
-          <div class="has-text-centered">
-            <img src="static/images/dual_humanoid_RMRRT.gif" alt="Humanoid dual-arm constrained transfer" loading="lazy" style="height:300px; object-fit:contain; border-radius:4px;"/>
-            <h2 class="subtitle has-text-centered" style="font-size:0.9rem; margin-top:0.5rem;">
-              Cooperation with Unitree H1-2 and Roboros IGIRS-C.
-            </h2>
-          </div>
-        </div>
       </div>
     </div>
   </div>
