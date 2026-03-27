@@ -547,12 +547,12 @@ code {
   border-bottom: 1px solid var(--border-color);
 }
 
-.dropdown-header h4 {
+/* .dropdown-header h4 {
   margin: 0;
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-primary);
-}
+} */
 
 .close-btn {
   background: none;
@@ -869,15 +869,14 @@ body, button, input, optgroup, select, textarea {
     box-shadow: 0 0 15px rgba(37, 99, 235, 0.3); /* 반짝이는 효과 */
     transform: scale(1.02); /* 살짝 커짐 */
   }
-  .method-card h4 {
+</style>
+
+.method-card h4 {
     font-size: 0.98rem;
     font-weight: 700;
     color: var(--navy);
     margin-bottom: 0.5rem;
-  }
-</style>
-
-
+}
 
 @font-face {
     font-family: 'Inter';
