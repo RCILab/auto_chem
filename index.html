@@ -342,7 +342,7 @@
       <!-- TODO: Replace with your video description -->
       <h2 class="subtitle has-text-centered" style="margin-top: 1.5rem; font-size: 0.95rem; line-height: 1.5;">
         <p class="section-intro" style="margin-bottom: 0; color: #4a4a4a;">
-          We present an LLM-Guided Tool-Aware TAMP framework that integrates symbolic reasoning with physical execution for fully autonomous chemistry laboratory automation. The system combines an LLM Module for protocol validation and context-aware tool reasoning, a GPU-accelerated TAMP Module for collision-free trajectory generation, a multi-modal Perception Module for real-time world-state grounding, and a Skill Library for sensor-feedback-based execution enabling robust end-to-end automation of complex chemical procedures from natural language XDL protocols.
+          LLM-Guided Tool-Aware TAMP framework integrates symbolic reasoning with physical execution for fully autonomous chemistry laboratory automation. The system combines an LLM Module for protocol validation and context-aware tool reasoning, a GPU-accelerated TAMP Module for collision-free trajectory generation, a multi-modal Perception Module for real-time world-state grounding, and a Skill Library for sensor-feedback-based execution enabling robust end-to-end automation of complex chemical procedures from natural language XDL protocols.
         </p>
       </h2>
     </div>
@@ -390,36 +390,35 @@
         <div class="method-card">
           <div class="card-tag">Perception Module · Sec. 3.3</div>
           <h4>Real-Time World-State Grounding</h4>
-          <p>AprilTag markers affixed to each vessel are tracked by two spatially diverse RGB cameras at 30 Hz.
-          Dual-camera poses are fused via inverse-distance weighting for translation and SLERP for orientation,
-          with fallback to single-camera when occlusion occurs. A fixed tag-to-object offset recovers each vessel's
-          geometric center. Beyond pose estimation, the module aggregates precision scale readings for adaptive pouring
-          feedback and thermocouple data for temperature-conditioned execution, providing a clean, synchronized
-          sensory interface to the planning and skill layers.</p>
+          <p>A fiducial marker-based perception pipeline continuously localizes all laboratory vessels at 30 Hz,
+          providing the TAMP module with up-to-date 6-DoF world states before and after every procedure.
+          Beyond pose estimation, the module aggregates precision scale readings for adaptive pouring feedback
+          and thermocouple data for temperature-conditioned execution, ensuring the planner always reflects
+          the true physical configuration of the workspace.</p>
         </div>
       </div>
       <div class="column is-half">
         <div class="method-card">
           <div class="card-tag">TAMP Module · Sec. 3.4</div>
           <h4>GPU-Accelerated Constrained Motion Planning</h4>
-          <p>Built on cuTAMP, the planner formulates trajectory search as a parallelized differentiable optimization over
+          <!-- <p>Built on cuTAMP, the planner formulates trajectory search as a parallelized differentiable optimization over
           thousands of candidate particles, yielding structurally bounded runtime critical for time-sensitive reactions.
           Chemistry-specific operators — SidePick (full-circumference lateral grasp), MoveHolding (upright-constraint transport),
           Pour (tilt trajectory with adaptive PD pouring), and Stir (device-level RPM dispatch) — extend the base TAMP domain.
           LLM-inferred tool changes and auxiliary Pick-MoveHolding-Place sequences are inserted as pre-execution steps,
-          with world state updated after every stage to reflect all prior changes.</p>
+          with world state updated after every stage to reflect all prior changes.</p> -->
         </div>
       </div>
       <div class="column is-half">
         <div class="method-card">
           <div class="card-tag">Skill Library · Sec. 3.5</div>
           <h4>Sensor-Feedback Execution Primitives</h4>
-          <p>The Skill Library bridges the gap between symbolic TAMP plans and physical reality through feedback-driven
+          <!-- <p>The Skill Library bridges the gap between symbolic TAMP plans and physical reality through feedback-driven
           action primitives. Adaptive Pouring overrides the nominal tilt trajectory with a PD controller that adjusts
           wrist angle in real time based on precision scale readings until the target weight is reached.
           Automatic Tool Changing translates geometric rack-approach plans into electromagnet control and mechanical latching sequences.
           Device Operation skills monitor temperature and RPM from hotplates and stirrers, suspending execution until
-          target physical conditions are strictly verified rather than assumed.</p>
+          target physical conditions are strictly verified rather than assumed.</p> -->
         </div>
       </div>
     </div>
