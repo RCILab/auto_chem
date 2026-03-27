@@ -74,7 +74,7 @@
 
 
   <!-- TODO: Replace with your paper title and authors -->
-  <title>IESM-VLN | RCILab at KHU</title>
+  <title>Auto-Chem | RCILab at KHU</title>
   
   <!-- Favicon and App Icons -->
   <link rel="icon" type="image/x-icon" href="static/images/RCI_LAB_LOGO.ico">
@@ -245,13 +245,11 @@
             <div class="is-size-5 publication-authors">
               <!-- TODO: Replace with your paper authors and their personal links -->
               <span class="author-block">
-                <a href="FIRST AUTHOR PERSONAL LINK" target="_blank">Jiho Hong<small><sup>*</sup></small></a><sup>1</sup>,</span>
+                <a href="FIRST AUTHOR PERSONAL LINK" target="_blank">Bohyeong Pak<small><sup>*</sup></small></a><sup>1</sup>,</span>
                 <span class="author-block">
-                  <a href="SECOND AUTHOR PERSONAL LINK" target="_blank">Eunae Kang<small><sup>*</sup></small></a><sup>1</sup>,</span>
+                  <a href="SECOND AUTHOR PERSONAL LINK" target="_blank">Hyunho Cho<small><sup>*</sup></small></a><sup>1</sup>,</span>
                   <span class="author-block">
                     <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Sanghyun Kim<small><sup>†</sup></small></a><sup>1</sup>,</span>
-                    <span class="author-block">
-                      <a href="FOURTH AUTHOR PERSONAL LINK" target="_blank">Young-Sik Shin<small><sup>†</sup></small></a><sup>2</sup>,</span>
                   </div>
 
                   <div class="is-size-5 publication-authors">
@@ -294,7 +292,7 @@
 
                     <!-- TODO: Add your supplementary material PDF or remove this section -->
                     <span class="link-block">
-                      <a href="static/pdfs/IESM_VLN.pdf" target="_blank"
+                      <a href="static/pdfs/AUTO_CHEM.pdf" target="_blank"
                       class="external-link button is-normal is-rounded is-dark">
                       <span class="icon">
                         <i class="fas fa-file-pdf"></i>
@@ -305,7 +303,7 @@
 
                   <!-- TODO: Replace with your GitHub repository URL -->
                   <span class="link-block">
-                    <a href="https://github.com/RCILab/RCI_iesm_vln" target="_blank"
+                    <a href="https://github.com/RCILab/RCI_auto_chem" target="_blank"
                     class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fab fa-github"></i>
@@ -346,15 +344,15 @@
       <!-- </video> -->
       
       <img
-        src="static/images/fig1.jpg"
-        alt="Instance-Enriched Semantic Map overview"
+        src="static/images/fig1.png"
+        alt="Autonomous chemistry laboratory automation system overview"
         style="width: 100%; max-width: 1000px; display: block; margin: 0 auto; border-radius: 6px;"
       >
       
       <!-- TODO: Replace with your video description -->
       <h2 class="subtitle has-text-centered" style="margin-top: 1.5rem; font-size: 0.95rem; line-height: 1.5;">
         <p>
-          Instance-Enriched Semantic Map is an open-vocabulary 2.5D map representation built upon Instance-Level 2.5D Open-Vocabulary Mapping, Room-Level Semantic Segmentation, and Instance Captioning, thereby enabling robust zero-shot navigation from diverse natural language instructions.
+          LLM-Guided Tool-Aware TAMP framework integrates symbolic reasoning with physical execution for fully autonomous chemistry laboratory automation. The system combines an LLM Module for protocol validation and context-aware tool reasoning, a GPU-accelerated TAMP Module for collision-free trajectory generation, a multi-modal Perception Module for real-time world-state grounding, and a Skill Library for sensor-feedback-based execution enabling robust end-to-end automation of complex chemical procedures from natural language XDL protocols.
         </p>
       </h2>
     </div>
@@ -371,7 +369,7 @@
         <div class="content has-text-justified">
           <!-- TODO: Replace with your paper abstract -->
           <p>
-            Visual Language Navigation (VLN) aims to enable an embodied agent to navigate within complex environments by following natural language instructions. Achieving this goal requires agents to jointly perceive their surroundings and interpret human language. Recent approaches build semantic spatial maps and leverage Large Language Models (LLMs) for reasoning and decision making. Despite recent advances, existing VLN systems still suffer from a lack of instance-level object detail and robustness to diverse user queries, which limits reliable navigation in complex indoor environments. To address these fundamental limitations, we propose Instance-Enriched Semantic Maps, a unified framework with three key contributions: (1) A novel instance-level 2.5D mapping approach that constructs maps from RGB observations via open-vocabulary panoptic segmentation, crucially preserving vertical distinctions to capture overlapping instances along the height. (2) An integrated room-level semantic segmentation method that combines the Line Segment Detector (LSD) with vision-language inference to provide spatial context. (3) A comprehensive instance captioning system with Large Language Models (LLMs) for rich natural language descriptions that retain detailed attributes beyond simple categorical labels. Our framework demonstrates significant improvements across multiple dimensions. It consistently outperforms baselines in semantic mapping and room segmentation, while reducing memory usage by approximately 95% compared to 3D scene-graph approaches. In navigation experiments, our method achieves over 6% average improvement across diverse query types in both object retrieval and navigation success.
+            Autonomous chemistry laboratories can accelerate material discovery and improve experimental reproducibility, yet current systems remain limited in two respects: existing automation pipelines rely on protocol-specific equipment that restricts adaptability to diverse, non-linear workflows, and task and motion planning on robots with limited kinematic redundancy becomes unreliable when strict orientation, collision, and workspace constraints must be satisfied at once. This paper proposes LLM-Guided Tool-Aware TAMP (Task and Motion Planning), a hierarchical framework that combines large language model (LLM)-based symbolic reasoning with GPU-accelerated motion optimization for chemistry automation. The system converts natural-language experimental instructions into validated Chemical Description Language (XDL) protocols, selects appropriate end-effectors and plans obstacle rearrangement based on execution context, estimates the scene state through multi-view fiducial marker-based perception, and produces collision-free, constraint-satisfying trajectories by evaluating thousands of candidates in parallel. A sensor-driven skill library handles execution-level actions such as tool changing and adaptive pouring. On a 6-DoF manipulator, the GPU-parallelized planner achieves a 96.7% planning success rate under orientation constraints, up from 63.3% with a CPU-based sampling baseline, with lower planning-time variance. We build a high-fidelity simulation testbed in NVIDIA Isaac Sim for randomized trials and module-level ablation studies, and results confirm that the full framework executes complete chemical sequences involving tool switching, obstacle rearrangement, and multi-step reagent manipulation. The project page is available at https://rcilab.github.io/auto_chem
           </p>
         </div>
       </div>
