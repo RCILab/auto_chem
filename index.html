@@ -367,11 +367,21 @@
   </div>
 </section>
 
-
 <section class="section hero">
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column"><h2 class="title is-3">Methodology</h2></div>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 1rem;">
+      <img src="static/images/fig2.jpg" alt="System overview" style="width: 100%; max-width: 960px; display: block; margin: 0 auto; border-radius: 6px;">
+      <p class="fig-caption">
+        <strong>System Overview.</strong>
+        Upper: Instance-Level 2.5D Open-Vocabulary Mapping via SEEM (left),
+        Room-Level Semantic Segmentation via LSD+CLIP (center), Instance Captioning with LLaMA 3.2 Vision + GPT-4 (right).
+        Lower: MTEFR gate LLM assigns weights (ω<sub>O</sub>, ω<sub>R</sub>, ω<sub>D</sub>, ω<sub>A</sub>)
+        over four expert LLMs integrated via score-level fusion.
+      </p>
     </div>
 
     <div class="columns is-multiline" style="margin-top: 1.5rem;">
