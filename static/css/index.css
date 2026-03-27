@@ -539,13 +539,13 @@ code {
   transform: translateY(0);
 }
 
-.dropdown-header {
+/* .dropdown-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 1.5rem 1rem;
   border-bottom: 1px solid var(--border-color);
-}
+} */
 
 /* .dropdown-header h4 {
   margin: 0;
@@ -871,7 +871,7 @@ body, button, input, optgroup, select, textarea {
   }
 </style>
 
-.method-card h4 {
+.method-card > h4 {
     font-size: 0.98rem;
     font-weight: 700;
     color: var(--navy);
