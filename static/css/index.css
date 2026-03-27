@@ -51,15 +51,13 @@ html {
 }
 
 body {
-  font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-  color: var(--text-primary);
-  line-height: 1.6;
-  font-size: 16px;
-  background-color: var(--background-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-family: Inter, "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 16px;
+    background-color: var(--bg-white);
+    -webkit-font-smoothing: antialiased;
 }
-
 
 /* Modern Button Styles */
 .button {
@@ -887,4 +885,12 @@ body, button, input, optgroup, select, textarea {
     font-display: swap;
     src: url(https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa2JL7SUc.woff2) format('woff2');
     unicode-range: U +0460 -052F, U +1C80 -1C8A, U +20B4, U +2DE0 -2DFF, U + A640-A69F, U + FE2E-FE2F;
+}
+
+.column {
+    display: block;
+    flex-basis: 0px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding: 0.75rem;
 }
