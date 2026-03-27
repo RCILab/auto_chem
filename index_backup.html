@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Primary Meta Tags -->
+  <!-- TODO: Replace with your paper title and author names -->
+  <meta name="title" content="LLM-Guided Tool-Aware Task and Motion Planning for Chemistry Lab Automation">
+  <!-- TODO: Write a compelling 150-160 character description of your research -->
+  <meta name="description" content="">
+  <!-- TODO: Add 5-10 relevant keywords for your research area -->
+  <meta name="keywords" content="Autonomous Chemistry Laboratory, Task and Motion Planning, Large Language Models, Intelligent Planning, GPU-Accelerated Optimization">
+  <!-- TODO: List all authors -->
+  <meta name="author" content="bohyeong Pak, Hyunho Cho, Sanghyun Kim">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <!-- TODO: Replace with your institution or lab name -->
+  <meta property="og:site_name" content="Robot Control and Intelligence Laboratory">
+  <!-- TODO: Same as paper title above -->
+  <meta property="og:title" content="LLM-Guided Tool-Aware Task and Motion Planning for Chemistry Lab Automation">
+  <!-- TODO: Same as description above -->
+  <meta property="og:description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
+  <!-- TODO: Replace with your actual website URL -->
+  <meta property="og:url" content="https://rcilab.github.io/auto_chem/">
+  <!-- TODO: Create a 1200x630px preview image and update path -->
+  <meta property="og:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="PAPER_TITLE - Research Preview">
+  <meta property="article:published_time" content="2024-01-01T00:00:00.000Z">
+  <meta property="article:author" content="Bohyeong Pak">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="Autonomous Chemistry Laboratory">
+  <meta property="article:tag" content="Task and Motion Planning">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- TODO: Replace with your lab/institution Twitter handle -->
+  <meta name="twitter:site" content="@YOUR_TWITTER_HANDLE">
+  <!-- TODO: Replace with first author's Twitter handle -->
+  <meta name="twitter:creator" content="@AUTHOR_TWITTER_HANDLE">
+  <!-- TODO: Same as paper title above -->
+  <meta name="twitter:title" content="PAPER_TITLE">
+  <!-- TODO: Same as description above -->
+  <meta name="twitter:description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
+  <!-- TODO: Same as social preview image above -->
+  <meta name="twitter:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
+  <meta name="twitter:image:alt" content="PAPER_TITLE - Research Preview">
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="PAPER_TITLE">
+  <meta name="citation_author" content="FIRST_AUTHOR_LAST, FIRST_AUTHOR_FIRST">
+  <meta name="citation_author" content="SECOND_AUTHOR_LAST, SECOND_AUTHOR_FIRST">
+  <meta name="citation_publication_date" content="2024">
+  <meta name="citation_conference_title" content="CONFERENCE_NAME">
+  <meta name="citation_pdf_url" content="https://YOUR_DOMAIN.com/static/pdfs/paper.pdf">
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://documentcloud.adobe.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+
+  <!-- TODO: Replace with your paper title and authors -->
+  <title>Auto-Chem | RCILab at KHU</title>
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+  
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+  
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+  
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "PAPER_TITLE",
+    "description": "BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "FIRST_AUTHOR_NAME",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "TUTION_NAME"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "SECOND_AUTHOR_NAME",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "TUTION_NAME"
+        }
+      }
+    ],
+    "datePublished": "2024-01-01",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CONFERENCE_OR_JOURNAL_NAME"
+    },
+    "url": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE",
+    "image": "https://YOUR_DOMAIN.com/static/images/social_preview.png",
+    "keywords": ["KEYWORD1", "KEYWORD2", "KEYWORD3", "machine learning", "computer vision"],
+    "abstract": "FULL_ABSTRACT_TEXT_HERE",
+    "citation": "BIBTEX_CITATION_HERE",
+    "isAccessibleForFree": true,
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntity": {
+      "@type": "WebPage",
+      "@id": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE"
+    },
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "RESEARCH_AREA_1"
+      },
+      {
+        "@type": "Thing", 
+        "name": "RESEARCH_AREA_2"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Website/Organization Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "TUTION_OR_LAB_NAME",
+    "url": "https://YOUR_TUTION_WEBSITE.com",
+    "logo": "https://YOUR_DOMAIN.com/static/images/favicon.ico",
+    "sameAs": [
+      "https://twitter.com/YOUR_TWITTER_HANDLE",
+      "https://github.com/YOUR_GITHUB_USERNAME"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- More Works Dropdown -->
+  <!-- <div class="more-works-container">
+    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from Our Lab">
+      <i class="fas fa-flask"></i>
+      More Works
+      <i class="fas fa-chevron-down dropdown-arrow"></i>
+    </button>
+    <div class="more-works-dropdown" id="moreWorksDropdown">
+      <div class="dropdown-header">
+        <h4>More Works from Our Lab</h4>
+        <button class="close-btn" onclick="toggleMoreWorks()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="works-list">
+              <a href="https://arxiv.org/abs/PAPER_ID_1" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Paper Title 1</h5>
+            <p>Brief description of the work and its main contribution.</p>
+            <span class="work-venue">Conference/Journal 2024</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://arxiv.org/abs/PAPER_ID_2" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Paper Title 2</h5>
+            <p>Brief description of the work and its main contribution.</p>
+            <span class="work-venue">Conference/Journal 2023</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://arxiv.org/abs/PAPER_ID_3" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Paper Title 3</h5>
+            <p>Brief description of the work and its main contribution.</p>
+            <span class="work-venue">Conference/Journal 2023</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+      </div>
+    </div>
+  </div> -->
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <!-- TODO: Replace with your paper title -->
+            <h1 class="title is-1 publication-title">LLM-Guided Tool-Aware Task and Motion Planning for Chemistry Lab Automation</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- TODO: Replace with your paper authors and their personal links -->
+              <div class="is-size-5 publication-authors">
+              <!-- TODO: Replace with your paper authors and their personal links -->
+              <span class="author-block">
+                <a href="mailto:bhe1004@khu.ac.kr" target="_blank">Bohyeong Pak<small><sup>*</sup></small></a><sup>1</sup>,</span>
+                <span class="author-block">
+                  <a href="mailto:chohh7391@khu.ac.kr" target="_blank">Hyunho Cho<small><sup>*</sup></small></a><sup>1</sup>,</span>
+                  <span class="author-block">
+                    <a href="mailto:kim87@khu.ac.kr" target="_blank">Sanghyun Kim<small><sup>†</sup></small></a><sup>1</sup>,</span>
+                    </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <!-- TODO: Replace with your institution and conference/journal info -->
+                    <span class="author-block">
+                      <sup>1</sup>Kyung Hee University, 
+                      <br>Submitted to Springer Applied Intelligence, 2026
+                    </span>
+                    <!-- TODO: Remove this line if no equal contribution -->
+                    <span class="eql-cntrb">
+                      <small><br><sup>*</sup>Indicates Equal Contribution, </small>
+                      <small><sup>†</sup>Corresponding Author</small>
+                    </span>
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                      <!-- TODO: Update with your arXiv paper ID -->
+                      <span class="link-block">
+                        <a href="https://arxiv.org/pdf/&lt;ARXIV PAPER ID&gt;.pdf" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <svg class="svg-inline--fa fa-file-pdf fa-w-12" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file-pdf" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z"></path></svg><!-- <i class="fas fa-file-pdf"></i> Font Awesome fontawesome.com -->
+                        </span>
+                        <span>Paper</span>
+                        </a>
+                      </span>
+
+                      <!-- TODO: Add your youtube link -->
+                      <!-- <span class="link-block"> -->
+                        <!-- <a href="https://www.youtube.com/" target="_blank" class="external-link button is-normal is-rounded is-dark"> -->
+                          <!-- <span class="icon"> -->
+                            <!-- <svg class="svg-inline--fa fa-youtube fa-w-18" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="youtube" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path></svg><i class="fab fa-youtube"></i> Font Awesome fontawesome.com -->
+                          <!-- </span> -->
+                          <!-- <span>YouTube</span> -->
+                        <!-- </a> -->
+                      <!-- </span> -->
+
+                      <!-- TODO: Add your supplementary material PDF or remove this section -->
+                      <span class="link-block">
+                        <a href="static/pdfs/AUTO_CHEM.pdf" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                          <span class="icon">
+                            <svg class="svg-inline--fa fa-file-pdf fa-w-12" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file-pdf" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z"></path></svg><!-- <i class="fas fa-file-pdf"></i> Font Awesome fontawesome.com -->
+                          </span>
+                          <span>Supplementary</span>
+                        </a>
+                      </span>
+
+                      <!-- TODO: Replace with your GitHub repository URL -->
+                      <!-- <span class="link-block"> -->
+                        <!-- <a href="https://github.com/RCILab/RCI_auto_chem" target="_blank" class="external-link button is-normal is-rounded is-dark"> -->
+                          <!-- <span class="icon"> -->
+                            <!-- <svg class="svg-inline--fa fa-github fa-w-16" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg=""><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg><i class="fab fa-github"></i> Font Awesome fontawesome.com -->
+                          <!-- </span> -->
+                          <!-- <span>Code</span> -->
+                        <!-- </a> -->
+                      <!-- </span> -->
+
+                      <!-- TODO: Update with your arXiv paper ID -->
+                      <span class="link-block">
+                        <a href="https://arxiv.org/abs/&lt;ARXIV PAPER ID&gt;" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                          <span class="icon">
+                            <i class="ai ai-arxiv"></i>
+                          </span>
+                          <span>arXiv</span>
+                        </a>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body" style="text-align: center;">
+
+      <!-- If you want to put a teaser video instead of image, remove below annotation of video block. -->
+      <!-- TODO: Replace with your teaser video -->
+      <!-- <video poster="" id="tree" autoplay controls muted loop height="100%" preload="metadata"> -->
+        <!-- TODO: Add your video file path here -->
+        <!-- <source src="static/video/video.mp4" type="video/mp4"> -->
+      <!-- </video> -->
+      
+      <img src="static/images/fig1.png" alt="LLM-Guided Tool-Aware TAMP framework overview" style="width: 100%; max-width: 1000px; display: block; margin: 0 auto; border-radius: 6px;">
+      <img src="static/images/fig2.png" alt="Additional framework details" style="width: 100%; max-width: 1000px; display: block; margin: 1rem auto 0; border-radius: 6px;">
+      
+      <!-- TODO: Replace with your video description -->
+      <h2 class="subtitle has-text-centered" style="margin-top: 1.5rem; font-size: 0.95rem; line-height: 1.5;">
+        <p class="section-intro" style="margin-bottom: 0; color: #4a4a4a;">
+          LLM-Guided Tool-Aware TAMP framework integrates symbolic reasoning with physical execution for fully autonomous chemistry laboratory automation. The system combines an LLM Module for protocol validation and context-aware tool reasoning, a GPU-accelerated TAMP Module for collision-free trajectory generation, a multi-modal Perception Module for real-time world-state grounding, and a Skill Library for sensor-feedback-based execution enabling robust end-to-end automation of complex chemical procedures from natural language XDL protocols.
+        </p>
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <!-- TODO: Replace with your paper abstract -->
+          <p>
+            Autonomous chemistry laboratories can accelerate material discovery and improve experimental reproducibility, yet current systems remain limited in two respects: existing automation pipelines rely on protocol-specific equipment that restricts adaptability to diverse, non-linear workflows, and task and motion planning on robots with limited kinematic redundancy becomes unreliable when strict orientation, collision, and workspace constraints must be satisfied at once. This paper proposes LLM-Guided Tool-Aware TAMP (Task and Motion Planning), a hierarchical framework that combines large language model (LLM)-based symbolic reasoning with GPU-accelerated motion optimization for chemistry automation. The system converts natural-language experimental instructions into validated Chemical Description Language (XDL) protocols, selects appropriate end-effectors and plans obstacle rearrangement based on execution context, estimates the scene state through multi-view fiducial marker-based perception, and produces collision-free, constraint-satisfying trajectories by evaluating thousands of candidates in parallel. A sensor-driven skill library handles execution-level actions such as tool changing and adaptive pouring. On a 6-DoF manipulator, the GPU-parallelized planner achieves a 96.7% planning success rate under orientation constraints, up from 63.3% with a CPU-based sampling baseline, with lower planning-time variance. We build a high-fidelity simulation testbed in NVIDIA Isaac Sim for randomized trials and module-level ablation studies, and results confirm that the full framework executes complete chemical sequences involving tool switching, obstacle rearrangement, and multi-step reagent manipulation. The project page is available at https://rcilab.github.io/auto_chem
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column"><h2 class="title is-3">Methodology</h2></div>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 1rem;">
+      <img src="static/images/fig2.jpg" alt="System overview" style="width: 100%; max-width: 960px; display: block; margin: 0 auto; border-radius: 6px;">
+      <p class="fig-caption">
+        <strong>System Overview.</strong>
+        Upper: Multi-Layer Failure Resolution Hierarchy.
+        LLM Module resolves semantic failures via XDL generation (left),
+        Perception Module resolves state-grounding failures via 6-DoF localization (center), and TAMP Module resolves planning-reliability failures via GPU-parallelized optimization (right).
+        Lower: Execution-Level Failure Resolution. Skill Library Module converts nominal trajectories into sensor-feedback-driven motion primitives, resolving physical uncertainties and ensuring stable contact-rich task execution.
+      </p>
+    </div>
+
+    <div class="columns is-multiline" style="margin-top: 1.5rem;">
+      <div class="column is-half">
+        <div class="method-card">
+          <div class="card-tag">LLM Module · Sec. 3.2</div>
+          <h4>Context-Aware Protocol Synthesis & Reasoning</h4>
+          <p>A fine-tuned Llama 3.2 1B (LoRA SFT, 5,000 samples) converts natural language commands into structured XDL protocols.
+          The XDL Validator enforces three-layer checks — syntactic well-formedness, object existence against the live workspace inventory,
+          and sequential physical feasibility — halting execution and notifying the user before any robot motion occurs.
+          The Action Reasoner then infers the required end-effector and obstacle rearrangement strategy per procedure using
+          a discretized 12-grid workspace representation, enabling context-aware tool switching without manual domain redefinition.</p>
+        </div>
+      </div>
+      <div class="column is-half">
+        <div class="method-card">
+          <div class="card-tag">Perception Module · Sec. 3.3</div>
+          <h4>Real-Time World-State Grounding</h4>
+          <p>A fiducial marker-based perception pipeline continuously localizes all laboratory vessels at 30 Hz,
+          providing the TAMP module with up-to-date 6-DoF world states before and after every procedure.
+          Beyond pose estimation, the module aggregates precision scale readings for adaptive pouring feedback
+          and thermocouple data for temperature-conditioned execution, ensuring the planner always reflects
+          the true physical configuration of the workspace.</p>
+        </div>
+      </div>
+      <div class="column is-half">
+        <div class="method-card">
+          <div class="card-tag">TAMP Module · Sec. 3.4</div>
+          <h4>GPU-Accelerated Constrained Motion Planning</h4>
+          <!-- <p>Built on cuTAMP, the planner formulates trajectory search as a parallelized differentiable optimization over
+          thousands of candidate particles, yielding structurally bounded runtime critical for time-sensitive reactions.
+          Chemistry-specific operators — SidePick (full-circumference lateral grasp), MoveHolding (upright-constraint transport),
+          Pour (tilt trajectory with adaptive PD pouring), and Stir (device-level RPM dispatch) — extend the base TAMP domain.
+          LLM-inferred tool changes and auxiliary Pick-MoveHolding-Place sequences are inserted as pre-execution steps,
+          with world state updated after every stage to reflect all prior changes.</p> -->
+        </div>
+      </div>
+      <div class="column is-half">
+        <div class="method-card">
+          <div class="card-tag">Skill Library · Sec. 3.5</div>
+          <h4>Sensor-Feedback Execution Primitives</h4>
+          <!-- <p>The Skill Library bridges the gap between symbolic TAMP plans and physical reality through feedback-driven
+          action primitives. Adaptive Pouring overrides the nominal tilt trajectory with a PD controller that adjusts
+          wrist angle in real time based on precision scale readings until the target weight is reached.
+          Automatic Tool Changing translates geometric rack-approach plans into electromagnet control and mechanical latching sequences.
+          Device Operation skills monitor temperature and RPM from hotplates and stirrers, suspending execution until
+          target physical conditions are strictly verified rather than assumed.</p> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column"><h2 class="title is-3">Experiments</h2></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- BibTex citation -->
+<section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <svg class="svg-inline--fa fa-copy fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path></svg><!-- <i class="fas fa-copy"></i> Font Awesome fontawesome.com -->
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@article{YourPaperKey2026,
+  title={LLM-Guided Tool-Aware Task and Motion Planning for Chemistry Lab Automation},
+  author={Bohyeong Pak, Hyunho Cho, Sanghyun Kim},
+  journal={Applied Intelligence},
+  year={2026},
+  publisher={Springer}
+  url={https://your-domain.com/your-project-page}
+}</code></pre>
+    </div>
+</section>
+    
+<!-- People -->
+<section class="section hero is-light">
+  <div class="container is-max-widescreen"> 
+    <div class="columns is-centered">
+      <div class="column is-11"> 
+        <h2 class="title is-3 has-text-centered">People</h2>
+        
+        <div class="columns is-centered is-variable is-8 mt-5 is-mobile-multiline">
+          
+          <div class="column has-text-centered">
+            <div class="person-image-container">
+              <img src="static/images/Bohyeong_Pak.png" alt="Bohyeong Pak" 
+                   style="width: 100%; max-width: 180px; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
+            </div>
+            <p class="is-size-5 mt-3" style="white-space: nowrap;">
+              <a href="mailto:bhe1004@khu.ac.kr" class="has-text-dark" style="font-weight: 600;">Bohyeong Pak</a>
+            </p>
+            <p class="is-size-6 has-text-grey">Kyung Hee Univ.</p>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="person-image-container">
+              <img src="static/images/Hyunho_Cho.jpg" alt="Hyunho Cho" 
+                   style="width: 100%; max-width: 180px; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
+            </div>
+            <p class="is-size-5 mt-3" style="white-space: nowrap;">
+              <a href="mailto:chohh7391@khu.ac.kr" class="has-text-dark" style="font-weight: 600;">Hyunho Cho</a>
+            </p>
+            <p class="is-size-6 has-text-grey">Kyung Hee Univ.</p>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="person-image-container">
+              <img src="static/images/Sanghyun_Kim.jpg" alt="Sanghyun Kim" 
+                   style="width: 100%; max-width: 180px; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
+            </div>
+            <p class="is-size-5 mt-3" style="white-space: nowrap;">
+              <a href="https://www.rcilab.khu.ac.kr" target="_blank" class="has-text-dark" style="font-weight: 600;">Sanghyun Kim</a>
+            </p>
+            <p class="is-size-6 has-text-grey">Kyung Hee Univ.</p>
+          </div>
+          
+        </div> 
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .person-image-container img:hover {
+    transform: translateY(-5px);
+  }
+  /* 모바일에서 너무 좁아지면 자동으로 줄바꿈 되도록 설정 */
+  @media screen and (max-width: 768px) {
+    .columns.is-variable.is-8 {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+</style>
+
+
+
+
+
+
+<!-- End youtube video -->
+
+
+
+<!--BibTex citation -->
+  <!-- <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@article{YourPaperKey2024,
+  title={Your Paper Title Here},
+  author={First Author and Second Author and Third Author},
+  journal={Conference/Journal Name},
+  year={2024},
+  url={https://your-domain.com/your-project-page}
+}</code></pre>
+    </div>
+</section> -->
+<!--End BibTex citation -->
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            <a href="https://www.rcilab.khu.ac.kr" target="_blank">Robot Control and Interaction (RCI) Laboratory</a>, Kyung Hee University.
+            <br>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
