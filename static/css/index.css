@@ -869,14 +869,15 @@ body, button, input, optgroup, select, textarea {
     box-shadow: 0 0 15px rgba(37, 99, 235, 0.3); /* 반짝이는 효과 */
     transform: scale(1.02); /* 살짝 커짐 */
   }
-</style>
-
-.method-card h4 {
+  .method-card h4 {
     font-size: 0.98rem;
     font-weight: 700;
     color: var(--navy);
     margin-bottom: 0.5rem;
-}
+  }
+</style>
+
+
 
 @font-face {
     font-family: 'Inter';
