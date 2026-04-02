@@ -336,8 +336,7 @@
         <!-- <source src="static/video/video.mp4" type="video/mp4"> -->
       <!-- </video> -->
       
-      <img src="static/images/fig1.png" alt="LLM-Guided Tool-Aware TAMP framework overview" style="width: 100%; max-width: 1000px; display: block; margin: 0 auto; border-radius: 6px;">
-      <img src="static/images/fig2.png" alt="Additional framework details" style="width: 100%; max-width: 1000px; display: block; margin: 1rem auto 0; border-radius: 6px;">
+      <img src="static/images/overview.png" alt="LLM-Guided Tool-Aware TAMP framework overview" style="width: 100%; max-width: 1000px; display: block; margin: 0 auto; border-radius: 6px;">
       
       <!-- TODO: Replace with your video description -->
       <h2 class="subtitle has-text-centered" style="margin-top: 1.5rem; font-size: 0.95rem; line-height: 1.5;">
@@ -375,7 +374,9 @@
     </div>
 
     <div style="text-align: center; margin-bottom: 1rem;">
-      <img src="static/images/fig2.png" alt="System overview" style="width: 100%; max-width: 960px; display: block; margin: 0 auto; border-radius: 6px;">
+      <img src="static/images/llm.png" alt="System overview" style="width: 100%; max-width: 960px; display: block; margin: 0 auto; border-radius: 6px;">
+      <img src="static/images/llm_xdl.png" alt="System overview" style="width: 100%; max-width: 960px; display: block; margin: 0 auto; border-radius: 6px;">
+      <img src="static/images/llm_action_reasoner.png" alt="System overview" style="width: 100%; max-width: 960px; display: block; margin: 0 auto; border-radius: 6px;">
       <p class="fig-caption">
         <strong>System Overview.</strong>
         Upper: Multi-Layer Failure Resolution Hierarchy.
@@ -388,7 +389,7 @@
     <div class="columns is-multiline" style="margin-top: 1.5rem;">
       <div class="column is-half">
         <div class="method-card">
-          <div class="card-tag">LLM Module · Sec. 3.2</div>
+          <div class="card-tag">LLM Module</div>
           <h4>Context-Aware Protocol Synthesis & Reasoning</h4>
           <p>A fine-tuned Llama 3.2 1B (LoRA SFT, 5,000 samples) converts natural language commands into structured XDL protocols.
           The XDL Validator enforces three-layer checks — syntactic well-formedness, object existence against the live workspace inventory,
@@ -399,7 +400,7 @@
       </div>
       <div class="column is-half">
         <div class="method-card">
-          <div class="card-tag">Perception Module · Sec. 3.3</div>
+          <div class="card-tag">Perception Module</div>
           <h4>Real-Time World-State Grounding</h4>
           <p>A fiducial marker-based perception pipeline continuously localizes all laboratory vessels at 30 Hz,
           providing the TAMP module with up-to-date 6-DoF world states before and after every procedure.
@@ -410,7 +411,7 @@
       </div>
       <div class="column is-half">
         <div class="method-card">
-          <div class="card-tag">TAMP Module · Sec. 3.4</div>
+          <div class="card-tag">TAMP Module</div>
           <h4>GPU-Accelerated Constrained Motion Planning</h4>
           <!-- <p>Built on cuTAMP, the planner formulates trajectory search as a parallelized differentiable optimization over
           thousands of candidate particles, yielding structurally bounded runtime critical for time-sensitive reactions.
@@ -422,7 +423,7 @@
       </div>
       <div class="column is-half">
         <div class="method-card">
-          <div class="card-tag">Skill Library · Sec. 3.5</div>
+          <div class="card-tag">Skill Library Module</div>
           <h4>Sensor-Feedback Execution Primitives</h4>
           <!-- <p>The Skill Library bridges the gap between symbolic TAMP plans and physical reality through feedback-driven
           action primitives. Adaptive Pouring overrides the nominal tilt trajectory with a PD controller that adjusts
