@@ -387,10 +387,20 @@
     </div>
 
     <div class="columns is-multiline" style="margin-top: 1.5rem;">
+
+      <!-- LLM Module -->
       <div class="column is-half">
         <div class="method-card">
           <div class="card-tag">LLM Module</div>
           <h4>Context-Aware Protocol Synthesis & Reasoning</h4>
+
+          <!-- 이미지 영역 -->
+          <div class="card-image-wrapper">
+            <img src="static/images/llm_module.png" alt="LLM Module" class="card-image">
+            <p class="card-image-caption">Fig. LLM Module overview</p>
+          </div>
+
+          <!-- 텍스트 영역 -->
           <p>A fine-tuned Llama 3.2 1B (LoRA SFT, 5,000 samples) converts natural language commands into structured XDL protocols.
           The XDL Validator enforces three-layer checks — syntactic well-formedness, object existence against the live workspace inventory,
           and sequential physical feasibility — halting execution and notifying the user before any robot motion occurs.
@@ -398,10 +408,20 @@
           a discretized 12-grid workspace representation, enabling context-aware tool switching without manual domain redefinition.</p>
         </div>
       </div>
+
+      <!-- Perception Module -->
       <div class="column is-half">
         <div class="method-card">
           <div class="card-tag">Perception Module</div>
           <h4>Real-Time World-State Grounding</h4>
+
+          <!-- 이미지 영역 -->
+          <div class="card-image-wrapper">
+            <img src="static/images/perception_module.png" alt="Perception Module" class="card-image">
+            <p class="card-image-caption">Fig. Perception Module overview</p>
+          </div>
+
+          <!-- 텍스트 영역 -->
           <p>A fiducial marker-based perception pipeline continuously localizes all laboratory vessels at 30 Hz,
           providing the TAMP module with up-to-date 6-DoF world states before and after every procedure.
           Beyond pose estimation, the module aggregates precision scale readings for adaptive pouring feedback
@@ -409,30 +429,41 @@
           the true physical configuration of the workspace.</p>
         </div>
       </div>
+
+      <!-- TAMP Module -->
       <div class="column is-half">
         <div class="method-card">
           <div class="card-tag">TAMP Module</div>
           <h4>GPU-Accelerated Constrained Motion Planning</h4>
-          <!-- <p>Built on cuTAMP, the planner formulates trajectory search as a parallelized differentiable optimization over
-          thousands of candidate particles, yielding structurally bounded runtime critical for time-sensitive reactions.
-          Chemistry-specific operators — SidePick (full-circumference lateral grasp), MoveHolding (upright-constraint transport),
-          Pour (tilt trajectory with adaptive PD pouring), and Stir (device-level RPM dispatch) — extend the base TAMP domain.
-          LLM-inferred tool changes and auxiliary Pick-MoveHolding-Place sequences are inserted as pre-execution steps,
-          with world state updated after every stage to reflect all prior changes.</p> -->
+
+          <!-- 이미지 영역 -->
+          <div class="card-image-wrapper">
+            <img src="static/images/tamp_module.png" alt="TAMP Module" class="card-image">
+            <p class="card-image-caption">Fig. TAMP Module overview</p>
+          </div>
+
+          <!-- 텍스트 영역 (현재 주석 처리된 원문 복원 가능) -->
+          <p>설명 텍스트를 여기에 입력하세요.</p>
         </div>
       </div>
+
+      <!-- Skill Library Module -->
       <div class="column is-half">
         <div class="method-card">
           <div class="card-tag">Skill Library Module</div>
           <h4>Sensor-Feedback Execution Primitives</h4>
-          <!-- <p>The Skill Library bridges the gap between symbolic TAMP plans and physical reality through feedback-driven
-          action primitives. Adaptive Pouring overrides the nominal tilt trajectory with a PD controller that adjusts
-          wrist angle in real time based on precision scale readings until the target weight is reached.
-          Automatic Tool Changing translates geometric rack-approach plans into electromagnet control and mechanical latching sequences.
-          Device Operation skills monitor temperature and RPM from hotplates and stirrers, suspending execution until
-          target physical conditions are strictly verified rather than assumed.</p> -->
+
+          <!-- 이미지 영역 -->
+          <div class="card-image-wrapper">
+            <img src="static/images/skill_library_module.png" alt="Skill Library Module" class="card-image">
+            <p class="card-image-caption">Fig. Skill Library Module overview</p>
+          </div>
+
+          <!-- 텍스트 영역 (현재 주석 처리된 원문 복원 가능) -->
+          <p>설명 텍스트를 여기에 입력하세요.</p>
         </div>
       </div>
+
     </div>
   </div>
 </section>

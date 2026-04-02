@@ -773,20 +773,16 @@ a:focus {
 
 .method-card {
     margin-bottom: 1rem;
-    box-shadow: var(--shadow-sm);
     height: 100%;
     background: var(--bg-white);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 1.4rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     transition: var(--transition);
-}
-
-.method-card:hover {
-    transform: translateY(-5px); 
-    box-shadow: var(--shadow-lg); 
-    border-color: var(--primary); 
-    background-color: var(--primary-light);
+    cursor: pointer;
 }
 
 .method-card .card-tag {
@@ -842,57 +838,24 @@ body, button, input, optgroup, select, textarea {
     font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* 기본 상태 */
-.method-card {
-  transition: all 0.3s ease; /* 변화를 부드럽게 (0.3초) */
-  border: 1px solid transparent;
-}
-
-/* 마우스를 올렸을 때 (:hover) */
 .method-card:hover {
-  transform: translateY(-5px); /* 위로 살짝 들림 */
-  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2); /* 푸른색 그림자로 '반짝'이는 느낌 */
-  border-color: #2563eb; /* 테두리가 선명해짐 */
-  background-color: #ffffff; /* 배경이 밝아지며 강조됨 */
-}
-
-<style>
-  .method-card {
-    padding: 20px;
-    border-radius: 12px;
-    background: #f8faff; /* 연파랑 배경 */
-    transition: 0.3s;
-    cursor: pointer;
-  }
-  .method-card:hover {
-    background: #ffffff;
-    box-shadow: 0 0 15px rgba(37, 99, 235, 0.3); /* 반짝이는 효과 */
-    transform: scale(1.02); /* 살짝 커짐 */
-  }
-</style>
-
-.method-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.method-card .card-tag {
-    /* 기존 스타일 유지 */
-    margin-bottom: 0.5rem;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+    border-color: var(--primary);
+    background-color: var(--primary-light);
 }
 
 .method-card h4 {
     font-family: 'Inter', sans-serif;
-    font-size: 1.15rem; /* 본문보다 확연히 크도록 */
+    font-size: 1.15rem;
     font-weight: 800;
-    color: #1e3a5f; /* var(--navy) */
+    color: var(--navy);
     margin-bottom: 0.6rem;
     line-height: 1.2;
 }
 
 .method-card p {
-    font-size: 0.95rem; /* 본문은 약간 작게 조절하여 대비를 줌 */
+    font-size: 0.95rem;
     color: var(--text-secondary);
     line-height: 1.6;
 }
@@ -921,4 +884,28 @@ body, button, input, optgroup, select, textarea {
     line-height: 1.55;
     text-align: center;
     max-width: 860px;
+}
+
+.card-image-wrapper {
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--bg-accent);
+    margin-bottom: 0.75rem;
+}
+
+.card-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.card-image-caption {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    text-align: center;
+    margin: 0.4rem 0 0;
+    padding: 0 0.5rem 0.5rem;
 }
