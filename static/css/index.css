@@ -972,3 +972,29 @@ body, button, input, optgroup, select, textarea {
         width: 100%;
     }
 }
+
+.result-card {
+  border: 1.5px solid #dbdbdb;
+  border-radius: 8px;
+  padding: 1.2rem 2rem;
+  text-align: center;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #3273dc;
+  line-height: 1.2;
+}
+
+.result-label {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 0.4rem;
+  line-height: 1.4;
+}
