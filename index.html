@@ -494,15 +494,9 @@
       <div class="column is-full">
         <h3 class="title is-4">XDL Generation & Validation</h3>
         <p>
-          The XDL Generator is evaluated on 100 test instructions spanning single-step to
-          three-step composite workflows, achieving a <strong>97% success rate</strong> with
-          no syntax errors or semantic tag confusion. The three failures all originated from
-          contradictions in user instructions themselves, not model errors. The XDL Validator
-          achieves <strong>100% classification accuracy</strong> across all four injected error
-          categories — syntax, object existence, and physical feasibility — with zero false
-          positives and zero false negatives, confirming complete coverage of physically
-          relevant failure modes. Average inference time of <strong>1.57 s</strong> per command
-          confirms negligible pipeline latency.
+          The XDL Generator achieves a 97% success rate on 100 test instructions,
+          with zero syntax or semantic errors. The XDL Validator records 100% classification
+          accuracy across all injected error categories with zero false positives and negatives.
         </p>
 
         <div class="columns is-centered" style="margin-top: 1.5rem; gap: 1rem;">
@@ -527,14 +521,10 @@
       <div class="column is-full">
         <h3 class="title is-4">TAMP Planning Reliability</h3>
         <p>
-          The proposed cuTAMP-based planner is compared against PDDLStream across three
-          chemical tasks — Move, Transfer, and Stir — over 30 randomized trials each with
-          a 60-second timeout. cuTAMP achieves <strong>100% success across all tasks</strong>,
-          with the most pronounced improvement on Transfer, where orientation constraints
-          are most restrictive: cuTAMP records 100% versus PDDLStream's 66.7%.
-          Beyond success rate, cuTAMP exhibits <strong>structurally bounded runtime</strong>
-          with low variance (std ≤ 3.55 s), while PDDLStream shows high variance and
-          unpredictable termination — critical drawbacks for time-sensitive chemical workflows.
+          cuTAMP achieves 100% planning success across all three tasks, compared to
+          60–83% for PDDLStream, with the most pronounced gap on Transfer where orientation constraints
+          are most restrictive. Unlike PDDLStream, cuTAMP maintains structurally bounded runtime with
+          low variance, a critical property for time-sensitive chemical workflows.
         </p>
 
         <div class="table-container" style="margin-top: 1.5rem;">
@@ -599,15 +589,10 @@
       <div class="column is-full">
         <h3 class="title is-4">LLM-Based Tool Selection & Context-Aware Rearrangement</h3>
         <p>
-          Tool selection is evaluated on 120 unseen test scenarios across diverse task–object
-          combinations. The Action Reasoner achieves <strong>100% accuracy</strong> on main
-          tool, rearrangement necessity, and auxiliary tool selection, with
-          <strong>100% category-level accuracy</strong> on destination grid prediction.
-          Context-aware rearrangement is compared against No Rearrange and Random Rearrange
-          baselines. On the Transfer → Stir sequence, context-aware rearrangement achieves
-          <strong>96.67% sequence completion</strong>, versus 50.0% for random and 0% for
-          no rearrangement — demonstrating that procedural context, not just spatial
-          clearance, is the decisive factor for reliable multi-step execution.
+          The Action Reasoner achieves 100% accuracy on tool selection, rearrangement
+          necessity, and auxiliary tool inference. Context-aware rearrangement reaches
+          96.67% sequence completion on Transfer → Stir, versus 50.0% for random
+          and 0% for no rearrangement, confirming that procedural context is decisive for multi-step execution.
         </p>
 
         <div class="table-container" style="margin-top: 1.5rem;">
@@ -659,15 +644,9 @@
       <div class="column is-full">
         <h3 class="title is-4">End-to-End System Evaluation</h3>
         <p>
-          End-to-end performance is evaluated over 30 trials per workflow, each initialized
-          from a randomized world state and robot configuration, with success requiring every
-          procedural step to complete in order from a single natural language command.
-          XDL generation succeeds in <strong>100% of trials</strong> across all workflows.
-          The system achieves an <strong>overall average of 97.78%</strong> across planning,
-          execution, and end-to-end metrics, with the Move → Transfer workflow reaching
-          100% across all stages. The consistent alignment between planning and execution
-          success rates confirms that the Skill Library introduces no additional failure
-          modes beyond those captured at the planning stage.
+          Evaluated over 30 trials per workflow from a single natural language command, the integrated
+          system achieves an overall end-to-end success rate of 97.78%, with XDL
+          generation succeeding in 100% of all trials.
         </p>
 
         <div class="table-container" style="margin-top: 1.5rem;">
@@ -730,7 +709,7 @@
           
           <div class="column has-text-centered">
             <div class="person-image-container">
-              <img src="static/images/Bohyeong_Pak.png" alt="Bohyeong Pak" 
+              <img src="static/images/people/Bohyeong_Pak.png" alt="Bohyeong Pak" 
                    style="width: 100%; max-width: 180px; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
             </div>
             <p class="is-size-5 mt-3" style="white-space: nowrap;">
@@ -741,7 +720,7 @@
 
           <div class="column has-text-centered">
             <div class="person-image-container">
-              <img src="static/images/Hyunho_Cho.jpg" alt="Hyunho Cho" 
+              <img src="static/images/people/Hyunho_Cho.jpg" alt="Hyunho Cho" 
                    style="width: 100%; max-width: 180px; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
             </div>
             <p class="is-size-5 mt-3" style="white-space: nowrap;">
@@ -752,7 +731,7 @@
 
           <div class="column has-text-centered">
             <div class="person-image-container">
-              <img src="static/images/Sanghyun_Kim.jpg" alt="Sanghyun Kim" 
+              <img src="static/images/people/Sanghyun_Kim.jpg" alt="Sanghyun Kim" 
                    style="width: 100%; max-width: 180px; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
             </div>
             <p class="is-size-5 mt-3" style="white-space: nowrap;">
