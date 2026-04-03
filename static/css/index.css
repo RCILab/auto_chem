@@ -998,3 +998,53 @@ body, button, input, optgroup, select, textarea {
   margin-top: 0.4rem;
   line-height: 1.4;
 }
+
+/* 1열 꽉 찬 배치를 위한 너비 설정 */
+.column.is-full {
+    flex: none;
+    width: 100%;
+}
+
+/* 가로형 카드 레이아웃 */
+.method-card.is-horizontal {
+    flex-direction: row;    /* 좌우 배치 */
+    gap: 2rem;              /* 이미지와 텍스트 사이 간격 */
+    align-items: center;    /* 세로 중앙 정렬 */
+}
+
+/* 카드 내부 이미지 영역 */
+.method-card.is-horizontal .card-image {
+    flex: 0 0 35%;          /* 이미지가 전체 너비의 35%를 차지하도록 고정 */
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.method-card.is-horizontal .card-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+}
+
+/* 텍스트 영역 */
+.method-card.is-horizontal .card-content {
+    flex: 1;                /* 남은 공간을 모두 차지 */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* 모바일 화면(너비 768px 이하) 대응: 다시 세로로 배치 */
+@media screen and (max-width: 768px) {
+    .method-card.is-horizontal {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    
+    .method-card.is-horizontal .card-image {
+        flex: auto;
+        width: 100%;
+    }
+}
