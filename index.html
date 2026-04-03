@@ -483,11 +483,239 @@
 </section>
 
 
-<section class="section hero">
+<section class="section">
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
-      <div class="column"><h2 class="title is-4">Experiments</h2></div>
+      <div class="column"><h2 class="title is-3">Experiments</h2></div>
     </div>
+
+    <!-- XDL Generation -->
+    <div class="columns is-centered" style="margin-top: 2rem;">
+      <div class="column is-full">
+        <h3 class="title is-4">XDL Generation & Validation</h3>
+        <p>
+          The XDL Generator is evaluated on 100 test instructions spanning single-step to
+          three-step composite workflows, achieving a <strong>97% success rate</strong> with
+          no syntax errors or semantic tag confusion. The three failures all originated from
+          contradictions in user instructions themselves, not model errors. The XDL Validator
+          achieves <strong>100% classification accuracy</strong> across all four injected error
+          categories — syntax, object existence, and physical feasibility — with zero false
+          positives and zero false negatives, confirming complete coverage of physically
+          relevant failure modes. Average inference time of <strong>1.57 s</strong> per command
+          confirms negligible pipeline latency.
+        </p>
+
+        <div class="columns is-centered" style="margin-top: 1.5rem; gap: 1rem;">
+          <div class="result-card">
+            <div class="result-number">97%</div>
+            <div class="result-label">XDL Generation<br>Success Rate</div>
+          </div>
+          <div class="result-card">
+            <div class="result-number">100%</div>
+            <div class="result-label">XDL Validator<br>Accuracy</div>
+          </div>
+          <div class="result-card">
+            <div class="result-number">1.57s</div>
+            <div class="result-label">Avg. Inference<br>Time</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAMP Planning -->
+    <div class="columns is-centered" style="margin-top: 3rem;">
+      <div class="column is-full">
+        <h3 class="title is-4">TAMP Planning Reliability</h3>
+        <p>
+          The proposed cuTAMP-based planner is compared against PDDLStream across three
+          chemical tasks — Move, Transfer, and Stir — over 30 randomized trials each with
+          a 60-second timeout. cuTAMP achieves <strong>100% success across all tasks</strong>,
+          with the most pronounced improvement on Transfer, where orientation constraints
+          are most restrictive: cuTAMP records 100% versus PDDLStream's 66.7%.
+          Beyond success rate, cuTAMP exhibits <strong>structurally bounded runtime</strong>
+          with low variance (std ≤ 3.55 s), while PDDLStream shows high variance and
+          unpredictable termination — critical drawbacks for time-sensitive chemical workflows.
+        </p>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Solver</th>
+                <th>Success (%)</th>
+                <th>Planning Time (s)</th>
+                <th>Timeout (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td rowspan="2">Transfer</td>
+                <td>PDDLStream</td>
+                <td>66.7</td>
+                <td>7.21 ± 10.26</td>
+                <td>10.0</td>
+              </tr>
+              <tr>
+                <td><strong>cuTAMP (Ours)</strong></td>
+                <td><strong>100.0</strong></td>
+                <td><strong>31.18 ± 1.44</strong></td>
+                <td><strong>0.0</strong></td>
+              </tr>
+              <tr>
+                <td rowspan="2">Move</td>
+                <td>PDDLStream</td>
+                <td>83.3</td>
+                <td>0.17 ± 0.12</td>
+                <td>0.0</td>
+              </tr>
+              <tr>
+                <td><strong>cuTAMP (Ours)</strong></td>
+                <td><strong>100.0</strong></td>
+                <td><strong>17.60 ± 3.55</strong></td>
+                <td><strong>0.0</strong></td>
+              </tr>
+              <tr>
+                <td rowspan="2">Stir</td>
+                <td>PDDLStream</td>
+                <td>60.0</td>
+                <td>0.79 ± 0.70</td>
+                <td>23.3</td>
+              </tr>
+              <tr>
+                <td><strong>cuTAMP (Ours)</strong></td>
+                <td><strong>100.0</strong></td>
+                <td><strong>28.83 ± 1.00</strong></td>
+                <td><strong>0.0</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tool Selection & Rearrangement -->
+    <div class="columns is-centered" style="margin-top: 3rem;">
+      <div class="column is-full">
+        <h3 class="title is-4">LLM-Based Tool Selection & Context-Aware Rearrangement</h3>
+        <p>
+          Tool selection is evaluated on 120 unseen test scenarios across diverse task–object
+          combinations. The Action Reasoner achieves <strong>100% accuracy</strong> on main
+          tool, rearrangement necessity, and auxiliary tool selection, with
+          <strong>100% category-level accuracy</strong> on destination grid prediction.
+          Context-aware rearrangement is compared against No Rearrange and Random Rearrange
+          baselines. On the Transfer → Stir sequence, context-aware rearrangement achieves
+          <strong>96.67% sequence completion</strong>, versus 50.0% for random and 0% for
+          no rearrangement — demonstrating that procedural context, not just spatial
+          clearance, is the decisive factor for reliable multi-step execution.
+        </p>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
+            <thead>
+              <tr>
+                <th>Sequence</th>
+                <th>Metric</th>
+                <th>No Rearrange</th>
+                <th>Random Rearrange</th>
+                <th>Context-Aware (Ours)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td rowspan="2">Transfer → Stir</td>
+                <td>Step 1 Success</td>
+                <td>0%</td>
+                <td>60.0%</td>
+                <td><strong>96.67%</strong></td>
+              </tr>
+              <tr>
+                <td>Sequence Completion</td>
+                <td>0%</td>
+                <td>50.0%</td>
+                <td><strong>96.67%</strong></td>
+              </tr>
+              <tr>
+                <td rowspan="2">Stir → Transfer</td>
+                <td>Step 1 Success</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td><strong>100.0%</strong></td>
+              </tr>
+              <tr>
+                <td>Sequence Completion</td>
+                <td>13.33%</td>
+                <td>40.0%</td>
+                <td><strong>83.33%</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- End-to-End -->
+    <div class="columns is-centered" style="margin-top: 3rem;">
+      <div class="column is-full">
+        <h3 class="title is-4">End-to-End System Evaluation</h3>
+        <p>
+          End-to-end performance is evaluated over 30 trials per workflow, each initialized
+          from a randomized world state and robot configuration, with success requiring every
+          procedural step to complete in order from a single natural language command.
+          XDL generation succeeds in <strong>100% of trials</strong> across all workflows.
+          The system achieves an <strong>overall average of 97.78%</strong> across planning,
+          execution, and end-to-end metrics, with the Move → Transfer workflow reaching
+          100% across all stages. The consistent alignment between planning and execution
+          success rates confirms that the Skill Library introduces no additional failure
+          modes beyond those captured at the planning stage.
+        </p>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
+            <thead>
+              <tr>
+                <th>Workflow</th>
+                <th>XDL Gen. (%)</th>
+                <th>Planning (%)</th>
+                <th>Execution (%)</th>
+                <th>End-to-End (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Move → Transfer</td>
+                <td>100.0</td>
+                <td>100.0</td>
+                <td>100.0</td>
+                <td><strong>100.0</strong></td>
+              </tr>
+              <tr>
+                <td>Transfer → Stir → Move</td>
+                <td>100.0</td>
+                <td>96.67</td>
+                <td>96.67</td>
+                <td><strong>96.67</strong></td>
+              </tr>
+              <tr>
+                <td>Move → Transfer → Stir</td>
+                <td>100.0</td>
+                <td>96.67</td>
+                <td>96.67</td>
+                <td><strong>96.67</strong></td>
+              </tr>
+              <tr style="background-color: #f5f5f5;">
+                <td><strong>Overall Average</strong></td>
+                <td><strong>100.0</strong></td>
+                <td><strong>97.78</strong></td>
+                <td><strong>97.78</strong></td>
+                <td><strong>97.78</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
     
