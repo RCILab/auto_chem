@@ -386,52 +386,151 @@
   
       <div class="column is-full">
         <div class="method-card is-horizontal">
-          <div class="card-image">
-            <img src="./images/llm_module.jpg" alt="LLM Module Architecture">
-          </div>
+          
           <div class="card-content">
             <div class="card-tag">LLM Module</div>
             <h4>Context-Aware Protocol Generation & Action Reasoning</h4>
-            <p>The LLM Module converts natural-language commands into validated XDL protocols, eliminating the need for manual protocol redesign. Going beyond simple protocol generation, the Action Reasoner infers the necessary end-effector and context-aware obstacle rearrangement strategies from the current World State and procedural context. This extends the role of the LLM to execution-context determination, maintaining spatial clearance across multi-step chemical workflows without requiring manual domain redefinition.</p>
+          </div>
+          <div class="card-image">
+            <img src="static/images/llm.png" alt="LLM Module Architecture">
+            <img src="static/images/llm_xdl.png" alt="LLM Module Architecture">
+          </div>
+          <div>
+            <p>
+              The LLM Module serves as the high-level reasoning backbone of the system, 
+              responsible for interpreting experimental intent and translating it into structured, 
+              executable plans. It comprises two components: the <strong>XDL Generator</strong>, 
+              which parses natural-language chemical protocols into a machine-readable XDL 
+              procedure sequence, and the <strong>Action Reasoner</strong>, which operates 
+              at each procedure step to determine the appropriate end-effector, whether 
+              obstacle rearrangement is needed, and the target grid for any relocated object. 
+              This joint reasoning over current and subsequent procedures enables 
+              <em>context-aware rearrangement</em> — proactively moving obstacles toward 
+              regions needed in future steps — and <em>semantic tool assignment</em> grounded 
+              in object affordances, reducing manual domain redefinition even for novel vessel types.
+            </p>
           </div>
         </div>
       </div>
 
       <div class="column is-full">
         <div class="method-card is-horizontal">
-          <div class="card-image">
-            <img src="./images/perception_module.jpg" alt="Perception Module Real-Time Tracking">
-          </div>
           <div class="card-content">
             <div class="card-tag">Perception Module</div>
-            <h4>Real-Time World State Estimation</h4>
-            <p>The Perception Module resolves state-grounding failures by continuously localizing laboratory vessels via 6-DoF tracking. It initializes and updates the randomized World States before and after every procedure. By aggregating precision scale readings for pouring feedback and thermocouple data for temperature-conditioned execution, the module ensures the TAMP planner always reflects the true physical configuration of the workspace.</p>
+            <h4>Real-Time World-State Grounding</h4>
+          </div>
+          <div class="card-image">
+            <img src="static/images/perception.png" alt="Perception Module Real-Time Tracking">
+          </div>
+          <div>
+            <p>
+              The Perception Module provides consistent, real-time 6-DoF pose estimates of all 
+              laboratory assets, forming the spatial foundation consumed by all downstream modules. 
+              Using AprilTag markers affixed to each vessel and two spatially diverse calibrated 
+              RGB cameras, it performs per-object pose computation in the robot base frame, 
+              followed by inverse-distance weighted fusion — with SLERP for orientation — to 
+              maximize robustness against occlusions. A fixed tag-to-vessel offset transform 
+              recovers each object's true geometric center, and poses are broadcast over the 
+              ROS 2 TF tree at 30 Hz. Beyond geometric grounding, the module acts as a 
+              centralized telemetry hub, aggregating and filtering scale and temperature sensor 
+              streams to provide clean feedback signals for closed-loop skills such as 
+              adaptive pouring and temperature regulation.
+            </p>
           </div>
         </div>
       </div>
 
       <div class="column is-full">
         <div class="method-card is-horizontal">
-          <div class="card-image">
-            <img src="./images/tamp_module.jpg" alt="TAMP Module Trajectory Planning">
-          </div>
           <div class="card-content">
             <div class="card-tag">TAMP Module</div>
             <h4>Batched Joint Differentiable Optimization</h4>
-            <p>Replacing traditional sequential parameter-binding, the TAMP Module resolves planning-reliability failures through batched joint differentiable optimization over thousands of candidate particles. This approach enables effective exploration of the constraint manifold even on low-redundancy manipulators, significantly improving success rates under strict orientation constraints (e.g., spillage prevention). Furthermore, it guarantees a structurally bounded and predictable runtime, which is critical for time-sensitive chemical reactions.</p>
+          </div>
+          <div class="card-image">
+            <img src="static/images/tamp.png" alt="TAMP Module Trajectory Planning">
+          </div>
+          <div>
+            <p>
+              To meet the precise manipulation demands of chemistry workflows, the TAMP Module 
+              introduces four chemistry-specific operators on top of the base cuTAMP planner. 
+              <strong>SidePick</strong> enables stable grasping of cylindrical vessels from any 
+              approach direction by uniformly sampling the horizontal approach angle and 
+              discretizing gripper yaw candidates. <strong>MoveHolding</strong> enforces an 
+              upright orientation constraint throughout transport to prevent liquid spillage, 
+              evaluated entirely from joint variables without real-time object pose estimation. 
+              <strong>Pour</strong> decouples geometric trajectory planning from quantitative 
+              transfer, generating a valid tilting motion as the initial condition for the 
+              Adaptive Pouring skill. <strong>Stir</strong> is a device-level operator that 
+              directly invokes the stirrer control skill, reflecting the design principle that 
+              device-level operations are delegated entirely to the execution layer.
+            </p>
           </div>
         </div>
       </div>
 
       <div class="column is-full">
         <div class="method-card is-horizontal">
-          <div class="card-image">
-            <img src="./images/skill_library.jpg" alt="Skill Library Execution Primitives">
+          <div class="card-content">
+            <div class="card-tag">TAMP Module</div>
+            <h4>Batched Joint Differentiable Optimization with Chemistry-Specific Operators</h4>
           </div>
+          <div class="card-image">
+            <img src="static/images/tamp.png" alt="TAMP Module Trajectory Planning">
+          </div>
+          <div>
+            <p>
+              The TAMP Module adopts <strong>cuTAMP</strong> as its planning solver, formulating 
+              motion planning as a parallelized differentiable optimization over thousands of 
+              candidate particles simultaneously driven toward the constraint manifold. Unlike 
+              approaches that bind each continuous parameter independently, cuTAMP 
+              <em>jointly optimizes all constraints</em> across batched candidates, enabling 
+              convergence under tight orientation constraints on low-redundancy manipulators. 
+              By executing a fixed number of optimization steps over a fixed particle batch, 
+              planning runtime is structurally bounded, ensuring time-sensitive reaction 
+              conditions are never disrupted by planning delays.
+              <br><br>
+              To meet the precise manipulation demands of chemistry workflows, four 
+              chemistry-specific operators are introduced. <strong>SidePick</strong> enables 
+              stable grasping of cylindrical vessels from any approach direction by uniformly 
+              sampling the horizontal approach angle with discrete gripper yaw candidates. 
+              <strong>MoveHolding</strong> enforces an upright orientation constraint throughout 
+              transport to prevent liquid spillage, evaluated entirely from joint variables. 
+              <strong>Pour</strong> decouples geometric trajectory planning from quantitative 
+              transfer, serving as the initial condition for the Adaptive Pouring skill. 
+              <strong>Stir</strong> is a device-level operator that directly delegates 
+              stirrer control to the execution layer. LLM-guided tool switching and auxiliary 
+              rearrangement are handled as pre-execution steps decoupled from the symbolic 
+              domain, avoiding domain-redefinition overhead on hardware configuration changes.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-full">
+        <div class="method-card is-horizontal">
           <div class="card-content">
             <div class="card-tag">Skill Library Module</div>
             <h4>Sensor-Feedback-Based Motion Primitives</h4>
-            <p>The Skill Library Module executes the final stage of the pipeline by instantiating the planned nominal trajectories into sensor-feedback-driven motion primitives. This execution-level resolution handles physical uncertainties during contact-rich tasks, ensuring stable task execution. By relying on strict sensor verification rather than assumed conditions, it preserves the reliability achieved during the planning stage without introducing additional failure modes.</p>
+          </div>
+          <div class="card-image">
+            <img src="static/images/skill_library.jpg" alt="Skill Library Execution Primitives">
+          </div>
+          <div>
+            <p>
+              The Skill Library Module bridges the gap between TAMP's geometric plans and 
+              physical execution by instantiating nominal trajectories into sensor-feedback-driven 
+              motion primitives. The <strong>Adaptive Pouring</strong> skill closes the loop 
+              on the Pour operator using real-time weight feedback from a precision scale, 
+              dynamically adjusting wrist angular velocity via PD control until the target 
+              transfer amount is reached. The <strong>Automatic Tool Changing</strong> skill 
+              executes the physical coupling and decoupling sequence — electromagnet control 
+              and mechanical latching — upon reaching the tool rack. The 
+              <strong>Feedback-Based Device Control</strong> skill monitors internal sensor 
+              streams (temperature, RPM) from the Perception Module and suspends or 
+              regulates execution until target physical conditions are confirmed, 
+              ensuring experimental constraints are enforced at the execution layer 
+              rather than merely assumed at the planning layer.
+            </p>
           </div>
         </div>
       </div>
