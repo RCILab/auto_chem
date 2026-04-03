@@ -489,11 +489,11 @@
     <div class="card-image">
       <img src="static/images/experiment.png" alt="Experiment">
       <p class="fig-caption" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: #4a4a4a;">
-        Sequential execution snapshots of the <strong>Move → Transfer → Stir</strong> 
+        Sequential execution snapshots of the Move → Transfer → Stir 
         workflow. Each row shows five representative keyframes from a single trial. 
-        (a) <strong>Move</strong>: the robot relocates the container to the target zone. 
-        (b) <strong>Transfer</strong>: liquid reagent is poured into the destination vessel. 
-        (c) <strong>Stir</strong>: the mixture is stirred on the hotplate to complete the reaction sequence.
+        (a) Move: the robot relocates the container to the target zone. 
+        (b) Transfer: liquid reagent is poured into the destination vessel. 
+        (c) Stir: the mixture is stirred on the hotplate to complete the reaction sequence.
       </p>
     </div>
 
@@ -719,6 +719,148 @@
         <!-- <video controls muted loop autoplay style="width: 100%; border-radius: 8px; margin-bottom: 1.5rem;">
           <source src="static/videos/move_transfer_stir_v2.mp4" type="video/mp4">
         </video> -->
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column"><h2 class="title is-3">Appendix</h2></div>
+    </div>
+
+    <!-- LLM Hyperparameters -->
+    <div class="columns is-centered" style="margin-top: 3rem;">
+      <div class="column is-full">
+        <h3 class="title is-4">Hyperparameters of LLM Module</h3>
+        <p>
+          Both LLM components are fine-tuned from a 4-bit quantized Llama 3.2 1B base model
+          via LoRA-based supervised fine-tuning. Configurations differ between the two components
+          based on their respective task structures.
+        </p>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
+            <thead>
+              <tr>
+                <th style="vertical-align: middle;">Parameter</th>
+                <th style="vertical-align: middle;">XDL Generator</th>
+                <th style="vertical-align: middle;">Action Reasoner</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="vertical-align: middle;">Base Model</td>
+                <td style="vertical-align: middle;" colspan="2">Llama 3.2 1B (4-bit quantized)</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">Fine-tuning Method</td>
+                <td style="vertical-align: middle;" colspan="2">LoRA-based SFT</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">LoRA Rank (r)</td>
+                <td style="vertical-align: middle;">16</td>
+                <td style="vertical-align: middle;">8</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">LoRA Alpha (α)</td>
+                <td style="vertical-align: middle;">32</td>
+                <td style="vertical-align: middle;">16</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">Dropout</td>
+                <td style="vertical-align: middle;">0.05</td>
+                <td style="vertical-align: middle;">0.05</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">Optimizer</td>
+                <td style="vertical-align: middle;" colspan="2">AdamW (8-bit)</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">Learning Rate</td>
+                <td style="vertical-align: middle;">2 × 10⁻⁴</td>
+                <td style="vertical-align: middle;">1 × 10⁻⁴</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">Batch Size</td>
+                <td style="vertical-align: middle;" colspan="2">16</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">Epochs</td>
+                <td style="vertical-align: middle;">5</td>
+                <td style="vertical-align: middle;">3</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">Training Dataset Size</td>
+                <td style="vertical-align: middle;">5,000</td>
+                <td style="vertical-align: middle;">3,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dataset Details -->
+    <div class="columns is-centered" style="margin-top: 3rem;">
+      <div class="column is-full">
+        <h3 class="title is-4">Training Dataset Details</h3>
+        <p>
+          The XDL Generator dataset covers 5,000 samples across four combinatorial axes:
+          synonym variations for six core XDL operators (Add, Stir, HeatChill, Transfer, CleanVessel, Move),
+          continuous numerical parameter ranges (0–20 mL, 0–20°C, 1–30 s),
+          16 unique object identifiers, and command complexity distributed as
+          30% single-step, 40% two-step, and 30% three-step procedures.
+          The Action Reasoner dataset consists of 3,000 samples generated by placing
+          up to four objects on 12 workspace grids, balanced across
+          rearrangement-required and rearrangement-unnecessary cases to prevent over-prediction.
+        </p>
+      </div>
+    </div>
+
+    <!-- TAMP Configuration -->
+    <div class="columns is-centered" style="margin-top: 3rem;">
+      <div class="column is-full">
+        <h3 class="title is-4">TAMP Module Configuration</h3>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
+            <thead>
+              <tr>
+                <th style="vertical-align: middle;">Parameter</th>
+                <th style="vertical-align: middle;">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="vertical-align: middle;">Parallel Particles</td>
+                <td style="vertical-align: middle;">1,024</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">Optimization Steps</td>
+                <td style="vertical-align: middle;">1,000</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">Planning Timeout</td>
+                <td style="vertical-align: middle;">60 s</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">Max Retries</td>
+                <td style="vertical-align: middle;">3</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">Max Allowable Tilt (θ<sub>max</sub>)</td>
+                <td style="vertical-align: middle;">5°</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">Workspace Grids</td>
+                <td style="vertical-align: middle;">12 (G1–G12)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
