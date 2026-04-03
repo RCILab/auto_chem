@@ -491,7 +491,7 @@
     </div>
 
     <!-- XDL Generation -->
-    <div class="columns is-centered is-vcentered" style="margin-top: 1.5rem; gap: 1rem;">
+    <div class="columns is-centered" style="margin-top: 3rem;">
       <div class="column is-full">
         <h3 class="title is-4">XDL Generation & Validation</h3>
         <p>
@@ -500,19 +500,33 @@
           accuracy across all injected error categories with zero false positives and negatives.
         </p>
 
-        <div class="columns is-centered" style="margin-top: 1.5rem; gap: 1rem;">
-          <div class="result-card">
-            <div class="result-number">97%</div>
-            <div class="result-label">XDL Generation<br>Success Rate</div>
-          </div>
-          <div class="result-card">
-            <div class="result-number">100%</div>
-            <div class="result-label">XDL Validator<br>Accuracy</div>
-          </div>
-          <div class="result-card">
-            <div class="result-number">1.57s</div>
-            <div class="result-label">Avg. Inference<br>Time</div>
-          </div>
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Result (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td rowspan="2">Total Trials</td>
+                <td>100</td>
+              </tr>
+              <tr>
+                <td>Valid</td>
+                <td>97</td>
+              </tr>
+              <tr>
+                <td rowspan="2">Invalid</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>Success Rate</td>
+                <td>97</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
