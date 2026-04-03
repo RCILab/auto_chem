@@ -356,9 +356,8 @@
       <div class="column is-four-fifths">
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
-          <!-- TODO: Replace with your paper abstract -->
           <p>
-            Autonomous chemistry laboratories can accelerate material discovery and improve experimental reproducibility, yet current systems remain limited in two respects: existing automation pipelines rely on protocol-specific equipment that restricts adaptability to diverse, non-linear workflows, and task and motion planning on robots with limited kinematic redundancy becomes unreliable when strict orientation, collision, and workspace constraints must be satisfied at once. This paper proposes LLM-Guided Tool-Aware TAMP (Task and Motion Planning), a hierarchical framework that combines large language model (LLM)-based symbolic reasoning with GPU-accelerated motion optimization for chemistry automation. The system converts natural-language experimental instructions into validated Chemical Description Language (XDL) protocols, selects appropriate end-effectors and plans obstacle rearrangement based on execution context, estimates the scene state through multi-view fiducial marker-based perception, and produces collision-free, constraint-satisfying trajectories by evaluating thousands of candidates in parallel. A sensor-driven skill library handles execution-level actions such as tool changing and adaptive pouring. On a 6-DoF manipulator, the GPU-parallelized planner achieves a 96.7% planning success rate under orientation constraints, up from 63.3% with a CPU-based sampling baseline, with lower planning-time variance. We build a high-fidelity simulation testbed in NVIDIA Isaac Sim for randomized trials and module-level ablation studies, and results confirm that the full framework executes complete chemical sequences involving tool switching, obstacle rearrangement, and multi-step reagent manipulation. The project page is available at https://rcilab.github.io/auto_chem
+            Autonomous chemistry laboratories can accelerate material discovery and improve experimental reproducibility, yet current systems remain limited in two respects: existing automation pipelines rely on protocol-specific equipment that restricts adaptability to diverse, non-linear workflows, and task and motion planning on robots with limited kinematic redundancy becomes unreliable when strict orientation, collision, and workspace constraints must be satisfied at once. This paper proposes LLM-Guided Tool-Aware TAMP (Task and Motion Planning), a hierarchical framework that combines large language model (LLM)-based symbolic reasoning with GPU-accelerated motion optimization for chemistry automation. The system converts natural-language experimental instructions into validated Chemical Description Language (XDL) protocols, selects appropriate end-effectors and plans obstacle rearrangement based on execution context, estimates the scene state through multi-view fiducial marker-based perception, and produces collision-free, constraint-satisfying trajectories by evaluating thousands of candidates in parallel. A sensor-driven skill library handles execution-level actions such as tool changing and adaptive pouring. On a 6-DoF manipulator, the GPU-parallelized planner achieves a 96.7% planning success rate under orientation constraints, up from 63.3% with a CPU-based sampling baseline, with lower planning-time variance. We build a high-fidelity simulation testbed in NVIDIA Isaac Sim for randomized trials and module-level ablation studies, and results confirm that the full framework executes complete chemical sequences involving tool switching, obstacle rearrangement, and multi-step reagent manipulation.
           </p>
         </div>
       </div>
@@ -387,52 +386,77 @@
     </div>
 
     <div class="columns is-multiline" style="margin-top: 1.5rem;">
-      <div class="column is-half">
-        <div class="method-card">
-          <div class="card-tag">LLM Module</div>
-          <h4>Context-Aware Protocol Synthesis & Reasoning</h4>
-          <p>A fine-tuned Llama 3.2 1B (LoRA SFT, 5,000 samples) converts natural language commands into structured XDL protocols.
-          The XDL Validator enforces three-layer checks — syntactic well-formedness, object existence against the live workspace inventory,
-          and sequential physical feasibility — halting execution and notifying the user before any robot motion occurs.
-          The Action Reasoner then infers the required end-effector and obstacle rearrangement strategy per procedure using
-          a discretized 12-grid workspace representation, enabling context-aware tool switching without manual domain redefinition.</p>
+  
+      <div class="column is-full">
+        <div class="method-card is-horizontal">
+          <div class="card-image">
+            <img src="./images/llm_module.jpg" alt="LLM Module Architecture">
+          </div>
+          <div class="card-content">
+            <div class="card-tag">LLM Module</div>
+            <h4>Context-Aware Protocol Synthesis & Reasoning</h4>
+            <p>A fine-tuned Llama 3.2 1B (LoRA SFT, 5,000 samples) converts natural language commands into structured XDL protocols.
+            The XDL Validator enforces three-layer checks — syntactic well-formedness, object existence against the live workspace inventory,
+            and sequential physical feasibility — halting execution and notifying the user before any robot motion occurs.
+            The Action Reasoner then infers the required end-effector and obstacle rearrangement strategy per procedure using
+            a discretized 12-grid workspace representation, enabling context-aware tool switching without manual domain redefinition.</p>
+          </div>
         </div>
       </div>
-      <div class="column is-half">
-        <div class="method-card">
-          <div class="card-tag">Perception Module</div>
-          <h4>Real-Time World-State Grounding</h4>
-          <p>A fiducial marker-based perception pipeline continuously localizes all laboratory vessels at 30 Hz,
-          providing the TAMP module with up-to-date 6-DoF world states before and after every procedure.
-          Beyond pose estimation, the module aggregates precision scale readings for adaptive pouring feedback
-          and thermocouple data for temperature-conditioned execution, ensuring the planner always reflects
-          the true physical configuration of the workspace.</p>
+
+      <div class="column is-full">
+        <div class="method-card is-horizontal">
+          <div class="card-image">
+            <img src="./images/perception_module.jpg" alt="Perception Module Real-Time Tracking">
+          </div>
+          <div class="card-content">
+            <div class="card-tag">Perception Module</div>
+            <h4>Real-Time World-State Grounding</h4>
+            <p>A fiducial marker-based perception pipeline continuously localizes all laboratory vessels at 30 Hz,
+            providing the TAMP module with up-to-date 6-DoF world states before and after every procedure.
+            Beyond pose estimation, the module aggregates precision scale readings for adaptive pouring feedback
+            and thermocouple data for temperature-conditioned execution, ensuring the planner always reflects
+            the true physical configuration of the workspace.</p>
+          </div>
         </div>
       </div>
-      <div class="column is-half">
-        <div class="method-card">
-          <div class="card-tag">TAMP Module</div>
-          <h4>GPU-Accelerated Constrained Motion Planning</h4>
-          <!-- <p>Built on cuTAMP, the planner formulates trajectory search as a parallelized differentiable optimization over
-          thousands of candidate particles, yielding structurally bounded runtime critical for time-sensitive reactions.
-          Chemistry-specific operators — SidePick (full-circumference lateral grasp), MoveHolding (upright-constraint transport),
-          Pour (tilt trajectory with adaptive PD pouring), and Stir (device-level RPM dispatch) — extend the base TAMP domain.
-          LLM-inferred tool changes and auxiliary Pick-MoveHolding-Place sequences are inserted as pre-execution steps,
-          with world state updated after every stage to reflect all prior changes.</p> -->
+
+      <div class="column is-full">
+        <div class="method-card is-horizontal">
+          <div class="card-image">
+            <img src="./images/tamp_module.jpg" alt="TAMP Module Trajectory Planning">
+          </div>
+          <div class="card-content">
+            <div class="card-tag">TAMP Module</div>
+            <h4>GPU-Accelerated Constrained Motion Planning</h4>
+            <p>Built on cuTAMP, the planner formulates trajectory search as a parallelized differentiable optimization over
+            thousands of candidate particles, yielding structurally bounded runtime critical for time-sensitive reactions.
+            Chemistry-specific operators — SidePick (full-circumference lateral grasp), MoveHolding (upright-constraint transport),
+            Pour (tilt trajectory with adaptive PD pouring), and Stir (device-level RPM dispatch) — extend the base TAMP domain.
+            LLM-inferred tool changes and auxiliary Pick-MoveHolding-Place sequences are inserted as pre-execution steps,
+            with world state updated after every stage to reflect all prior changes.</p>
+          </div>
         </div>
       </div>
-      <div class="column is-half">
-        <div class="method-card">
-          <div class="card-tag">Skill Library Module</div>
-          <h4>Sensor-Feedback Execution Primitives</h4>
-          <!-- <p>The Skill Library bridges the gap between symbolic TAMP plans and physical reality through feedback-driven
-          action primitives. Adaptive Pouring overrides the nominal tilt trajectory with a PD controller that adjusts
-          wrist angle in real time based on precision scale readings until the target weight is reached.
-          Automatic Tool Changing translates geometric rack-approach plans into electromagnet control and mechanical latching sequences.
-          Device Operation skills monitor temperature and RPM from hotplates and stirrers, suspending execution until
-          target physical conditions are strictly verified rather than assumed.</p> -->
+
+      <div class="column is-full">
+        <div class="method-card is-horizontal">
+          <div class="card-image">
+            <img src="./images/skill_library.jpg" alt="Skill Library Execution Primitives">
+          </div>
+          <div class="card-content">
+            <div class="card-tag">Skill Library Module</div>
+            <h4>Sensor-Feedback Execution Primitives</h4>
+            <p>The Skill Library bridges the gap between symbolic TAMP plans and physical reality through feedback-driven
+            action primitives. Adaptive Pouring overrides the nominal tilt trajectory with a PD controller that adjusts
+            wrist angle in real time based on precision scale readings until the target weight is reached.
+            Automatic Tool Changing translates geometric rack-approach plans into electromagnet control and mechanical latching sequences.
+            Device Operation skills monitor temperature and RPM from hotplates and stirrers, suspending execution until
+            target physical conditions are strictly verified rather than assumed.</p>
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -444,28 +468,6 @@
       <div class="column"><h2 class="title is-3">Experiments</h2></div>
     </div>
   </div>
-</section>
-
-
-<!-- BibTex citation -->
-<section class="section" id="BibTeX">
-    <div class="container is-max-desktop content">
-      <div class="bibtex-header">
-        <h2 class="title">BibTeX</h2>
-        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
-          <svg class="svg-inline--fa fa-copy fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path></svg><!-- <i class="fas fa-copy"></i> Font Awesome fontawesome.com -->
-          <span class="copy-text">Copy</span>
-        </button>
-      </div>
-      <pre id="bibtex-code"><code>@article{YourPaperKey2026,
-  title={LLM-Guided Tool-Aware Task and Motion Planning for Chemistry Lab Automation},
-  author={Bohyeong Pak, Hyunho Cho, Sanghyun Kim},
-  journal={Applied Intelligence},
-  year={2026},
-  publisher={Springer}
-  url={https://your-domain.com/your-project-page}
-}</code></pre>
-    </div>
 </section>
     
 <!-- People -->
