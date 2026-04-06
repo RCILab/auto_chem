@@ -610,6 +610,62 @@
     <div class="columns is-centered" style="margin-top: 3rem;">
       <div class="column is-full">
         <h3 class="title is-4">LLM-Based Tool Selection & Context-Aware Rearrangement</h3>
+        <!-- Randomized Trial Videos -->
+        <div style="margin-top: 2.5rem;">
+          <h3 class="title is-4">Randomized Trial Videos</h3>
+          <p style="margin-bottom: 1.2rem;">
+            Each row shows 5 randomized trials executed from different initial object configurations,
+            demonstrating the robustness of the full pipeline under varied workspace conditions.
+          </p>
+
+          <!-- Row 1 Label -->
+          <p style="font-weight: 600; color: #555; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">
+            Move → Transfer
+          </p>
+
+          <!-- Row 1: 5 videos -->
+          <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 8px;">
+            <video autoplay muted loop playsinline style="width:100%; border-radius:6px; aspect-ratio:16/9; object-fit:cover;">
+              <source src="static/videos/random/transfer/1.mp4" type="video/mp4">
+            </video>
+            <video autoplay muted loop playsinline style="width:100%; border-radius:6px; aspect-ratio:16/9; object-fit:cover;">
+              <source src="static/videos/random/transfer/2.mp4" type="video/mp4">
+            </video>
+            <video autoplay muted loop playsinline style="width:100%; border-radius:6px; aspect-ratio:16/9; object-fit:cover;">
+              <source src="static/videos/random/transfer/3.mp4" type="video/mp4">
+            </video>
+            <video autoplay muted loop playsinline style="width:100%; border-radius:6px; aspect-ratio:16/9; object-fit:cover;">
+              <source src="static/videos/random/transfer/4.mp4" type="video/mp4">
+            </video>
+            <video autoplay muted loop playsinline style="width:100%; border-radius:6px; aspect-ratio:16/9; object-fit:cover;">
+              <source src="static/videos/random/transfer/5.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <!-- Row 2 Label -->
+          <p style="font-weight: 600; color: #555; margin-bottom: 0.5rem; margin-top: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">
+            Transfer → Stir → Move
+          </p>
+
+          <!-- Row 2: 5 videos -->
+          <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
+            <video autoplay muted loop playsinline style="width:100%; border-radius:6px; aspect-ratio:16/9; object-fit:cover;">
+              <source src="static/videos/random/stir/1.mp4" type="video/mp4">
+            </video>
+            <video autoplay muted loop playsinline style="width:100%; border-radius:6px; aspect-ratio:16/9; object-fit:cover;">
+              <source src="static/videos/random/stir/2.mp4" type="video/mp4">
+            </video>
+            <video autoplay muted loop playsinline style="width:100%; border-radius:6px; aspect-ratio:16/9; object-fit:cover;">
+              <source src="static/videos/random/stir/3.mp4" type="video/mp4">
+            </video>
+            <video autoplay muted loop playsinline style="width:100%; border-radius:6px; aspect-ratio:16/9; object-fit:cover;">
+              <source src="static/videos/random/stir/4.mp4" type="video/mp4">
+            </video>
+            <video autoplay muted loop playsinline style="width:100%; border-radius:6px; aspect-ratio:16/9; object-fit:cover;">
+              <source src="static/videos/random/stir/5.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
         <p>
           The Action Reasoner achieves 100% accuracy on tool selection, rearrangement
           necessity, and auxiliary tool inference. Context-aware rearrangement reaches
@@ -716,9 +772,9 @@
           </table>
         </div>
 
-        <!-- <video controls muted loop autoplay style="width: 100%; border-radius: 8px; margin-bottom: 1.5rem;">
-          <source src="static/videos/move_transfer_stir_v2.mp4" type="video/mp4">
-        </video> -->
+        <video controls muted loop autoplay style="width: 100%; border-radius: 8px; margin-bottom: 1.5rem;">
+          <source src="static/videos/end_to_end.mp4" type="video/mp4">
+        </video>
       </div>
     </div>
 
