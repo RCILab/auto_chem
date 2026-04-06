@@ -617,47 +617,6 @@
           and 0% for no rearrangement, confirming that procedural context is decisive for multi-step execution.
         </p>
 
-        <div class="table-container" style="margin-top: 1.5rem;">
-          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
-            <thead>
-              <tr>
-                <th style="vertical-align: middle;">Sequence</th>
-                <th style="vertical-align: middle;">Metric</th>
-                <th style="vertical-align: middle;">No Rearrange</th>
-                <th style="vertical-align: middle;">Random Rearrange</th>
-                <th style="vertical-align: middle;">Context-Aware (Ours)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td rowspan="2">Transfer → Stir</td>
-                <td>Step 1 Success</td>
-                <td>0%</td>
-                <td>60.0%</td>
-                <td><strong>96.67%</strong></td>
-              </tr>
-              <tr>
-                <td>Sequence Completion</td>
-                <td>0%</td>
-                <td>50.0%</td>
-                <td><strong>96.67%</strong></td>
-              </tr>
-              <tr>
-                <td rowspan="2">Stir → Transfer</td>
-                <td>Step 1 Success</td>
-                <td>100.0%</td>
-                <td>100.0%</td>
-                <td><strong>100.0%</strong></td>
-              </tr>
-              <tr>
-                <td>Sequence Completion</td>
-                <td>13.33%</td>
-                <td>40.0%</td>
-                <td><strong>83.33%</strong></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
         <!-- Randomized Trial Videos -->
         <div style="margin-top: 2.5rem;">
           <h3 class="title is-4">Randomized Trial Videos</h3>
@@ -710,6 +669,49 @@
             </video>
           </div>
         </div>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
+            <thead>
+              <tr>
+                <th style="vertical-align: middle;">Sequence</th>
+                <th style="vertical-align: middle;">Metric</th>
+                <th style="vertical-align: middle;">No Rearrange</th>
+                <th style="vertical-align: middle;">Random Rearrange</th>
+                <th style="vertical-align: middle;">Context-Aware (Ours)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td rowspan="2">Transfer → Stir</td>
+                <td>Step 1 Success</td>
+                <td>0%</td>
+                <td>60.0%</td>
+                <td><strong>96.67%</strong></td>
+              </tr>
+              <tr>
+                <td>Sequence Completion</td>
+                <td>0%</td>
+                <td>50.0%</td>
+                <td><strong>96.67%</strong></td>
+              </tr>
+              <tr>
+                <td rowspan="2">Stir → Transfer</td>
+                <td>Step 1 Success</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td><strong>100.0%</strong></td>
+              </tr>
+              <tr>
+                <td>Sequence Completion</td>
+                <td>13.33%</td>
+                <td>40.0%</td>
+                <td><strong>83.33%</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
       </div>
     </div>
 
@@ -723,6 +725,10 @@
           system achieves an overall end-to-end success rate of 97.78%, with XDL
           generation succeeding in 100% of all trials.
         </p>
+
+        <video controls muted loop autoplay style="width: 100%; border-radius: 8px; margin-bottom: 1.5rem;">
+          <source src="static/videos/end_to_end.mp4" type="video/mp4">
+        </video>
 
         <div class="table-container" style="margin-top: 1.5rem;">
           <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
@@ -767,10 +773,6 @@
             </tbody>
           </table>
         </div>
-
-        <video controls muted loop autoplay style="width: 100%; border-radius: 8px; margin-bottom: 1.5rem;">
-          <source src="static/videos/end_to_end.mp4" type="video/mp4">
-        </video>
       </div>
     </div>
 
