@@ -955,22 +955,21 @@
                 <div class="prompt-block" style="margin-bottom: 1.2rem;">
                   <div class="prompt-role system-role">SYSTEM</div>
                   <pre class="prompt-pre"><code>You are a tool and rearrangement planner for laboratory automation.
+Tool Rules:
+  • dh3  (3-finger)  : Move, Stir for cylindrical vessels
+  • ag95 (2-finger)  : All Transfer operations
+  • vgc10 (suction)  : Objects exceeding gripper span
 
-        Tool Rules:
-          • dh3  (3-finger)  : Move, Stir for cylindrical vessels
-          • ag95 (2-finger)  : All Transfer operations
-          • vgc10 (suction)  : Objects exceeding gripper span
+Given the current and next XDL steps, the obstacle status, and candidate
+grids, output exactly four tokens separated by commas:
 
-        Given the current and next XDL steps, the obstacle status, and candidate
-        grids, output exactly four tokens separated by commas:
+  main_tool, need_rearrange, aux_tool, target_grid
 
-          main_tool, need_rearrange, aux_tool, target_grid
-
-        Allowed values:
-          main_tool      : dh3 | ag95 | vgc10
-          aux_tool       : dh3 | ag95 | vgc10 | None
-          need_rearrange : True | False
-          target_grid    : grid ID (e.g., G5) | None</code></pre>
+Allowed values:
+  • main_tool      : dh3 | ag95 | vgc10
+  • aux_tool       : dh3 | ag95 | vgc10 | None
+  • need_rearrange : True | False
+  • target_grid    : grid ID (e.g., G5) | None</code></pre>
                 </div>
 
                 <!-- Example 1 -->
@@ -980,12 +979,12 @@
                 <div class="prompt-block" style="margin-bottom: 0.5rem;">
                   <div class="prompt-role user-role">USER</div>
                   <pre class="prompt-pre"><code>Current XDL : &lt;Add vessel="beaker_C" reagent="water" volume="11 mL" /&gt;
-        Next XDL    : &lt;Transfer from_vessel="beaker_A" to_vessel="beaker_B" volume="11 mL" /&gt;
-        Obstacle    : beaker at G5
-        Candidate Grids:
-          • plate zone     : [G1]
-          • workspace edge : [G7, G8, G12]
-          • open area      : [G2, G4, G6, G10]</code></pre>
+Next XDL    : &lt;Transfer from_vessel="beaker_A" to_vessel="beaker_B" volume="11 mL" /&gt;
+Obstacle    : beaker at G5
+Candidate Grids:
+  • plate zone     : [G1]
+  • workspace edge : [G7, G8, G12]
+  • open area      : [G2, G4, G6, G10]</code></pre>
                 </div>
                 <div class="prompt-block" style="margin-bottom: 1.2rem;">
                   <div class="prompt-role assistant-role">ASSISTANT</div>
@@ -999,13 +998,13 @@
                 <div class="prompt-block" style="margin-bottom: 0.5rem;">
                   <div class="prompt-role user-role">USER</div>
                   <pre class="prompt-pre"><code>Current XDL : &lt;CleanVessel vessel="flask_B" /&gt;
-        Next XDL    : &lt;Stir vessel="flask_A" time="16 s" /&gt;
-        Obstacle    : flask_A at G4 (blocking)
-        Candidate Grids:
-          • stirrer zone   : [G2]
-          • plate zone     : [G1]
-          • workspace edge : [G7, G8, G12]
-          • open area      : [G3, G4, G5, G6, G10, G11]</code></pre>
+Next XDL    : &lt;Stir vessel="flask_A" time="16 s" /&gt;
+Obstacle    : flask_A at G4 (blocking)
+Candidate Grids:
+  • stirrer zone   : [G2]
+  • plate zone     : [G1]
+  • workspace edge : [G7, G8, G12]
+  • open area      : [G3, G4, G5, G6, G10, G11]</code></pre>
                 </div>
                 <div class="prompt-block" style="margin-bottom: 1.2rem;">
                   <div class="prompt-role assistant-role">ASSISTANT</div>
@@ -1019,12 +1018,12 @@
                 <div class="prompt-block" style="margin-bottom: 0.5rem;">
                   <div class="prompt-role user-role">USER</div>
                   <pre class="prompt-pre"><code>Current XDL : &lt;CleanVessel vessel="beaker_A" /&gt;
-        Next XDL    : &lt;Move object="box_A" place="plate_A" /&gt;
-        Obstacle    : bottle_A at G11 (blocking)
-        Candidate Grids:
-          • plate zone     : [G1]
-          • workspace edge : [G12]
-          • open area      : [G2, G3, G4, G5, G6, G9, G10, G11]</code></pre>
+Next XDL    : &lt;Move object="box_A" place="plate_A" /&gt;
+Obstacle    : bottle_A at G11 (blocking)
+Candidate Grids:
+  • plate zone     : [G1]
+  • workspace edge : [G12]
+  • open area      : [G2, G3, G4, G5, G6, G9, G10, G11]</code></pre>
                 </div>
                 <div class="prompt-block">
                   <div class="prompt-role assistant-role">ASSISTANT</div>
@@ -1045,13 +1044,13 @@
                 <div class="prompt-block" style="margin-bottom: 1.2rem;">
                   <div class="prompt-role system-role">SYSTEM</div>
                   <pre class="prompt-pre"><code>You are a laboratory automation system. Convert the following instruction
-        into a procedure description. Output ONLY valid XML inside &lt;procedure&gt; tags.
+into a procedure description. Output ONLY valid XML inside &lt;procedure&gt; tags.
 
-        Strict Rules:
-          • Tags are CASE-SENSITIVE: MUST use &lt;Add&gt;, &lt;Stir&gt;, &lt;HeatChill&gt;,
-            &lt;Transfer&gt;, &lt;CleanVessel&gt;, &lt;Move&gt;.
-          • DO NOT use lowercase tags like &lt;add&gt; or &lt;clean_vessel&gt;.
-          • &lt;Transfer&gt; MUST use attributes: from_vessel, to_vessel, volume.</code></pre>
+Strict Rules:
+  • Tags are CASE-SENSITIVE: MUST use &lt;Add&gt;, &lt;Stir&gt;, &lt;HeatChill&gt;,
+    &lt;Transfer&gt;, &lt;CleanVessel&gt;, &lt;Move&gt;.
+  • DO NOT use lowercase tags like &lt;add&gt; or &lt;clean_vessel&gt;.
+  • &lt;Transfer&gt; MUST use attributes: from_vessel, to_vessel, volume.</code></pre>
                 </div>
 
                 <!-- Example -->
@@ -1061,16 +1060,17 @@
                 <div class="prompt-block" style="margin-bottom: 0.5rem;">
                   <div class="prompt-role user-role">USER</div>
                   <pre class="prompt-pre"><code>Pour 50 mL of water into flask_B. Stir the solution in flask_B for 2 min.
-        Pour 25 mL from flask_B into beaker_A. Rinse and clean beaker_A.</code></pre>
+Pour 25 mL from flask_B into beaker_A. Rinse and clean beaker_A.</code></pre>
                 </div>
                 <div class="prompt-block">
                   <div class="prompt-role assistant-role">ASSISTANT</div>
                   <pre class="prompt-pre"><code>&lt;procedure&gt;
-          &lt;Add vessel="flask_B" reagent="water" volume="50 mL" /&gt;
-          &lt;Stir vessel="flask_B" time="2 min" /&gt;
-          &lt;Transfer from_vessel="flask_B" to_vessel="beaker_A" volume="25 mL" /&gt;
-          &lt;CleanVessel vessel="beaker_A" /&gt;
-        &lt;/procedure&gt;</code></pre>
+&lt;Add vessel="flask_B" reagent="water" volume="50 mL" /&gt;
+&lt;Stir vessel="flask_B" time="2 min" /&gt;
+&lt;Transfer from_vessel="flask_B" to_vessel="beaker_A" volume="25 mL" /&gt;
+&lt;CleanVessel vessel="beaker_A" /&gt;
+&lt;/procedure&gt;
+                  </code></pre>
                 </div>
               </div>
             </div>
