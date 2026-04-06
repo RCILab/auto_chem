@@ -919,6 +919,165 @@
     <!-- Datasets -->
     <div class="columns is-centered" style="margin-top: 3rem;">
       <div class="column is-full">
+        <!-- LLM Prompts -->
+        <div class="columns is-centered" style="margin-top: 3rem;">
+          <div class="column is-full">
+            <h3 class="title is-4">LLM Module Prompts & In-Context Examples</h3>
+            <p style="margin-bottom: 1.5rem;">
+              Both fine-tuned components share a structured prompt format. The system prompt
+              defines the task constraints, and in-context examples condition the model's output
+              format before the actual user query is provided.
+            </p>
+
+            <!-- Tab UI -->
+            <div class="llm-tabs">
+              <div style="display: flex; gap: 0; border-bottom: 2px solid #dbdbdb; margin-bottom: 0;">
+                <button class="llm-tab-btn active" onclick="switchLLMTab(event, 'tab-action')"
+                  style="padding: 0.6rem 1.4rem; border: none; border-bottom: 3px solid #2563eb; background: none; font-weight: 600; color: #2563eb; cursor: pointer; font-size: 0.9rem; margin-bottom: -2px;">
+                  Action Reasoner
+                </button>
+                <button class="llm-tab-btn" onclick="switchLLMTab(event, 'tab-xdl')"
+                  style="padding: 0.6rem 1.4rem; border: none; border-bottom: 3px solid transparent; background: none; font-weight: 600; color: #888; cursor: pointer; font-size: 0.9rem; margin-bottom: -2px;">
+                  XDL Generator
+                </button>
+              </div>
+
+              <!-- Action Reasoner Tab -->
+              <div id="tab-action" class="llm-tab-content" style="display: block; margin-top: 1.5rem;">
+                <p style="margin-bottom: 1rem; font-size: 0.92rem; color: #4a4a4a;">
+                  Receives the current/next XDL step, obstacle status, and candidate grids,
+                  then outputs four tokens: <code>main_tool</code>, <code>need_rearrange</code>,
+                  <code>aux_tool</code>, and <code>target_grid</code>.
+                  Fine-tuned from Llama 3.2 1B with three in-context example types.
+                </p>
+
+                <!-- System Prompt -->
+                <div class="prompt-block" style="margin-bottom: 1.2rem;">
+                  <div class="prompt-role system-role">SYSTEM</div>
+                  <pre class="prompt-pre"><code>You are a tool and rearrangement planner for laboratory automation.
+
+        Tool Rules:
+          • dh3  (3-finger)  : Move, Stir for cylindrical vessels
+          • ag95 (2-finger)  : All Transfer operations
+          • vgc10 (suction)  : Objects exceeding gripper span
+
+        Given the current and next XDL steps, the obstacle status, and candidate
+        grids, output exactly four tokens separated by commas:
+
+          main_tool, need_rearrange, aux_tool, target_grid
+
+        Allowed values:
+          main_tool      : dh3 | ag95 | vgc10
+          aux_tool       : dh3 | ag95 | vgc10 | None
+          need_rearrange : True | False
+          target_grid    : grid ID (e.g., G5) | None</code></pre>
+                </div>
+
+                <!-- Example 1 -->
+                <p style="font-weight: 600; font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                  Example 1 — No Rearrangement
+                </p>
+                <div class="prompt-block" style="margin-bottom: 0.5rem;">
+                  <div class="prompt-role user-role">USER</div>
+                  <pre class="prompt-pre"><code>Current XDL : &lt;Add vessel="beaker_C" reagent="water" volume="11 mL" /&gt;
+        Next XDL    : &lt;Transfer from_vessel="beaker_A" to_vessel="beaker_B" volume="11 mL" /&gt;
+        Obstacle    : beaker at G5
+        Candidate Grids:
+          • plate zone     : [G1]
+          • workspace edge : [G7, G8, G12]
+          • open area      : [G2, G4, G6, G10]</code></pre>
+                </div>
+                <div class="prompt-block" style="margin-bottom: 1.2rem;">
+                  <div class="prompt-role assistant-role">ASSISTANT</div>
+                  <pre class="prompt-pre"><code>dh3, False, None, None</code></pre>
+                </div>
+
+                <!-- Example 2 -->
+                <p style="font-weight: 600; font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                  Example 2 — Rearrangement (Context-Aware): obstacle is the target of the next step → moved to task-relevant zone
+                </p>
+                <div class="prompt-block" style="margin-bottom: 0.5rem;">
+                  <div class="prompt-role user-role">USER</div>
+                  <pre class="prompt-pre"><code>Current XDL : &lt;CleanVessel vessel="flask_B" /&gt;
+        Next XDL    : &lt;Stir vessel="flask_A" time="16 s" /&gt;
+        Obstacle    : flask_A at G4 (blocking)
+        Candidate Grids:
+          • stirrer zone   : [G2]
+          • plate zone     : [G1]
+          • workspace edge : [G7, G8, G12]
+          • open area      : [G3, G4, G5, G6, G10, G11]</code></pre>
+                </div>
+                <div class="prompt-block" style="margin-bottom: 1.2rem;">
+                  <div class="prompt-role assistant-role">ASSISTANT</div>
+                  <pre class="prompt-pre"><code>dh3, True, dh3, G2</code></pre>
+                </div>
+
+                <!-- Example 3 -->
+                <p style="font-weight: 600; font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                  Example 3 — Rearrangement (Irrelevant): obstacle is unrelated to the next step → moved to workspace edge
+                </p>
+                <div class="prompt-block" style="margin-bottom: 0.5rem;">
+                  <div class="prompt-role user-role">USER</div>
+                  <pre class="prompt-pre"><code>Current XDL : &lt;CleanVessel vessel="beaker_A" /&gt;
+        Next XDL    : &lt;Move object="box_A" place="plate_A" /&gt;
+        Obstacle    : bottle_A at G11 (blocking)
+        Candidate Grids:
+          • plate zone     : [G1]
+          • workspace edge : [G12]
+          • open area      : [G2, G3, G4, G5, G6, G9, G10, G11]</code></pre>
+                </div>
+                <div class="prompt-block">
+                  <div class="prompt-role assistant-role">ASSISTANT</div>
+                  <pre class="prompt-pre"><code>dh3, True, vgc10, G12</code></pre>
+                </div>
+              </div>
+
+              <!-- XDL Generator Tab -->
+              <div id="tab-xdl" class="llm-tab-content" style="display: none; margin-top: 1.5rem;">
+                <p style="margin-bottom: 1rem; font-size: 0.92rem; color: #4a4a4a;">
+                  Converts a natural language laboratory instruction into a structured XDL protocol
+                  enclosed in <code>&lt;procedure&gt;</code> tags. Trained on synonym variations across
+                  six core operators so diverse phrasings (e.g., "agitate" → <code>&lt;Stir&gt;</code>)
+                  are handled correctly. Fine-tuned from Llama 3.2 1B.
+                </p>
+
+                <!-- System Prompt -->
+                <div class="prompt-block" style="margin-bottom: 1.2rem;">
+                  <div class="prompt-role system-role">SYSTEM</div>
+                  <pre class="prompt-pre"><code>You are a laboratory automation system. Convert the following instruction
+        into a procedure description. Output ONLY valid XML inside &lt;procedure&gt; tags.
+
+        Strict Rules:
+          • Tags are CASE-SENSITIVE: MUST use &lt;Add&gt;, &lt;Stir&gt;, &lt;HeatChill&gt;,
+            &lt;Transfer&gt;, &lt;CleanVessel&gt;, &lt;Move&gt;.
+          • DO NOT use lowercase tags like &lt;add&gt; or &lt;clean_vessel&gt;.
+          • &lt;Transfer&gt; MUST use attributes: from_vessel, to_vessel, volume.</code></pre>
+                </div>
+
+                <!-- Example -->
+                <p style="font-weight: 600; font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                  Example — Multi-Step Protocol
+                </p>
+                <div class="prompt-block" style="margin-bottom: 0.5rem;">
+                  <div class="prompt-role user-role">USER</div>
+                  <pre class="prompt-pre"><code>Pour 50 mL of water into flask_B. Stir the solution in flask_B for 2 min.
+        Pour 25 mL from flask_B into beaker_A. Rinse and clean beaker_A.</code></pre>
+                </div>
+                <div class="prompt-block">
+                  <div class="prompt-role assistant-role">ASSISTANT</div>
+                  <pre class="prompt-pre"><code>&lt;procedure&gt;
+          &lt;Add vessel="flask_B" reagent="water" volume="50 mL" /&gt;
+          &lt;Stir vessel="flask_B" time="2 min" /&gt;
+          &lt;Transfer from_vessel="flask_B" to_vessel="beaker_A" volume="25 mL" /&gt;
+          &lt;CleanVessel vessel="beaker_A" /&gt;
+        &lt;/procedure&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <!-- Datasets -->
         <h3 class="title is-4">Datasets</h3>
 
         
@@ -1043,5 +1202,17 @@
 
     <!-- End of Statcounter Code -->
 
+    <script>
+    function switchLLMTab(event, tabId) {
+      document.querySelectorAll('.llm-tab-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.llm-tab-btn').forEach(btn => {
+        btn.style.borderBottomColor = 'transparent';
+        btn.style.color = '#888';
+      });
+      document.getElementById(tabId).style.display = 'block';
+      event.currentTarget.style.borderBottomColor = '#2563eb';
+      event.currentTarget.style.color = '#2563eb';
+    }
+    </script>
   </body>
   </html>

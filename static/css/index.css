@@ -1048,3 +1048,36 @@ body, button, input, optgroup, select, textarea {
         width: 100%;
     }
 }
+
+/* LLM Prompt Blocks */
+.prompt-block {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.prompt-role {
+  padding: 0.35rem 0.85rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.system-role    { background: #e8eaf6; color: #3949ab; }
+.user-role      { background: #e8f5e9; color: #2e7d32; }
+.assistant-role { background: #fff3e0; color: #e65100; }
+.prompt-pre {
+  margin: 0 !important;
+  padding: 0.9rem 1rem !important;
+  background: #f8f9fa !important;
+  border-radius: 0 !important;
+  font-size: 0.82rem !important;
+  line-height: 1.55 !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+}
+.prompt-pre code {
+  background: none !important;
+  padding: 0 !important;
+  font-size: inherit !important;
+}
+.llm-tab-btn:hover { color: #2563eb !important; }
