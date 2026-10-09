@@ -242,7 +242,7 @@
               <div class="is-size-5 publication-authors">
               <!-- TODO: Replace with your paper authors and their personal links -->
               <span class="author-block">
-                <a href="FIRST AUTHOR PERSONAL LINK" target="_blank">Bohyeong Park<small><sup>*</sup></small></a><sup>1</sup>,</span>
+                <a href="FIRST AUTHOR PERSONAL LINK" target="_blank">Bohyeong Pak<small><sup>*</sup></small></a><sup>1</sup>,</span>
                 <span class="author-block">
                   <a href="SECOND AUTHOR PERSONAL LINK" target="_blank">Hyunho Cho<small><sup>*</sup></small></a><sup>1</sup>,</span>
                   <span class="author-block">
@@ -253,7 +253,7 @@
                     <!-- TODO: Replace with your institution and conference/journal info -->
                     <span class="author-block">
                       <sup>1</sup>Kyung Hee University,
-                      <br><sup>2</sup>Institutes of Convergence Technology,
+                      <br><sup>2</sup>Advanced Institute of Convergence Technology,
                       <br>Submitted to IEEE Access, 2026
                     </span>
                     <!-- TODO: Remove this line if no equal contribution -->
@@ -329,20 +329,10 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body" style="text-align: center;">
-
-      <!-- If you want to put a teaser video instead of image, remove below annotation of video block. -->
-      <!-- TODO: Replace with your teaser video -->
-      <!-- <video poster="" id="tree" autoplay controls muted loop height="100%" preload="metadata"> -->
-        <!-- TODO: Add your video file path here -->
-        <!-- <source src="static/video/video.mp4" type="video/mp4"> -->
-      <!-- </video> -->
-      
-      <img src="static/images/overview.png" alt="LLM-Guided Tool-Aware TAMP framework overview" style="width: 100%; max-width: 1000px; display: block; margin: 0 auto; border-radius: 6px;">
-      
-      <!-- TODO: Replace with your video description -->
+      <img src="static/images/paper/figure1.png" alt="Architectural overview of the LLM-Guided Tool-Aware TAMP framework" style="width: 100%; max-width: 1000px; display: block; margin: 0 auto; border-radius: 6px;">
       <h2 class="subtitle has-text-centered" style="margin-top: 1.5rem; font-size: 0.95rem; line-height: 1.5;">
         <p class="section-intro" style="margin-bottom: 0; color: #4a4a4a;">
-          LLM-Guided Tool-Aware TAMP framework integrates symbolic reasoning with physical execution for fully autonomous chemistry laboratory automation. The system combines an LLM Module for protocol validation and context-aware tool reasoning, a GPU-accelerated TAMP Module for collision-free trajectory generation, a multi-modal Perception Module for real-time world-state grounding, and a Skill Library for sensor-feedback-based execution enabling robust end-to-end automation of complex chemical procedures from natural language XDL protocols.
+          Architectural overview of the LLM-Guided Tool-Aware TAMP framework. The hierarchy integrates symbolic reasoning (LLM Module) with physical execution (TAMP Module), supported by a multi-modal perception interface (Perception Module) and a robotic skill library (Skill Library Module).
         </p>
       </h2>
     </div>
@@ -358,7 +348,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Autonomous chemistry laboratories can accelerate material discovery and improve experimental reproducibility, yet current systems remain limited in two respects: existing automation pipelines rely on protocol-specific equipment that restricts adaptability to diverse, non-linear workflows, and task and motion planning on robots with limited kinematic redundancy becomes unreliable when strict orientation, collision, and workspace constraints must be satisfied at once. This paper proposes LLM-Guided Tool-Aware TAMP (Task and Motion Planning), a hierarchical framework that combines large language model (LLM)-based symbolic reasoning with GPU-accelerated motion optimization for chemistry automation. The system converts natural-language experimental instructions into validated Chemical Description Language (XDL) protocols, selects appropriate end-effectors and plans obstacle rearrangement based on execution context, estimates the scene state through multi-view fiducial marker-based perception, and produces collision-free, constraint-satisfying trajectories by evaluating thousands of candidates in parallel. A sensor-driven skill library handles execution-level actions such as tool changing and adaptive pouring. On a 6-DoF manipulator, the GPU-parallelized planner achieves a 96.7% planning success rate under orientation constraints, up from 63.3% with a CPU-based sampling baseline, with lower planning-time variance. We build a high-fidelity simulation testbed in NVIDIA Isaac Sim for randomized trials and module-level ablation studies, and results confirm that the full framework executes complete chemical sequences involving tool switching, obstacle rearrangement, and multi-step reagent manipulation.
+            Autonomous chemistry laboratories can accelerate material discovery and improve experimental reproducibility. However, current systems are limited by rigid tool configurations and unreliable motion planning under orientation and collision constraints, and language-model-based planners stop at protocol generation without reasoning about execution context. This paper proposes a hierarchical, tool-aware task and motion planning framework for chemistry automation that couples large-language-model reasoning with batched differentiable optimization. The system converts natural-language instructions into validated chemical description language protocols, infers end-effectors and obstacle rearrangement strategies from procedural context, estimates the scene state through multi-view fiducial markers, and optimizes collision-free, constraint-satisfying trajectories in parallel, while a sensor-driven skill library handles tool changing and adaptive pouring. On a six-degree-of-freedom manipulator, the planner solves every configuration of three constrained tasks within the time budget, with each optimization round taking a narrowly bounded time per task, and on the task whose orientation constraint is most restrictive it reaches a 100.0% planning success rate against 73.3% for a sequential parameter-binding baseline. In randomized trials and ablation studies in an NVIDIA Isaac Sim testbed, the full framework executes complete chemical sequences involving tool switching, obstacle rearrangement, and multi-step reagent manipulation. On the physical robot, adaptive pouring reached a mean absolute error of 0.19–0.34 g for water and a syrup of about 3,000 cP and 0.36–0.73 g for powdered sugar over target masses of 10–50 g, and the Transfer procedure planned from the perceived positions was completed in all nine runs.
           </p>
         </div>
       </div>
@@ -375,36 +365,38 @@
 
     <div style="text-align: center; margin-bottom: 1rem;">
       <p class="fig-caption" style="font-size: 1rem; line-height: 1.6;">
-        <strong>System Overview.</strong>
-        Upper: Multi-Layer Failure Resolution Hierarchy.
-        LLM Module resolves semantic failures via XDL generation (left),
-        Perception Module resolves state-grounding failures via 6-DoF localization (center), and TAMP Module resolves planning-reliability failures via GPU-parallelized optimization (right).
-        Lower: Execution-Level Failure Resolution. Skill Library Module converts nominal trajectories into sensor-feedback-driven motion primitives, resolving physical uncertainties and ensuring stable contact-rich task execution.
+        The framework addresses three limitations of chemistry laboratory automation with four modules.
+        The <strong>LLM Module</strong> converts natural-language instructions into validated XDL protocols and determines the execution context of each procedure, namely end-effector selection and obstacle rearrangement.
+        The <strong>TAMP Module</strong> adopts cuTAMP as its planning backbone for constrained motion planning with bounded latency.
+        The <strong>Skill Library Module</strong> handles through sensor feedback the execution-level actions that geometric planning alone cannot, such as adaptive pouring and temperature regulation.
+        The <strong>Perception Module</strong> underpins all three by constructing the World State.
       </p>
     </div>
 
     <div class="columns is-multiline" style="margin-top: 1.5rem;">
-  
+
       <div class="column is-full">
         <div class="method-card is-horizontal">
-          
           <div class="card-content">
             <div class="card-tag">LLM Module</div>
-            <h4>Context-Aware Protocol Generation & Action Reasoning</h4>
+            <h4>Protocol Generation, Validation & Context-Aware Action Reasoning</h4>
           </div>
           <div class="card-image">
-            <img src="static/images/llm.png" alt="LLM Module Architecture">
-            <img src="static/images/llm_xdl.png" alt="LLM Module Architecture">
+            <img src="static/images/paper/figure2.png" alt="XDL Generator and Validator pipeline">
+            <img src="static/images/paper/figure3.png" alt="Action Reasoner pipeline">
           </div>
           <div>
             <p>
-              The LLM Module serves as the high-level reasoning backbone, comprising two components:
-              the XDL Generator, which parses natural-language chemical protocols
-              into machine-readable XDL procedure sequences, and the Action Reasoner,
-              which determines the appropriate end-effector, whether obstacle rearrangement is needed,
-              and the target grid for relocated objects. Joint reasoning over current and subsequent
-              procedures enables context-aware rearrangement and semantic tool assignment
-              grounded in object affordances, reducing manual domain redefinition even for novel vessel types.
+              The LLM Module proceeds through three stages. The XDL Generator, a fine-tuned Llama 3.2 1B model,
+              converts a natural-language command into a complete XDL protocol in a single pass. The XDL Validator
+              then applies three progressively stricter checks, namely syntactic, object-existence, and
+              physical-feasibility validation, which together verify 25 enumerated conditions before any robot motion is
+              executed. Before each procedure, the Action Reasoner, a second fine-tuned Llama 3.2 1B model, reads the
+              current and next procedures and the World State and infers four discrete outputs: the main end-effector,
+              whether obstacle rearrangement is necessary, the auxiliary tool for rearrangement, and the target grid
+              among 12 workspace grids. The LLM is confined to these discrete symbolic outputs, and the TAMP Module
+              resolves the exact placement in continuous space, which keeps hallucinated spatial quantities out of the
+              planning pipeline.
             </p>
           </div>
         </div>
@@ -414,20 +406,22 @@
         <div class="method-card is-horizontal">
           <div class="card-content">
             <div class="card-tag">Perception Module</div>
-            <h4>Real-Time World-State Grounding</h4>
+            <h4>Multi-View World-State Grounding</h4>
           </div>
           <div class="card-image">
-            <img src="static/images/perception.png" alt="Perception Module Real-Time Tracking">
+            <img src="static/images/paper/figure4.png" alt="Perception Module pipeline">
           </div>
           <div>
             <p>
-              The Perception Module provides real-time 6-DoF pose estimates of all laboratory assets
-              using AprilTag markers and two calibrated RGB cameras. Per-object poses are computed
-              in the robot base frame and fused via inverse-distance weighting — with SLERP for
-              orientation — to maximize robustness against occlusions, then broadcast over the ROS 2
-              TF tree at 30 Hz. The module also aggregates and filters scale and temperature sensor
-              streams, providing clean feedback signals for closed-loop skills such as adaptive pouring
-              and temperature regulation.
+              The Perception Module estimates the 6-DoF poses of laboratory assets from AprilTag markers affixed to each
+              vessel. Two calibrated RGB cameras at separated positions estimate the poses continuously, and their
+              estimates are fused by inverse-distance weighting with SLERP for orientation. When only one camera sees a
+              marker, its estimate is used directly. When neither fixed camera can read a marker or its measurement
+              cannot be trusted, the arm carries a wrist camera through predefined viewpoints to search for it, and if
+              the wrist camera cannot read it either, execution stops and the object is reported to the user. The poses
+              are assembled into the World State at every procedure boundary, with objects approximated by primitives
+              covered with spheres for collision checking. The module also filters the scale and temperature streams
+              that the closed-loop skills consume.
             </p>
           </div>
         </div>
@@ -440,19 +434,30 @@
             <h4>Batched Joint Differentiable Optimization with Chemistry-Specific Operators</h4>
           </div>
           <div class="card-image">
-            <img src="static/images/tamp.png" alt="TAMP Module Trajectory Planning">
+            <img src="static/images/paper/figure5.png" alt="TAMP Module overview">
           </div>
           <div>
             <p>
-              The TAMP Module adopts cuTAMP as its planning solver, jointly optimizing
-              all constraints across thousands of batched candidate particles via gradient-based updates,
-              with structurally bounded runtime that ensures time-sensitive reaction conditions are never
-              disrupted. Four chemistry-specific operators are introduced: SidePick for
-              full-circumference grasping of cylindrical vessels, MoveHolding for
-              upright-constrained liquid transport, Pour for decoupled geometric pouring
-              trajectories, and Stir for device-level stirrer control delegated entirely
-              to the execution layer.
+              The TAMP Module adopts cuTAMP as its planning solver, jointly optimizing all constraints across a large
+              batch of candidate particles by gradient-based updates. Because a fixed number of optimization steps runs
+              over a fixed particle budget, one optimization round takes a narrowly bounded time, and a round that finds
+              no solution is restarted with fresh particles, so planning latency can be estimated in units of rounds.
+              Four chemistry-specific operators are introduced: SidePick for full-circumference grasping of cylindrical
+              vessels, MoveHolding for upright-constrained transport within a tilt bound of 5°, Pour for the geometric
+              tilting trajectory that hands over to the pouring skill, and Stir for device-level stirrer control
+              delegated to the execution layer.
             </p>
+            <div class="card-image" style="margin-top: 1rem; max-width: 640px; margin-left: auto; margin-right: auto;">
+          <div class="paper-figure-row">
+            <img src="static/images/paper/figure12a.jpg" alt="SidePick yaw -pi/2.5">
+            <img src="static/images/paper/figure12b.jpg" alt="SidePick yaw pi/2">
+            <img src="static/images/paper/figure12c.jpg" alt="SidePick yaw pi/2.5">
+          </div>
+          <p class="fig-caption" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: #4a4a4a;">
+            Discrete yaw candidates for the SidePick operator, illustrating how gripper tilt varies across the sampled
+            configurations. Left: <em>y</em> = −π/2.5. Middle: <em>y</em> = π/2 (or −π/2). Right: <em>y</em> = π/2.5.
+          </p>
+        </div>
           </div>
         </div>
       </div>
@@ -465,18 +470,179 @@
           </div>
           <div>
             <p>
-              The Skill Library Module instantiates nominal TAMP trajectories into sensor-feedback-driven
-              motion primitives. Adaptive Pouring dynamically adjusts wrist angular
-              velocity via PD control using real-time scale feedback. Automatic Tool Changing
-              executes electromagnet control and mechanical latching upon reaching the tool rack.
-              Feedback-Based Device Control monitors temperature and RPM streams,
-              suspending execution until target physical conditions are confirmed at the execution layer.
+              The Skill Library Module instantiates nominal TAMP trajectories into sensor-feedback-driven motion
+              primitives. Adaptive Pouring estimates the flow rate as the slope of a line fitted to the recent scale
+              readings. It detects the angle at which the reagent starts to flow on every pour, adjusts the tilt to
+              follow a target flow rate proportional to the amount remaining, and returns the vessel below that angle
+              once the measured weight plus the predicted amount still in flight reaches the target.
+              Automatic Tool Changing executes electromagnet control and mechanical latching at the tool rack.
+              Feedback-Based Device Control monitors temperature and RPM streams and suspends execution until the target
+              physical conditions are met.
             </p>
           </div>
         </div>
       </div>
 
     </div>
+
+    <!-- LLM Prompts -->
+    <div class="columns is-centered" style="margin-top: 3rem;">
+      <div class="column is-full">
+        <h3 class="title is-4">LLM Module Prompts & In-Context Examples</h3>
+        <p style="margin-bottom: 1.5rem;">
+          Both fine-tuned components share a structured prompt format. The system prompt
+          defines the task constraints, and in-context examples condition the model's output
+          format before the actual user query is provided.
+        </p>
+
+        <!-- Tab UI -->
+        <div class="llm-tabs">
+          <div style="display: flex; gap: 0; border-bottom: 2px solid #dbdbdb; margin-bottom: 0;">
+            <button class="llm-tab-btn active" onclick="switchLLMTab(event, 'tab-action')"
+              style="padding: 0.6rem 1.4rem; border: none; border-bottom: 3px solid #2563eb; background: none; font-weight: 600; color: #2563eb; cursor: pointer; font-size: 0.9rem; margin-bottom: -2px;">
+              Action Reasoner
+            </button>
+            <button class="llm-tab-btn" onclick="switchLLMTab(event, 'tab-xdl')"
+              style="padding: 0.6rem 1.4rem; border: none; border-bottom: 3px solid transparent; background: none; font-weight: 600; color: #888; cursor: pointer; font-size: 0.9rem; margin-bottom: -2px;">
+              XDL Generator
+            </button>
+          </div>
+
+          <!-- Action Reasoner Tab -->
+          <div id="tab-action" class="llm-tab-content" style="display: block; margin-top: 1.5rem;">
+            <p style="margin-bottom: 1rem; font-size: 0.92rem; color: #4a4a4a;">
+              Receives the current/next XDL step, obstacle status, and candidate grids,
+              then outputs four tokens: <code>main_tool</code>, <code>need_rearrange</code>,
+              <code>aux_tool</code>, and <code>target_grid</code>.
+              Fine-tuned from Llama 3.2 1B with three in-context example types.
+            </p>
+
+            <!-- System Prompt -->
+            <div class="prompt-block" style="margin-bottom: 1.2rem;">
+              <div class="prompt-role system-role">SYSTEM</div>
+              <pre class="prompt-pre"><code>You are a tool and rearrangement planner for laboratory automation.
+Tool Rules:
+  • dh3  (3-finger)  : Move, Stir for cylindrical vessels
+  • ag95 (2-finger)  : All Transfer operations
+  • vgc10 (suction)  : Objects exceeding gripper span
+
+Given the current and next XDL steps, the obstacle status, and candidate
+grids, output exactly four tokens separated by commas:
+
+  main_tool, need_rearrange, aux_tool, target_grid
+
+Allowed values:
+  • main_tool      : dh3 | ag95 | vgc10
+  • aux_tool       : dh3 | ag95 | vgc10 | None
+  • need_rearrange : True | False
+  • target_grid    : grid ID (e.g., G5) | None</code></pre>
+            </div>
+
+            <!-- Example 1 -->
+            <p style="font-weight: 600; font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
+              Example 1 — No Rearrangement
+            </p>
+            <div class="prompt-block" style="margin-bottom: 0.5rem;">
+              <div class="prompt-role user-role">USER</div>
+              <pre class="prompt-pre"><code>Current XDL : &lt;Add vessel="beaker_C" reagent="water" volume="11 mL" /&gt;
+Next XDL    : &lt;Transfer from_vessel="beaker_A" to_vessel="beaker_B" volume="11 mL" /&gt;
+Obstacle    : beaker at G5
+Candidate Grids:
+  • plate zone     : [G1]
+  • workspace edge : [G7, G8, G12]
+  • open area      : [G2, G4, G6, G10]</code></pre>
+            </div>
+            <div class="prompt-block" style="margin-bottom: 1.2rem;">
+              <div class="prompt-role assistant-role">ASSISTANT</div>
+              <pre class="prompt-pre"><code>dh3, False, None, None</code></pre>
+            </div>
+
+            <!-- Example 2 -->
+            <p style="font-weight: 600; font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
+              Example 2 — Rearrangement (Context-Aware): obstacle is the target of the next step → moved to task-relevant zone
+            </p>
+            <div class="prompt-block" style="margin-bottom: 0.5rem;">
+              <div class="prompt-role user-role">USER</div>
+              <pre class="prompt-pre"><code>Current XDL : &lt;CleanVessel vessel="flask_B" /&gt;
+Next XDL    : &lt;Stir vessel="flask_A" time="16 s" /&gt;
+Obstacle    : flask_A at G4 (blocking)
+Candidate Grids:
+  • stirrer zone   : [G2]
+  • plate zone     : [G1]
+  • workspace edge : [G7, G8, G12]
+  • open area      : [G3, G4, G5, G6, G10, G11]</code></pre>
+            </div>
+            <div class="prompt-block" style="margin-bottom: 1.2rem;">
+              <div class="prompt-role assistant-role">ASSISTANT</div>
+              <pre class="prompt-pre"><code>dh3, True, dh3, G2</code></pre>
+            </div>
+
+            <!-- Example 3 -->
+            <p style="font-weight: 600; font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
+              Example 3 — Rearrangement (Irrelevant): obstacle is unrelated to the next step → moved to workspace edge
+            </p>
+            <div class="prompt-block" style="margin-bottom: 0.5rem;">
+              <div class="prompt-role user-role">USER</div>
+              <pre class="prompt-pre"><code>Current XDL : &lt;CleanVessel vessel="beaker_A" /&gt;
+Next XDL    : &lt;Move object="box_A" place="plate_A" /&gt;
+Obstacle    : bottle_A at G11 (blocking)
+Candidate Grids:
+  • plate zone     : [G1]
+  • workspace edge : [G12]
+  • open area      : [G2, G3, G4, G5, G6, G9, G10, G11]</code></pre>
+            </div>
+            <div class="prompt-block">
+              <div class="prompt-role assistant-role">ASSISTANT</div>
+              <pre class="prompt-pre"><code>dh3, True, vgc10, G12</code></pre>
+            </div>
+          </div>
+
+          <!-- XDL Generator Tab -->
+          <div id="tab-xdl" class="llm-tab-content" style="display: none; margin-top: 1.5rem;">
+            <p style="margin-bottom: 1rem; font-size: 0.92rem; color: #4a4a4a;">
+              Converts a natural language laboratory instruction into a structured XDL protocol
+              enclosed in <code>&lt;procedure&gt;</code> tags. Trained on synonym variations across
+              six core operators so diverse phrasings (e.g., "agitate" → <code>&lt;Stir&gt;</code>)
+              are handled correctly. Fine-tuned from Llama 3.2 1B.
+            </p>
+
+            <!-- System Prompt -->
+            <div class="prompt-block" style="margin-bottom: 1.2rem;">
+              <div class="prompt-role system-role">SYSTEM</div>
+              <pre class="prompt-pre"><code>You are a laboratory automation system. Convert the following instruction
+into a procedure description. Output ONLY valid XML inside &lt;procedure&gt; tags.
+
+Strict Rules:
+  • Tags are CASE-SENSITIVE: MUST use &lt;Add&gt;, &lt;Stir&gt;, &lt;HeatChill&gt;,
+&lt;Transfer&gt;, &lt;CleanVessel&gt;, &lt;Move&gt;.
+  • DO NOT use lowercase tags like &lt;add&gt; or &lt;clean_vessel&gt;.
+  • &lt;Transfer&gt; MUST use attributes: from_vessel, to_vessel, volume.</code></pre>
+            </div>
+
+            <!-- Example -->
+            <p style="font-weight: 600; font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
+              Example — Multi-Step Protocol
+            </p>
+            <div class="prompt-block" style="margin-bottom: 0.5rem;">
+              <div class="prompt-role user-role">USER</div>
+              <pre class="prompt-pre"><code>Pour 50 mL of water into flask_B. Stir the solution in flask_B for 2 min.
+Pour 25 mL from flask_B into beaker_A. Rinse and clean beaker_A.</code></pre>
+            </div>
+            <div class="prompt-block">
+              <div class="prompt-role assistant-role">ASSISTANT</div>
+              <pre class="prompt-pre"><code>&lt;procedure&gt;
+  &lt;Add vessel="flask_B" reagent="water" volume="50 mL" /&gt;
+  &lt;Stir vessel="flask_B" time="2 min" /&gt;
+  &lt;Transfer from_vessel="flask_B" to_vessel="beaker_A" volume="25 mL" /&gt;
+  &lt;CleanVessel vessel="beaker_A" /&gt;
+&lt;/procedure&gt;
+              </code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -488,14 +654,114 @@
     </div>
 
     <div class="card-image">
-      <img src="static/images/experiment.png" alt="Experiment">
+      <div class="paper-figure-row">
+        <img src="static/images/paper/figure6a.jpg" alt="FR5 manipulator and end-effectors" style="flex: 293;">
+        <img src="static/images/paper/figure6b.jpg" alt="Isaac Sim testbed" style="flex: 406;">
+      </div>
       <p class="fig-caption" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: #4a4a4a;">
-        Sequential execution snapshots of the Move → Transfer → Stir 
-        workflow. Each row shows five representative keyframes from a single trial. 
-        (a) Move: the robot relocates the container to the target zone. 
-        (b) Transfer: liquid reagent is poured into the destination vessel. 
-        (c) Stir: the mixture is stirred on the hotplate to complete the reaction sequence.
+        Hardware and simulation environment. Left: the 6-DoF collaborative manipulator (FAIRINO-FR5) with its
+        2-finger, 3-finger, and suction grippers. Right: the simulation testbed built in NVIDIA Isaac Sim.
+        Each task is evaluated from 30 randomized initial configurations, in the ground-truth state with the poses of
+        the simulator and in the perception state with the poses that the Perception Module estimates from rendered
+        camera images. Pouring and the Transfer procedure are further validated on the physical FR5.
       </p>
+    </div>
+
+    <!-- Experiment Setup -->
+    <div class="columns is-centered" style="margin-top: 3rem;">
+      <div class="column is-full">
+        <h3 class="title is-4">Experiment Setup</h3>
+        <p>
+          The simulation testbed generates 30 distinct initial configurations per task under identical constraint
+          settings. Every planner receives the same configurations, and the flow of liquids and powders and the scale
+          measurement are not simulated, so the simulated Transfer is judged only up to the execution of the pouring
+          motion and pouring accuracy is evaluated on the physical robot.
+        </p>
+<div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth settings-table">
+            <thead>
+              <tr><th>Item</th><th>Setting</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Simulator</td><td>NVIDIA Isaac Sim 6.0.0.1</td></tr>
+              <tr><td>Compute</td><td>One workstation (AMD Ryzen 7 9800X3D, NVIDIA RTX 5080 16 GB, 30 GB RAM)</td></tr>
+              <tr><td>Physics integration</td><td>Step of 1/60 s, one substep, TGS solver with 8 position and 1 velocity iterations per object</td></tr>
+              <tr><td>Trajectory execution</td><td>Issued against the same 60 Hz step, joint velocity limit of 0.625 rad/s</td></tr>
+              <tr><td>Joint drives</td><td>Joints 1–3: stiffness 1008.44 N·m/deg and damping 100 N·m·s/deg. Joints 4–6: stiffness 379.82 N·m/deg and damping 1.5 N·m·s/deg</td></tr>
+              <tr><td>Bench</td><td>Twelve cells spaced 0.30 m apart. The cell centers are twelve of the combinations of <em>x</em> ∈ {−0.15, 0.15, 0.45} m with <em>y</em> ∈ {−0.6, −0.3, 0, 0.3, 0.6} m, the row at <em>x</em> = −0.15 m using only <em>y</em> = ±0.6 m</td></tr>
+              <tr><td>Object position (<em>x</em>, <em>y</em>)</td><td>Drawn uniformly within ±5 cm of the cell center</td></tr>
+              <tr><td>Object yaw</td><td>Drawn uniformly within ±180°</td></tr>
+              <tr><td>Six arm joints</td><td>Drawn uniformly within ±10° of the home configuration</td></tr>
+              <tr><td>Configuration seeds</td><td>0–29 per task. Every planner receives the same configurations. The random seed of each planner is fixed per initial configuration and changed at each restart</td></tr>
+            </tbody>
+          </table>
+          <p class="fig-caption table-caption">Simulation environment and generation of the initial configurations.</p>
+        </div>
+        <p style="margin-top: 1.5rem;">
+          A trial counts as a planning success when a collision-free trajectory that satisfies the upright bound
+          θ<sub>max</sub> is returned within the time budget. It counts as an execution success when all of the following
+          hold after a settling period of 2 s.
+        </p>
+        <ul style="margin-top: 0.5rem; margin-left: 1.5rem; list-style: disc;">
+          <li>The plan has been carried out in full.</li>
+          <li>The target vessel stands within 30° of upright.</li>
+          <li>The target rests inside the goal region, whose half-width is 50 mm for the vessels, 75 mm for the box, and 15 mm for the stir bar.</li>
+          <li>The stir bar additionally lies inside the mouth of the flask, within 32 mm of the vessel center and below the mouth.</li>
+          <li>For Transfer, the pouring motion was performed.</li>
+        </ul>
+
+        <h4 class="title is-5" style="margin-top: 2rem;">LLM Fine-Tuning</h4>
+<p>
+          Both LLM components are fine-tuned from a 4-bit quantized Llama 3.2 1B base model via LoRA-based supervised
+          fine-tuning. The differing LoRA configurations were selected empirically based on validation performance.
+        </p>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
+            <thead>
+              <tr>
+                <th style="vertical-align: middle;">Parameter</th>
+                <th style="vertical-align: middle;">XDL Generator</th>
+                <th style="vertical-align: middle;">Action Reasoner</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Base Model</td><td colspan="2">Llama 3.2 1B (4-bit quantized)</td></tr>
+              <tr><td>Fine-tuning Method</td><td colspan="2">LoRA-based SFT</td></tr>
+              <tr><td>LoRA Rank (r)</td><td>16</td><td>8</td></tr>
+              <tr><td>LoRA Alpha (α)</td><td>32</td><td>16</td></tr>
+              <tr><td>Dropout</td><td>0.05</td><td>0.05</td></tr>
+              <tr><td>Optimizer</td><td colspan="2">AdamW (8-bit)</td></tr>
+              <tr><td>Learning Rate</td><td>2 × 10⁻⁴</td><td>1 × 10⁻⁴</td></tr>
+              <tr><td>Batch Size</td><td colspan="2">16</td></tr>
+              <tr><td>Epochs</td><td>5</td><td>3</td></tr>
+              <tr><td>Training Dataset Size</td><td>5,000</td><td>3,000</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="margin-top: 1rem;">
+          <strong>XDL Generator.</strong> The 5,000 training samples span synonym variations for the six core XDL
+          operators (Add, Stir, HeatChill, Transfer, CleanVessel, Move), numerical parameter ranges (0.5–20 mL in steps
+          of 0.5 mL, 0–20 °C, 1–30 s), three instance identifiers for each of four vessel types (12 identifiers), and
+          command complexity of 30% single-step, 40% two-step, and 30% three-step procedures. Training, validation, and
+          evaluation commands are separated at five levels. Of 104 sentence templates, 62 are used in training, 12 in a
+          development set, and 30 in evaluation, divided into 18 with unseen wording and 12 with unseen sentence forms.
+          One of the four names of every vessel type appears only in evaluation. The numerical values of each range are
+          split into disjoint pools, and three ordered operator pairs (CleanVessel → Add, HeatChill → Transfer,
+          Stir → Move) are withheld from training. No command occurs in both the training and the evaluation data.
+        </p>
+        <p style="margin-top: 1rem;">
+          <strong>Action Reasoner.</strong> The 3,000 training samples place up to four objects on 12 workspace grids and
+          are balanced across rearrangement-required and rearrangement-unnecessary cases, and across context-aware and
+          irrelevant obstacles. Training and evaluation scenarios are separated along three axes. For objects, the fourth
+          instance name of each type (for example, beaker_C) is reserved for evaluation, and the test tube and tray types
+          are not used in training. For spatial relations, 8 ordered grid pairs of target and obstacle (G3–G8, G4–G9,
+          G5–G10, G6–G11, and their reverses) are withheld. For task combinations, 6 pairs of current and next operators
+          (Add → Stir, Stir → Transfer, HeatChill → Move, Transfer → HeatChill, CleanVessel → Add, Move → CleanVessel)
+          are withheld, while every operator still appears in training in both positions.
+        </p>
+      </div>
     </div>
 
     <!-- XDL Generation -->
@@ -503,38 +769,76 @@
       <div class="column is-full">
         <h3 class="title is-4">XDL Generation & Validation</h3>
         <p>
-          The XDL Generator achieves a 97% success rate on 100 test instructions,
-          with zero syntax or semantic errors. The XDL Validator records 100% classification
-          accuracy across all injected error categories with zero false positives and negatives.
+          Over 2,300 test commands in seven evaluation sets, only 34 generated protocols differ from their reference.
+          Argument names and units agree in every set, and exact match stays at 97.7–100.0% on the sets that differ from
+          the training distribution at one level and 93.3% on the set that differs at all five.
+          The XDL Validator rejects every one of the 625 protocols that violate one of its 25 conditions, rejects none of
+          the 300 that must pass or the 8,100 reference protocols, and blocks 30 of the 34 errors that the generator
+          actually produced.
         </p>
 
         <div class="table-container" style="margin-top: 1.5rem;">
           <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
             <thead>
               <tr>
-                <th>Metric</th>
-                <th>Result (%)</th>
+                <th style="vertical-align: middle;">Evaluation set</th>
+                <th style="vertical-align: middle;"><em>n</em></th>
+                <th style="vertical-align: middle;">Operators</th>
+                <th style="vertical-align: middle;">Argument names</th>
+                <th style="vertical-align: middle;">Object identities</th>
+                <th style="vertical-align: middle;">Numerical values</th>
+                <th style="vertical-align: middle;">Units</th>
+                <th style="vertical-align: middle;">Procedural ordering</th>
+                <th style="vertical-align: middle;">Exact match [95% CI]</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Total Trials</td>
-                <td>100</td>
-              </tr>
-              <tr>
-                <td>Valid</td>
-                <td>97</td>
-              </tr>
-              <tr>
-                <td>Invalid</td>
-                <td>3</td>
-              </tr>
-              <tr>
-                <td>Success Rate</td>
-                <td>97</td>
-              </tr>
+              <tr><td>Matched control</td><td>500</td><td>100.0</td><td>100.0</td><td>99.9</td><td>100.0</td><td>100.0</td><td>100.0</td><td>99.8 [98.9, 100.0]</td></tr>
+              <tr><td>Unseen object</td><td>300</td><td>100.0</td><td>100.0</td><td>100.0</td><td>100.0</td><td>100.0</td><td>100.0</td><td>100.0 [98.7, 100.0]</td></tr>
+              <tr><td>Unseen numerical value</td><td>300</td><td>100.0</td><td>100.0</td><td>100.0</td><td>100.0</td><td>100.0</td><td>100.0</td><td>100.0 [98.7, 100.0]</td></tr>
+              <tr><td>Unseen composition</td><td>300</td><td>99.7</td><td>100.0</td><td>100.0</td><td>100.0</td><td>100.0</td><td>99.7</td><td>99.7 [98.1, 99.9]</td></tr>
+              <tr><td>Unseen sentence form</td><td>300</td><td>98.3</td><td>100.0</td><td>100.0</td><td>100.0</td><td>100.0</td><td>98.3</td><td>98.3 [96.2, 99.3]</td></tr>
+              <tr><td>Unseen wording</td><td>300</td><td>98.3</td><td>100.0</td><td>99.8</td><td>100.0</td><td>100.0</td><td>99.7</td><td>97.7 [95.3, 98.9]</td></tr>
+              <tr><td>All five at once</td><td>300</td><td>95.3</td><td>100.0</td><td>99.9</td><td>99.3</td><td>100.0</td><td>97.7</td><td>93.3 [89.9, 95.6]</td></tr>
             </tbody>
           </table>
+          <p class="fig-caption table-caption">Field-level accuracy of the XDL Generator (%). The matched control follows the training distribution, the next five sets each differ from it at one separation level, and the last differs at all five.</p>
+        </div>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
+            <thead>
+              <tr>
+                <th style="vertical-align: middle;">Protocol set</th>
+                <th style="vertical-align: middle;"><em>n</em></th>
+                <th style="vertical-align: middle;">Rejected (%) [95% CI]</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Must be rejected, syntactic</td><td>250</td><td>100.0 [98.5, 100.0]</td></tr>
+              <tr><td>Must be rejected, object</td><td>150</td><td>100.0 [97.5, 100.0]</td></tr>
+              <tr><td>Must be rejected, feasibility</td><td>225</td><td>100.0 [98.3, 100.0]</td></tr>
+              <tr><td>Must pass, ordinary</td><td>200</td><td>0.0 [0.0, 1.9]</td></tr>
+              <tr><td>Must pass, near-miss</td><td>100</td><td>0.0 [0.0, 3.7]</td></tr>
+              <tr><td>Must pass, reference protocols</td><td>8,100</td><td>0.0 [0.0, 0.05]</td></tr>
+              <tr><td>Errors made by the generator</td><td>34</td><td>88.2 [73.4, 95.3]</td></tr>
+            </tbody>
+          </table>
+          <p class="fig-caption table-caption">Outcome of the XDL Validator on the 925 benchmark protocols, on the 8,100 reference protocols of the generator data, and on the errors the generator produced on its own.</p>
+        </div>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth settings-table">
+            <thead>
+              <tr><th>Check</th><th>Conditions verified</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Syntactic (10)</td><td>unparsable document, wrong root element, procedure with no steps, operator outside the vocabulary, violation of the case convention, missing required attribute, undeclared attribute, unparsable quantity literal, wrong unit, malformed boolean value</td></tr>
+              <tr><td>Object existence (6)</td><td>identifier absent from the object list, identifier absent from the current workspace, reagent absent from the reagent list, identifier used in the wrong argument role, quantity absent from the command, object absent from the command</td></tr>
+              <tr><td>Physical feasibility (9)</td><td>parameter outside the operating range, transfer whose source and destination coincide, operation on an empty vessel, transfer exceeding the volume remaining, vessel capacity exceeded, an enumerated reagent pair brought together in one vessel, reuse of an uncleaned vessel, device or placement already occupied, end-effector not held</td></tr>
+            </tbody>
+          </table>
+          <p class="fig-caption table-caption">The 25 conditions verified by the three validation checks.</p>
         </div>
       </div>
     </div>
@@ -544,10 +848,11 @@
       <div class="column is-full">
         <h3 class="title is-4">TAMP Planning Reliability</h3>
         <p>
-          cuTAMP achieves 100% planning success across all three tasks, compared to
-          60–83% for PDDLStream, with the most pronounced gap on Transfer where orientation constraints
-          are most restrictive. Unlike PDDLStream, cuTAMP maintains structurally bounded runtime with
-          low variance, a critical property for time-sensitive chemical workflows.
+          On the same 30 randomized configurations per task and a 60 s budget, cuTAMP returns a plan for every
+          configuration of the three tasks. The difference appears on Transfer, where the orientation constraint is most
+          restrictive: 100.0% against 73.3% for PDDLStream (<em>p</em> = 7.8×10<sup>−3</sup>, exact McNemar), and all of
+          the baseline's failures are timeouts. The solve times of cuTAMP gather by optimization round. On Transfer, 28 of
+          the 30 configurations were solved in the first round at 14.1–16.3 s and the other 2 after one restart.
         </p>
 
         <div class="table-container" style="margin-top: 1.5rem;">
@@ -556,53 +861,58 @@
               <tr>
                 <th style="vertical-align: middle;">Task</th>
                 <th style="vertical-align: middle;">Solver</th>
-                <th style="vertical-align: middle;">Success (%)</th>
-                <th style="vertical-align: middle;">Planning Time (s)</th>
+                <th style="vertical-align: middle;">Success (%) [95% CI]</th>
+                <th style="vertical-align: middle;">McNemar <em>p</em></th>
+                <th style="vertical-align: middle;">RMTS (s)</th>
+                <th style="vertical-align: middle;">Planning time (s) median [IQR]</th>
                 <th style="vertical-align: middle;">Timeout (%)</th>
+                <th style="vertical-align: middle;">Early termination (%)</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td rowspan="2">Transfer</td>
-                <td>PDDLStream</td>
-                <td>66.7</td>
-                <td>7.21 ± 10.26</td>
-                <td>10.0</td>
-              </tr>
-              <tr>
-                <td><strong>cuTAMP (Ours)</strong></td>
-                <td><strong>100.0</strong></td>
-                <td><strong>31.18 ± 1.44</strong></td>
-                <td><strong>0.0</strong></td>
-              </tr>
-              <tr>
-                <td rowspan="2">Move</td>
-                <td>PDDLStream</td>
-                <td>83.3</td>
-                <td>0.17 ± 0.12</td>
-                <td>0.0</td>
-              </tr>
-              <tr>
-                <td><strong>cuTAMP (Ours)</strong></td>
-                <td><strong>100.0</strong></td>
-                <td><strong>17.60 ± 3.55</strong></td>
-                <td><strong>0.0</strong></td>
-              </tr>
-              <tr>
-                <td rowspan="2">Stir</td>
-                <td>PDDLStream</td>
-                <td>60.0</td>
-                <td>0.79 ± 0.70</td>
-                <td>23.3</td>
-              </tr>
-              <tr>
-                <td><strong>cuTAMP (Ours)</strong></td>
-                <td><strong>100.0</strong></td>
-                <td><strong>28.83 ± 1.00</strong></td>
-                <td><strong>0.0</strong></td>
-              </tr>
+              <tr><td rowspan="2" style="vertical-align: middle;">Transfer</td><td>PDDLStream</td><td>73.3 [55.6, 85.8]</td><td rowspan="2" style="vertical-align: middle;">7.8×10<sup>−3</sup></td><td>21.3</td><td>0.97 [0.60, 3.34]</td><td>26.7</td><td>0.0</td></tr>
+              <tr><td><strong>cuTAMP (Ours)</strong></td><td><strong>100.0 [88.6, 100.0]</strong></td><td><strong>15.9</strong></td><td>14.65 [14.17, 14.90]</td><td><strong>0.0</strong></td><td>0.0</td></tr>
+              <tr><td rowspan="2" style="vertical-align: middle;">Move</td><td>PDDLStream</td><td>100.0 [88.6, 100.0]</td><td rowspan="2" style="vertical-align: middle;">1</td><td>0.1</td><td>0.08 [0.06, 0.10]</td><td>0.0</td><td>0.0</td></tr>
+              <tr><td><strong>cuTAMP (Ours)</strong></td><td>100.0 [88.6, 100.0]</td><td>8.9</td><td>8.89 [8.87, 8.92]</td><td>0.0</td><td>0.0</td></tr>
+              <tr><td rowspan="2" style="vertical-align: middle;">Stir</td><td>PDDLStream</td><td>100.0 [88.6, 100.0]</td><td rowspan="2" style="vertical-align: middle;">1</td><td>1.8</td><td>0.83 [0.51, 2.23]</td><td>0.0</td><td>0.0</td></tr>
+              <tr><td><strong>cuTAMP (Ours)</strong></td><td>100.0 [88.6, 100.0]</td><td>12.8</td><td>12.00 [11.84, 12.09]</td><td>0.0</td><td>0.0</td></tr>
             </tbody>
           </table>
+          <p class="fig-caption table-caption">Planning success and time to solution on the 6-DoF FR5 over the same 30 randomized initial configurations within a 60 s budget. Unsolved trials are right-censored at 60 s. The restricted mean time to solution (RMTS) assigns the budget to unsolved trials, and planning time is given over successful trials only.</p>
+        </div>
+
+        <div class="card-image" style="margin-top: 1.5rem;">
+          <img src="static/images/paper/figure7.png" alt="Kaplan-Meier curves of the two planners" style="max-width: 760px; display: block; margin: 0 auto;">
+          <p class="fig-caption" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: #4a4a4a;">
+            Cumulative solved fraction of the two planners against wall-clock time (Kaplan–Meier curves). A trial that
+            returns no plan within the 60 s budget stays in the denominator, so the final height of each curve gives the
+            final success rate of that planner.
+          </p>
+        </div>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth settings-table">
+            <thead>
+              <tr><th>Item</th><th>Setting</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="2"><em>Proposed planning module</em></td></tr>
+              <tr><td>Implementation</td><td>cuTAMP 0.0.1, cuRobo 0.7.7</td></tr>
+              <tr><td>Compute</td><td>GPU</td></tr>
+              <tr><td>Collision checking</td><td>50 spheres of radius 5 mm per object, zero margin</td></tr>
+              <tr><td>Search</td><td>One plan skeleton, 1,024 particles, 1,000 optimization steps per round</td></tr>
+              <tr><td>Optimizer</td><td>Adam, learning rate 7×10<sup>−3</sup> (2.226×10<sup>−2</sup> for the arm configuration)</td></tr>
+              <tr><td>Cost weights</td><td>Kinematic position 1, rotation 5, goal support 2, trajectory length 10<sup>−3</sup>, all other terms 1</td></tr>
+              <tr><td>Acceptance</td><td>Collision costs below 0.001, placement containment within 0.001 and support within 0.01, joint limits and self-collision met exactly, kinematic error within 0.005 m and 0.05 rad</td></tr>
+              <tr><td colspan="2"><em>Baseline (PDDLStream)</em></td></tr>
+              <tr><td>Implementation</td><td>Public implementation (October 2023), FastDownward</td></tr>
+              <tr><td>Compute</td><td>CPU, single thread</td></tr>
+              <tr><td>Collision checking</td><td>Object box shapes, zero margin</td></tr>
+              <tr><td>Search</td><td>Adaptive algorithm, unit costs, at most 10,000 iterations</td></tr>
+              <tr><td>Streams</td><td>Grasp, placement pose (200 attempts), inverse kinematics (10 attempts), motion planning</td></tr>
+            </tbody>
+          </table>
+          <p class="fig-caption table-caption">Settings of the two planners. Both share the same initial configurations, object sizes, symbolic domain, goal conditions, upright bound θ<sub>max</sub> = 5°, and 60 s time budget, and an attempt that ends without a plan is restarted while budget remains.</p>
         </div>
       </div>
     </div>
@@ -612,11 +922,74 @@
       <div class="column is-full">
         <h3 class="title is-4">LLM-Based Tool Selection & Context-Aware Rearrangement</h3>
         <p>
-          The Action Reasoner achieves 100% accuracy on tool selection, rearrangement
-          necessity, and auxiliary tool inference. Context-aware rearrangement reaches
-          96.67% sequence completion on Transfer → Stir, versus 50.0% for random
-          and 0% for no rearrangement, confirming that procedural context is decisive for multi-step execution.
+          The Action Reasoner assigns the correct end-effector in all 1,600 unseen scenarios, including object types
+          absent from the fine-tuning data, and decides rearrangement necessity correctly under every condition. Over
+          the 400 situations in which the next procedure requires a particular station, context-aware rearrangement
+          reduces the mean number of manipulations by 37.5% against random rearrangement. On Transfer → Stir it reaches
+          96.67% sequence completion against 50.0% for random rearrangement and 0% without rearrangement.
         </p>
+
+        <div class="card-image" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="paper-figure-row">
+            <img src="static/images/paper/figure13a.jpg" alt="Beaker" style="flex: 513;">
+            <img src="static/images/paper/figure13b.jpg" alt="Flask" style="flex: 513;">
+          </div>
+          <img src="static/images/paper/figure13c.jpg" alt="Large flat-surface object" style="display: block; max-width: 61%; margin: 6px auto 0;">
+          <p class="fig-caption" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: #4a4a4a;">
+            Motivation for multi-gripper tool selection: beaker (top left), flask (top right), and large flat-surface object
+            (bottom). The 2-finger gripper provides insufficient contact area on the rim of cylindrical vessels, whereas the
+            3-finger gripper achieves stable top-down grasping. For large flat-surface objects exceeding the graspable
+            width of finger grippers, the suction gripper is required.
+          </p>
+        </div>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
+            <thead>
+              <tr>
+                <th style="vertical-align: middle;">Task</th>
+                <th style="vertical-align: middle;">Selected tool</th>
+                <th style="vertical-align: middle;">Target object</th>
+                <th style="vertical-align: middle;"><em>n</em></th>
+                <th style="vertical-align: middle;">Accuracy (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Add</td><td>3-finger gripper</td><td>Beaker, Flask, Tube*</td><td>289</td><td>100.0</td></tr>
+              <tr><td>CleanVessel</td><td>3-finger gripper</td><td>Beaker, Flask, Tube*</td><td>306</td><td>100.0</td></tr>
+              <tr><td>HeatChill</td><td>3-finger gripper</td><td>Beaker, Flask, Tube*</td><td>277</td><td>100.0</td></tr>
+              <tr><td>Stir</td><td>3-finger gripper</td><td>Beaker, Flask, Tube*</td><td>239</td><td>100.0</td></tr>
+              <tr><td rowspan="2" style="vertical-align: middle;">Move</td><td>3-finger gripper</td><td>Beaker, Flask, Tube*</td><td>159</td><td>100.0</td></tr>
+              <tr><td>Suction gripper</td><td>Bottle, Box, Tray*</td><td>165</td><td>100.0</td></tr>
+              <tr><td>Transfer</td><td>2-finger gripper</td><td>Beaker, Flask, Tube*</td><td>165</td><td>100.0</td></tr>
+              <tr style="background-color: #f5f5f5;"><td><strong>All tasks</strong></td><td></td><td></td><td><strong>1,600</strong></td><td><strong>100.0</strong></td></tr>
+            </tbody>
+          </table>
+          <p class="fig-caption table-caption">Tool assignment accuracy by task and target object type. Object types marked with an asterisk are absent from the fine-tuning data.</p>
+        </div>
+
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
+            <thead>
+              <tr>
+                <th style="vertical-align: middle;">Evaluation set</th>
+                <th style="vertical-align: middle;"><em>n</em></th>
+                <th style="vertical-align: middle;">Rearrange needed</th>
+                <th style="vertical-align: middle;">Auxiliary tool</th>
+                <th style="vertical-align: middle;"><em>n</em><sub>d</sub></th>
+                <th style="vertical-align: middle;">Target grid [95% CI]</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Matched control</td><td>400</td><td>100.0</td><td>100.0</td><td>151</td><td>88.7 [82.7, 92.8]</td></tr>
+              <tr><td>Unseen instance name</td><td>300</td><td>100.0</td><td>100.0</td><td>164</td><td>95.1 [90.7, 97.5]</td></tr>
+              <tr><td>Unseen object type</td><td>300</td><td>100.0</td><td>93.0</td><td>180</td><td>92.8 [88.0, 95.7]</td></tr>
+              <tr><td>Unseen spatial relation</td><td>300</td><td>100.0</td><td>100.0</td><td>106</td><td>84.9 [76.9, 90.5]</td></tr>
+              <tr><td>Unseen task combination</td><td>300</td><td>100.0</td><td>100.0</td><td>143</td><td>94.4 [89.3, 97.1]</td></tr>
+            </tbody>
+          </table>
+          <p class="fig-caption table-caption">Rearrangement decision accuracy of the Action Reasoner per evaluation set (%). Each set differs from the training distribution along one axis. The target grid is scored on the <em>n</em><sub>d</sub> scenarios that require a rearrangement.</p>
+        </div>
 
         <div class="table-container" style="margin-top: 1.5rem;">
           <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
@@ -630,44 +1003,29 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td rowspan="2">Transfer → Stir</td>
-                <td>Step 1 Success</td>
-                <td>0%</td>
-                <td>60.0%</td>
-                <td><strong>96.67%</strong></td>
-              </tr>
-              <tr>
-                <td>Sequence Completion</td>
-                <td>0%</td>
-                <td>50.0%</td>
-                <td><strong>96.67%</strong></td>
-              </tr>
-              <tr>
-                <td rowspan="2">Stir → Transfer</td>
-                <td>Step 1 Success</td>
-                <td>100.0%</td>
-                <td>100.0%</td>
-                <td><strong>100.0%</strong></td>
-              </tr>
-              <tr>
-                <td>Sequence Completion</td>
-                <td>13.33%</td>
-                <td>40.0%</td>
-                <td><strong>83.33%</strong></td>
-              </tr>
+              <tr><td rowspan="2" style="vertical-align: middle;">Transfer → Stir</td><td>Step 1 success</td><td>0.0</td><td>60.0</td><td><strong>96.67</strong></td></tr>
+              <tr><td>Sequence completion</td><td>0.0</td><td>50.0</td><td><strong>96.67</strong></td></tr>
+              <tr><td rowspan="2" style="vertical-align: middle;">Stir → Transfer</td><td>Step 1 success</td><td>100.0</td><td>100.0</td><td><strong>100.0</strong></td></tr>
+              <tr><td>Sequence completion</td><td>13.33</td><td>40.0</td><td><strong>83.33</strong></td></tr>
             </tbody>
           </table>
+          <p class="fig-caption table-caption">TAMP success and sequence completion rates (%) by rearrangement strategy, over 30 randomized trials per sequence and condition.</p>
+        </div>
+
+        <div class="card-image" style="margin-top: 1.5rem;">
+          <img src="static/images/paper/figure8.png" alt="Execution flow of the TAMP pipeline for a Transfer procedure">
+          <p class="fig-caption" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: #4a4a4a;">
+            Execution flow of the TAMP pipeline for a Transfer procedure. When rearrangement is required, an auxiliary
+            rearrangement sequence (upper path) is inserted before the main experimental procedure (lower path), which
+            includes sensor-feedback-based skills such as adaptive pouring.
+          </p>
         </div>
 
         <!-- Randomized Trial Videos -->
         <div style="margin-top: 2.5rem;">
-          <!-- Row 1 Label -->
           <p style="font-weight: 600; color: #555; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">
             Transfer
           </p>
-
-          <!-- Row 1: 5 videos -->
           <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 8px;">
             <video autoplay muted loop playsinline style="width:100%; border-radius:6px; aspect-ratio:16/9; object-fit:cover;">
               <source src="static/videos/random/transfer/1.mp4" type="video/mp4">
@@ -685,13 +1043,9 @@
               <source src="static/videos/random/transfer/5.mp4" type="video/mp4">
             </video>
           </div>
-
-          <!-- Row 2 Label -->
           <p style="font-weight: 600; color: #555; margin-bottom: 0.5rem; margin-top: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">
             Stir
           </p>
-
-          <!-- Row 2: 5 videos -->
           <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
             <video autoplay muted loop playsinline style="width:100%; border-radius:6px; aspect-ratio:16/9; object-fit:cover;">
               <source src="static/videos/random/stir/1.mp4" type="video/mp4">
@@ -710,7 +1064,7 @@
             </video>
           </div>
         </div>
-        
+
       </div>
     </div>
 
@@ -718,371 +1072,296 @@
     <div class="columns is-centered" style="margin-top: 3rem;">
       <div class="column is-full">
         <h3 class="title is-4">End-to-End System Evaluation</h3>
-
         <p>
-          Evaluated over 30 trials per workflow from a single natural language command, the integrated
-          system achieves an overall end-to-end success rate of 97.78%, with XDL
-          generation succeeding in 100% of all trials.
+          Each long-horizon workflow starts from a single natural-language command and is evaluated from the same 30
+          initial configurations in the ground-truth state and in the perception state. The End-to-End success rate is
+          97.8% (88/90) in the ground-truth state and 98.9% (89/90) in the perception state, and the difference is not
+          significant in any workflow (McNemar <em>p</em> = 1.0). Every trial that passed perception succeeded in
+          planning and execution, and no trial failed from pose estimation error.
         </p>
 
         <div class="table-container" style="margin-top: 1.5rem;">
           <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
             <thead>
               <tr>
-                <th>Workflow</th>
-                <th>XDL Gen. (%)</th>
-                <th>Planning (%)</th>
-                <th>Execution (%)</th>
-                <th>End-to-End (%)</th>
+                <th style="vertical-align: middle;">Workflow</th>
+                <th style="vertical-align: middle;">State</th>
+                <th style="vertical-align: middle;">XDL Generation</th>
+                <th style="vertical-align: middle;">Perception</th>
+                <th style="vertical-align: middle;">Planning</th>
+                <th style="vertical-align: middle;">Execution</th>
+                <th style="vertical-align: middle;">End-to-End (%) [95% CI]</th>
+                <th style="vertical-align: middle;">McNemar <em>p</em></th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Move → Transfer</td>
-                <td>100.0</td>
-                <td>100.0</td>
-                <td>100.0</td>
-                <td><strong>100.0</strong></td>
-              </tr>
-              <tr>
-                <td>Transfer → Stir → Move</td>
-                <td>100.0</td>
-                <td>96.67</td>
-                <td>96.67</td>
-                <td><strong>96.67</strong></td>
-              </tr>
-              <tr>
-                <td>Move → Transfer → Stir</td>
-                <td>100.0</td>
-                <td>96.67</td>
-                <td>96.67</td>
-                <td><strong>96.67</strong></td>
-              </tr>
-              <tr style="background-color: #f5f5f5;">
-                <td><strong>Overall Average</strong></td>
-                <td><strong>100.0</strong></td>
-                <td><strong>97.78</strong></td>
-                <td><strong>97.78</strong></td>
-                <td><strong>97.78</strong></td>
-              </tr>
+              <tr><td rowspan="2" style="vertical-align: middle;">Move → Transfer</td><td>Ground truth</td><td>30/30</td><td>–</td><td>30/30</td><td>29/30</td><td>96.7 [83.3, 99.4]</td><td rowspan="2" style="vertical-align: middle;">1.0</td></tr>
+              <tr><td>Perception</td><td>30/30</td><td>30/30</td><td>30/30</td><td>30/30</td><td>100 [88.6, 100]</td></tr>
+              <tr><td rowspan="2" style="vertical-align: middle;">Transfer → Stir → Move</td><td>Ground truth</td><td>30/30</td><td>–</td><td>30/30</td><td>29/30</td><td>96.7 [83.3, 99.4]</td><td rowspan="2" style="vertical-align: middle;">1.0</td></tr>
+              <tr><td>Perception</td><td>30/30</td><td>30/30</td><td>30/30</td><td>30/30</td><td>100 [88.6, 100]</td></tr>
+              <tr><td rowspan="2" style="vertical-align: middle;">Move → Transfer → Stir</td><td>Ground truth</td><td>30/30</td><td>–</td><td>30/30</td><td>30/30</td><td>100 [88.6, 100]</td><td rowspan="2" style="vertical-align: middle;">1.0</td></tr>
+              <tr><td>Perception</td><td>30/30</td><td>29/30</td><td>29/29</td><td>29/29</td><td>96.7 [83.3, 99.4]</td></tr>
+              <tr style="background-color: #f5f5f5;"><td rowspan="2" style="vertical-align: middle;"><strong>Total</strong></td><td>Ground truth</td><td>90/90</td><td>–</td><td>90/90</td><td>88/90</td><td><strong>97.8</strong></td><td></td></tr>
+              <tr style="background-color: #f5f5f5;"><td>Perception</td><td>90/90</td><td>89/90</td><td>89/89</td><td>89/89</td><td><strong>98.9</strong></td><td></td></tr>
             </tbody>
           </table>
+          <p class="fig-caption table-caption">Number of successful trials at each stage and End-to-End success rate for the long-horizon chemical workflows. A trial counts as failed at the first stage it fails, and the success of each stage is taken over the trials that reached it.</p>
         </div>
 
-        <video controls muted loop autoplay style="width: 100%; border-radius: 8px; margin-bottom: 1.5rem;">
+        <div class="table-container" style="margin-top: 1.5rem;">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
+            <thead>
+              <tr>
+                <th style="vertical-align: middle;">Object</th>
+                <th style="vertical-align: middle;">Horizontal position (mm)</th>
+                <th style="vertical-align: middle;">Height (mm)</th>
+                <th style="vertical-align: middle;">Rotation (°)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Beaker</td><td>3.06 / 6.74</td><td>2.38 / 6.69</td><td>0.09 / 0.22</td></tr>
+              <tr><td>Flask</td><td>2.94 / 5.78</td><td>4.09 / 6.65</td><td>0.09 / 0.24</td></tr>
+            </tbody>
+          </table>
+          <p class="fig-caption table-caption">Localization error of the object positions estimated in the perception state just before the planning of each procedure, over all measurements of the 237 procedures (mean / 95th percentile).</p>
+        </div>
+
+        <div class="card-image" style="margin-top: 1.5rem;">
+          <img src="static/images/paper/figure9a.jpg" alt="Move keyframes">
+          <img src="static/images/paper/figure9b.jpg" alt="Transfer keyframes" style="margin-top: 4px;">
+          <img src="static/images/paper/figure9c.jpg" alt="Stir keyframes" style="margin-top: 4px;">
+          <p class="fig-caption" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: #4a4a4a;">
+            Sequential execution snapshots of the Move → Transfer → Stir workflow. Each row shows five representative
+            keyframes from a single trial. Top: Move, the robot relocates a capped bottle to the target zone. Middle:
+            Transfer, liquid reagent is poured into the destination vessel. Bottom: Stir, the mixture is stirred on the
+            hotplate to complete the reaction sequence.
+          </p>
+        </div>
+
+        <video controls muted loop autoplay playsinline style="width: 100%; border-radius: 8px; margin-top: 1.5rem;">
           <source src="static/videos/end_to_end_x2.mp4" type="video/mp4">
         </video>
       </div>
     </div>
 
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column"><h2 class="title is-3">Appendix</h2></div>
-    </div>
-
-    <!-- LLM Hyperparameters -->
+    <!-- Physical FR5 -->
     <div class="columns is-centered" style="margin-top: 3rem;">
       <div class="column is-full">
-        <h3 class="title is-4">Hyperparameters of LLM Module</h3>
+        <h3 class="title is-4">Validation on the Physical FR5</h3>
         <p>
-          Both LLM components are fine-tuned from a 4-bit quantized Llama 3.2 1B base model
-          via LoRA-based supervised fine-tuning. Configurations differ between the two components
-          based on their respective task structures.
+          The execution layer and the Perception Module are validated on the physical FR5 with the 2-finger gripper,
+          the two fixed cameras and the wrist camera, and an electronic scale (0.01 g, 5 Hz) under the receiving beaker.
+          Three reagents represent a low-viscosity liquid, a high-viscosity liquid, and a granular reagent: water, an
+          oligosaccharide syrup of about 3,000 cP at 26 °C, and powdered sugar.
+        </p>
+
+        <h4 class="title is-5" style="margin-top: 2rem;">Pouring Accuracy</h4>
+        <p>
+          The source beaker held in the gripper is tilted from a fixed start pose, and each reagent is poured 10 times at
+          10, 30, and 50 g. Water and the syrup reached within ±1.0 g of the target in all 60 pours, with a mean absolute
+          error of 0.19–0.34 g. The syrup is about 3,000 times more viscous than water yet reached the same accuracy,
+          because the pouring skill estimates the flow rate directly from the scale readings. A syrup pour took 52–86 s against 40–66 s for water.
+          Powdered sugar reached within ±1.0 g in 23 of 30 pours and was biased toward overshoot, because powder slides
+          down in clumps rather than flowing continuously.
         </p>
 
         <div class="table-container" style="margin-top: 1.5rem;">
           <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
             <thead>
               <tr>
-                <th style="vertical-align: middle;">Parameter</th>
-                <th style="vertical-align: middle;">XDL Generator</th>
-                <th style="vertical-align: middle;">Action Reasoner</th>
+                <th style="vertical-align: middle;">Reagent</th>
+                <th style="vertical-align: middle;">Target (g)</th>
+                <th style="vertical-align: middle;">Within ±1.0 g (%)</th>
+                <th style="vertical-align: middle;">Within ±0.5 g (%)</th>
+                <th style="vertical-align: middle;">Error (g) mean ± SD</th>
+                <th style="vertical-align: middle;">Mean absolute error (g)</th>
+                <th style="vertical-align: middle;">Duration (s)</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td style="vertical-align: middle;">Base Model</td>
-                <td style="vertical-align: middle;" colspan="2">Llama 3.2 1B (4-bit quantized)</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">Fine-tuning Method</td>
-                <td style="vertical-align: middle;" colspan="2">LoRA-based SFT</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">LoRA Rank (r)</td>
-                <td style="vertical-align: middle;">16</td>
-                <td style="vertical-align: middle;">8</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">LoRA Alpha (α)</td>
-                <td style="vertical-align: middle;">32</td>
-                <td style="vertical-align: middle;">16</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">Dropout</td>
-                <td style="vertical-align: middle;">0.05</td>
-                <td style="vertical-align: middle;">0.05</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">Optimizer</td>
-                <td style="vertical-align: middle;" colspan="2">AdamW (8-bit)</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">Learning Rate</td>
-                <td style="vertical-align: middle;">2 × 10⁻⁴</td>
-                <td style="vertical-align: middle;">1 × 10⁻⁴</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">Batch Size</td>
-                <td style="vertical-align: middle;" colspan="2">16</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">Epochs</td>
-                <td style="vertical-align: middle;">5</td>
-                <td style="vertical-align: middle;">3</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">Training Dataset Size</td>
-                <td style="vertical-align: middle;">5,000</td>
-                <td style="vertical-align: middle;">3,000</td>
-              </tr>
+              <tr><td rowspan="3" style="vertical-align: middle;">Water</td><td>10</td><td>100 [72, 100]</td><td>80 [49, 94]</td><td>−0.02 ± 0.37</td><td>0.26</td><td>40–66</td></tr>
+              <tr><td>30</td><td>100 [72, 100]</td><td>90 [60, 98]</td><td>+0.16 ± 0.23</td><td>0.23</td><td>42–51</td></tr>
+              <tr><td>50</td><td>100 [72, 100]</td><td>80 [49, 94]</td><td>+0.22 ± 0.30</td><td>0.32</td><td>46–51</td></tr>
+              <tr><td rowspan="3" style="vertical-align: middle;">Oligosaccharide syrup</td><td>10</td><td>100 [72, 100]</td><td>70 [40, 89]</td><td>+0.18 ± 0.38</td><td>0.34</td><td>52–86</td></tr>
+              <tr><td>30</td><td>100 [72, 100]</td><td>90 [60, 98]</td><td>+0.12 ± 0.24</td><td>0.19</td><td>56–74</td></tr>
+              <tr><td>50</td><td>100 [72, 100]</td><td>100 [72, 100]</td><td>+0.14 ± 0.20</td><td>0.21</td><td>69–75</td></tr>
+              <tr><td rowspan="3" style="vertical-align: middle;">Powdered sugar</td><td>10</td><td>80 [49, 94]</td><td>60 [31, 83]</td><td>+0.37 ± 0.96</td><td>0.64</td><td>42–79</td></tr>
+              <tr><td>30</td><td>90 [60, 98]</td><td>70 [40, 89]</td><td>+0.27 ± 0.52</td><td>0.36</td><td>52–89</td></tr>
+              <tr><td>50</td><td>60 [31, 83]</td><td>40 [17, 69]</td><td>+0.65 ± 0.62</td><td>0.73</td><td>45–82</td></tr>
             </tbody>
           </table>
+          <p class="fig-caption table-caption">Pouring accuracy on the physical FR5, 10 pours per reagent and target mass. The error is the difference between the scale reading 3 s after the pour ends and the target mass. Brackets give Wilson 95% confidence intervals.</p>
         </div>
-      </div>
-    </div>
 
-    <!-- Dataset Details -->
-    <div class="columns is-centered" style="margin-top: 3rem;">
-      <div class="column is-full">
-        <h3 class="title is-4">Training Dataset Details</h3>
-        <p>
-          The XDL Generator dataset covers 5,000 samples across four combinatorial axes:
-          synonym variations for six core XDL operators (Add, Stir, HeatChill, Transfer, CleanVessel, Move),
-          continuous numerical parameter ranges (0–20 mL, 0–20°C, 1–30 s),
-          16 unique object identifiers, and command complexity distributed as
-          30% single-step, 40% two-step, and 30% three-step procedures.
-          The Action Reasoner dataset consists of 3,000 samples generated by placing
-          up to four objects on 12 workspace grids, balanced across
-          rearrangement-required and rearrangement-unnecessary cases to prevent over-prediction.
-        </p>
-      </div>
-    </div>
-
-    <!-- TAMP Configuration -->
-    <div class="columns is-centered" style="margin-top: 3rem;">
-      <div class="column is-full">
-        <h3 class="title is-4">TAMP Module Configuration</h3>
-
-        <div class="table-container" style="margin-top: 1.5rem;">
-          <table class="table is-bordered is-striped is-hoverable is-fullwidth has-text-centered">
-            <thead>
-              <tr>
-                <th style="vertical-align: middle;">Parameter</th>
-                <th style="vertical-align: middle;">Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="vertical-align: middle;">Parallel Particles</td>
-                <td style="vertical-align: middle;">1,024</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">Optimization Steps</td>
-                <td style="vertical-align: middle;">1,000</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">Planning Timeout</td>
-                <td style="vertical-align: middle;">60 s</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">Max Retries</td>
-                <td style="vertical-align: middle;">3</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">Max Allowable Tilt (θ<sub>max</sub>)</td>
-                <td style="vertical-align: middle;">5°</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: middle;">Workspace Grids</td>
-                <td style="vertical-align: middle;">12 (G1–G12)</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- Datasets -->
-    <div class="columns is-centered" style="margin-top: 3rem;">
-      <div class="column is-full">
-        <!-- LLM Prompts -->
-        <div class="columns is-centered" style="margin-top: 3rem;">
-          <div class="column is-full">
-            <h3 class="title is-4">LLM Module Prompts & In-Context Examples</h3>
-            <p style="margin-bottom: 1.5rem;">
-              Both fine-tuned components share a structured prompt format. The system prompt
-              defines the task constraints, and in-context examples condition the model's output
-              format before the actual user query is provided.
-            </p>
-
-            <!-- Tab UI -->
-            <div class="llm-tabs">
-              <div style="display: flex; gap: 0; border-bottom: 2px solid #dbdbdb; margin-bottom: 0;">
-                <button class="llm-tab-btn active" onclick="switchLLMTab(event, 'tab-action')"
-                  style="padding: 0.6rem 1.4rem; border: none; border-bottom: 3px solid #2563eb; background: none; font-weight: 600; color: #2563eb; cursor: pointer; font-size: 0.9rem; margin-bottom: -2px;">
-                  Action Reasoner
-                </button>
-                <button class="llm-tab-btn" onclick="switchLLMTab(event, 'tab-xdl')"
-                  style="padding: 0.6rem 1.4rem; border: none; border-bottom: 3px solid transparent; background: none; font-weight: 600; color: #888; cursor: pointer; font-size: 0.9rem; margin-bottom: -2px;">
-                  XDL Generator
-                </button>
-              </div>
-
-              <!-- Action Reasoner Tab -->
-              <div id="tab-action" class="llm-tab-content" style="display: block; margin-top: 1.5rem;">
-                <p style="margin-bottom: 1rem; font-size: 0.92rem; color: #4a4a4a;">
-                  Receives the current/next XDL step, obstacle status, and candidate grids,
-                  then outputs four tokens: <code>main_tool</code>, <code>need_rearrange</code>,
-                  <code>aux_tool</code>, and <code>target_grid</code>.
-                  Fine-tuned from Llama 3.2 1B with three in-context example types.
-                </p>
-
-                <!-- System Prompt -->
-                <div class="prompt-block" style="margin-bottom: 1.2rem;">
-                  <div class="prompt-role system-role">SYSTEM</div>
-                  <pre class="prompt-pre"><code>You are a tool and rearrangement planner for laboratory automation.
-Tool Rules:
-  • dh3  (3-finger)  : Move, Stir for cylindrical vessels
-  • ag95 (2-finger)  : All Transfer operations
-  • vgc10 (suction)  : Objects exceeding gripper span
-
-Given the current and next XDL steps, the obstacle status, and candidate
-grids, output exactly four tokens separated by commas:
-
-  main_tool, need_rearrange, aux_tool, target_grid
-
-Allowed values:
-  • main_tool      : dh3 | ag95 | vgc10
-  • aux_tool       : dh3 | ag95 | vgc10 | None
-  • need_rearrange : True | False
-  • target_grid    : grid ID (e.g., G5) | None</code></pre>
-                </div>
-
-                <!-- Example 1 -->
-                <p style="font-weight: 600; font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
-                  Example 1 — No Rearrangement
-                </p>
-                <div class="prompt-block" style="margin-bottom: 0.5rem;">
-                  <div class="prompt-role user-role">USER</div>
-                  <pre class="prompt-pre"><code>Current XDL : &lt;Add vessel="beaker_C" reagent="water" volume="11 mL" /&gt;
-Next XDL    : &lt;Transfer from_vessel="beaker_A" to_vessel="beaker_B" volume="11 mL" /&gt;
-Obstacle    : beaker at G5
-Candidate Grids:
-  • plate zone     : [G1]
-  • workspace edge : [G7, G8, G12]
-  • open area      : [G2, G4, G6, G10]</code></pre>
-                </div>
-                <div class="prompt-block" style="margin-bottom: 1.2rem;">
-                  <div class="prompt-role assistant-role">ASSISTANT</div>
-                  <pre class="prompt-pre"><code>dh3, False, None, None</code></pre>
-                </div>
-
-                <!-- Example 2 -->
-                <p style="font-weight: 600; font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
-                  Example 2 — Rearrangement (Context-Aware): obstacle is the target of the next step → moved to task-relevant zone
-                </p>
-                <div class="prompt-block" style="margin-bottom: 0.5rem;">
-                  <div class="prompt-role user-role">USER</div>
-                  <pre class="prompt-pre"><code>Current XDL : &lt;CleanVessel vessel="flask_B" /&gt;
-Next XDL    : &lt;Stir vessel="flask_A" time="16 s" /&gt;
-Obstacle    : flask_A at G4 (blocking)
-Candidate Grids:
-  • stirrer zone   : [G2]
-  • plate zone     : [G1]
-  • workspace edge : [G7, G8, G12]
-  • open area      : [G3, G4, G5, G6, G10, G11]</code></pre>
-                </div>
-                <div class="prompt-block" style="margin-bottom: 1.2rem;">
-                  <div class="prompt-role assistant-role">ASSISTANT</div>
-                  <pre class="prompt-pre"><code>dh3, True, dh3, G2</code></pre>
-                </div>
-
-                <!-- Example 3 -->
-                <p style="font-weight: 600; font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
-                  Example 3 — Rearrangement (Irrelevant): obstacle is unrelated to the next step → moved to workspace edge
-                </p>
-                <div class="prompt-block" style="margin-bottom: 0.5rem;">
-                  <div class="prompt-role user-role">USER</div>
-                  <pre class="prompt-pre"><code>Current XDL : &lt;CleanVessel vessel="beaker_A" /&gt;
-Next XDL    : &lt;Move object="box_A" place="plate_A" /&gt;
-Obstacle    : bottle_A at G11 (blocking)
-Candidate Grids:
-  • plate zone     : [G1]
-  • workspace edge : [G12]
-  • open area      : [G2, G3, G4, G5, G6, G9, G10, G11]</code></pre>
-                </div>
-                <div class="prompt-block">
-                  <div class="prompt-role assistant-role">ASSISTANT</div>
-                  <pre class="prompt-pre"><code>dh3, True, vgc10, G12</code></pre>
-                </div>
-              </div>
-
-              <!-- XDL Generator Tab -->
-              <div id="tab-xdl" class="llm-tab-content" style="display: none; margin-top: 1.5rem;">
-                <p style="margin-bottom: 1rem; font-size: 0.92rem; color: #4a4a4a;">
-                  Converts a natural language laboratory instruction into a structured XDL protocol
-                  enclosed in <code>&lt;procedure&gt;</code> tags. Trained on synonym variations across
-                  six core operators so diverse phrasings (e.g., "agitate" → <code>&lt;Stir&gt;</code>)
-                  are handled correctly. Fine-tuned from Llama 3.2 1B.
-                </p>
-
-                <!-- System Prompt -->
-                <div class="prompt-block" style="margin-bottom: 1.2rem;">
-                  <div class="prompt-role system-role">SYSTEM</div>
-                  <pre class="prompt-pre"><code>You are a laboratory automation system. Convert the following instruction
-into a procedure description. Output ONLY valid XML inside &lt;procedure&gt; tags.
-
-Strict Rules:
-  • Tags are CASE-SENSITIVE: MUST use &lt;Add&gt;, &lt;Stir&gt;, &lt;HeatChill&gt;,
-    &lt;Transfer&gt;, &lt;CleanVessel&gt;, &lt;Move&gt;.
-  • DO NOT use lowercase tags like &lt;add&gt; or &lt;clean_vessel&gt;.
-  • &lt;Transfer&gt; MUST use attributes: from_vessel, to_vessel, volume.</code></pre>
-                </div>
-
-                <!-- Example -->
-                <p style="font-weight: 600; font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
-                  Example — Multi-Step Protocol
-                </p>
-                <div class="prompt-block" style="margin-bottom: 0.5rem;">
-                  <div class="prompt-role user-role">USER</div>
-                  <pre class="prompt-pre"><code>Pour 50 mL of water into flask_B. Stir the solution in flask_B for 2 min.
-Pour 25 mL from flask_B into beaker_A. Rinse and clean beaker_A.</code></pre>
-                </div>
-                <div class="prompt-block">
-                  <div class="prompt-role assistant-role">ASSISTANT</div>
-                  <pre class="prompt-pre"><code>&lt;procedure&gt;
-  &lt;Add vessel="flask_B" reagent="water" volume="50 mL" /&gt;
-  &lt;Stir vessel="flask_B" time="2 min" /&gt;
-  &lt;Transfer from_vessel="flask_B" to_vessel="beaker_A" volume="25 mL" /&gt;
-  &lt;CleanVessel vessel="beaker_A" /&gt;
-&lt;/procedure&gt;
-                  </code></pre>
-                </div>
-              </div>
-            </div>
+        <div class="pour-grid-block">
+          <div class="pour-grid" id="pour-grid">
+            <div></div><div class="pour-head">10 g</div><div class="pour-head">30 g</div><div class="pour-head">50 g</div>
           </div>
+          <div class="pour-trials" id="pour-trials"><span>Trial</span></div>
+          <p class="fig-caption" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: #4a4a4a;">
+            All 90 pours, nine at a time. Each trial shows the same-numbered pour of every reagent and target mass, and
+            the nine pours start together at the pouring goal (4× speed). At 10 g and 30 g the pours of a run go into the
+            same beaker, so from the second pour on the scale starts from the amount already poured.
+          </p>
+        </div>
+
+        <h4 class="title is-5" style="margin-top: 2.5rem;">Physical Execution of the Transfer Procedure</h4>
+        <p>
+          In each run the planning module plans the trajectory from the positions of the two beakers measured by the
+          Perception Module, and the robot picks up the source beaker, carries it upright, pours the target mass with the
+          pouring skill, and returns the beaker to its place. One run was made for each of the nine combinations of the
+          three reagents and 10, 30, and 50 g, with the source beaker moved between runs by up to 65 mm, and all nine runs
+          completed the procedure. The trajectories excluding the pour were executed as planned without any position
+          correction, and in every run the pouring skill took over the transfer from the planned start pose.
+        </p>
+
+        <div class="card-image" style="margin-top: 1.5rem;">
+          <img src="static/images/paper/figure10.jpg" alt="Keyframes of the physical Transfer procedure">
+          <p class="fig-caption" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: #4a4a4a;">
+            Keyframes of the Transfer procedure on the physical FR5. The robot picks up the source beaker, carries it
+            upright, pours into the beaker on the scale, and returns it to its place.
+          </p>
+        </div>
+
+        <div class="transfer-tabs" id="transfer-tabs" style="margin-top: 1.5rem;">
+          <button data-run="water" aria-pressed="true">Water 30 g</button>
+          <button data-run="syrup" aria-pressed="false">Syrup 30 g</button>
+          <button data-run="sugar" aria-pressed="false">Powdered sugar 30 g</button>
+        </div>
+        <video id="transfer-video" controls muted autoplay loop playsinline preload="metadata"
+               poster="static/videos/real/transfer_water_30g.jpg"
+               style="width: 100%; border-radius: 8px; margin-top: 0.75rem; background: #1e1e21;">
+          <source src="static/videos/real/transfer_water_30g.mp4" type="video/mp4">
+        </video>
+        <p class="fig-caption" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: #4a4a4a;">
+          The 30 g runs, from perception to placing the beaker back. Each view shows the 3D reconstruction drawn from the
+          recorded joint states and the perceived beaker positions, the wrist camera, and the two fixed cameras. During
+          the pour, the lower-right view switches to a camera facing the scale. The speed of each segment is shown at the
+          lower right.
+        </p>
+
+        <h4 class="title is-5" style="margin-top: 2.5rem;">Marker Search with the Wrist Camera</h4>
+        <p>
+          In the 30 g water run, the tag of the receiving beaker appeared small in the fixed-camera images and fell short
+          of the measurement quality criterion, so the arm carried the wrist camera through 36 predefined viewpoints. At
+          the 21st viewpoint the wrist camera read the tag and updated the position of the beaker, and the Transfer was
+          executed with the trajectory planned from that position. The search opens the water video above.
+        </p>
+
+        <div class="card-image" style="margin-top: 1.5rem;">
+          <div class="paper-figure-row">
+            <img src="static/images/paper/figure11a.jpg" alt="Start of the search">
+            <img src="static/images/paper/figure11b.jpg" alt="During the search">
+            <img src="static/images/paper/figure11c.jpg" alt="Tag read at the 21st viewpoint">
+          </div>
+          <p class="fig-caption" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: #4a4a4a;">
+            Marker search with the wrist camera. Each panel shows, at the same instant, a 3D reconstruction (upper left),
+            the wrist camera (upper right), and the two fixed cameras (bottom). Left: start of the search. Middle: during
+            the search. Right: the moment the tag of the receiving beaker is read at the 21st viewpoint and its position is
+            updated.
+          </p>
         </div>
       </div>
     </div>
 
   </div>
 </section>
-    
+
+
+<style>
+  .paper-figure-row { display: flex; gap: 6px; align-items: flex-start; }
+  .paper-figure-row img { flex: 1; min-width: 0; width: 100%; }
+  .table-caption { margin-top: 0.5rem; font-size: 0.85rem; line-height: 1.5; color: #4a4a4a; text-align: left; }
+  .settings-table td:first-child { white-space: nowrap; font-weight: 500; }
+  .pour-grid-block { margin-top: 1.5rem; }
+  .pour-grid { display: grid; grid-template-columns: auto repeat(3, 1fr); gap: 6px; align-items: center; }
+  .pour-head { text-align: center; font-weight: 600; font-size: 0.95rem; }
+  .pour-row { writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; font-weight: 600; font-size: 0.9rem; padding: 0 2px; }
+  .pour-grid video { width: 100%; aspect-ratio: 4 / 3; display: block; border-radius: 4px; background: #1e1e21; }
+  .pour-trials, .transfer-tabs { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center; margin-top: 12px; }
+  .pour-trials span { color: #777; margin-right: 4px; font-size: 0.95rem; }
+  .pour-trials button, .transfer-tabs button { min-width: 38px; padding: 6px 12px; border: 1px solid #dbdbdb; border-radius: 4px; background: #fff; color: #363636; cursor: pointer; font-size: 0.95rem; }
+  .pour-trials button[aria-pressed="true"], .transfer-tabs button[aria-pressed="true"] { background: #2563eb; border-color: #2563eb; color: #fff; }
+  @media screen and (max-width: 768px) {
+    .paper-figure-row { flex-wrap: wrap; }
+    .paper-figure-row img { flex: 1 1 100% !important; }
+    .pour-grid { gap: 3px; }
+    .pour-head, .pour-row { font-size: 0.75rem; }
+    .settings-table td:first-child { white-space: normal; }
+  }
+</style>
+
+<script>
+  // Pouring accuracy: nine pours of one trial in a 3x3 grid, started together. When all have ended they play again.
+  (function () {
+    const grid = document.getElementById("pour-grid");
+    if (!grid) return;
+    const reagents = [["water", "Water"], ["syrup", "Syrup"], ["sugar", "Powdered sugar"]];
+    const targets = ["10g", "30g", "50g"];
+    const videos = [];
+    for (const [key, name] of reagents) {
+      const label = document.createElement("div");
+      label.className = "pour-row";
+      label.textContent = name;
+      grid.appendChild(label);
+      for (const target of targets) {
+        const video = document.createElement("video");
+        video.muted = true;
+        video.playsInline = true;
+        video.preload = "none";
+        video.dataset.name = key + "_" + target;
+        grid.appendChild(video);
+        videos.push(video);
+      }
+    }
+    let current = 0;
+    function playAll() { for (const v of videos) { v.currentTime = 0; v.play().catch(() => {}); } }
+    function load(trial) {
+      current = trial;
+      const number = String(trial).padStart(2, "0");
+      for (const v of videos) {
+        v.poster = "static/videos/real/pour/" + v.dataset.name + "_" + number + ".jpg";
+        v.src = "static/videos/real/pour/" + v.dataset.name + "_" + number + ".mp4";
+        v.preload = "auto";
+      }
+      document.querySelectorAll("#pour-trials button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.trial == trial)));
+      Promise.all(videos.map(v => new Promise(ok => v.readyState >= 3 ? ok() : v.addEventListener("canplay", ok, { once: true }))))
+        .then(() => { if (current === trial) playAll(); });
+    }
+    for (const v of videos) {
+      v.addEventListener("ended", () => { if (videos.every(x => x.ended)) setTimeout(playAll, 1500); });
+    }
+    const trials = document.getElementById("pour-trials");
+    for (let trial = 1; trial <= 10; trial++) {
+      const button = document.createElement("button");
+      button.textContent = trial;
+      button.dataset.trial = trial;
+      button.addEventListener("click", () => load(trial));
+      trials.appendChild(button);
+    }
+    // Load the first trial when the grid comes into view, so the page does not fetch nine clips up front.
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) { observer.disconnect(); load(1); }
+    }, { rootMargin: "200px" });
+    observer.observe(grid);
+  })();
+
+  // Transfer: one film per reagent, switched by the buttons above it.
+  (function () {
+    const video = document.getElementById("transfer-video");
+    if (!video) return;
+    document.querySelectorAll("#transfer-tabs button").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("#transfer-tabs button").forEach(b => b.setAttribute("aria-pressed", String(b === button)));
+        const base = "static/videos/real/transfer_" + button.dataset.run + "_30g";
+        video.poster = base + ".jpg";
+        video.src = base + ".mp4";
+        video.play().catch(() => {});
+      });
+    });
+  })();
+</script>
+
 <!-- People -->
 <section class="section hero is-light">
   <div class="container is-max-widescreen"> 
@@ -1094,11 +1373,11 @@ Pour 25 mL from flask_B into beaker_A. Rinse and clean beaker_A.</code></pre>
           
           <div class="column has-text-centered">
             <div class="person-image-container">
-              <img src="static/images/people/Bohyeong_Park.png" alt="Bohyeong Park" 
+              <img src="static/images/people/Bohyeong_Pak.png" alt="Bohyeong Pak" 
                    style="width: 100%; max-width: 180px; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
             </div>
             <p class="is-size-5 mt-3" style="white-space: nowrap;">
-              <a href="mailto:bhe1004@khu.ac.kr" class="has-text-dark" style="font-weight: 600;">Bohyeong Park</a>
+              <a href="mailto:bhe1004@khu.ac.kr" class="has-text-dark" style="font-weight: 600;">Bohyeong Pak</a>
             </p>
             <p class="is-size-6 has-text-grey">Kyung Hee Univ.</p>
           </div>
