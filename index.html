@@ -314,6 +314,10 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body" style="text-align: center;">
+      <video controls playsinline preload="metadata" poster="static/videos/dcp_video.jpg"
+             style="width: 100%; max-width: 1000px; display: block; margin: 0 auto 2.5rem; border-radius: 6px; background: #1e1e21;">
+        <source src="static/videos/dcp_video.mp4" type="video/mp4">
+      </video>
       <img src="static/images/paper/figure1.png" alt="Architectural overview of the LLM-Guided Tool-Aware TAMP framework" style="width: 100%; max-width: 1000px; display: block; margin: 0 auto; border-radius: 6px;">
       <h2 class="subtitle has-text-centered" style="margin-top: 1.5rem; font-size: 0.95rem; line-height: 1.5;">
         <p class="section-intro" style="margin-bottom: 0; color: #4a4a4a;">
@@ -1200,6 +1204,16 @@ Pour 25 mL from flask_B into beaker_A. Rinse and clean beaker_A.</code></pre>
           correction, and in every run the pouring skill took over the transfer from the planned start pose.
         </p>
 
+        <div class="pour-grid-block">
+          <div class="pour-grid" id="transfer-grid">
+            <div></div><div class="pour-head">10 g</div><div class="pour-head">30 g</div><div class="pour-head">50 g</div>
+          </div>
+          <p class="fig-caption" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: #4a4a4a;">
+            All nine runs of the Transfer procedure on the physical FR5, one per reagent and target mass, from the robot's
+            first move to its return (8× speed).
+          </p>
+        </div>
+
         <div class="card-image" style="margin-top: 1.5rem;">
           <img src="static/images/paper/figure10.jpg" alt="Keyframes of the physical Transfer procedure">
           <p class="fig-caption" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: #4a4a4a;">
@@ -1263,6 +1277,7 @@ Pour 25 mL from flask_B into beaker_A. Rinse and clean beaker_A.</code></pre>
   .pour-head { text-align: center; font-weight: 600; font-size: 0.95rem; }
   .pour-row { writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; font-weight: 600; font-size: 0.9rem; padding: 0 2px; }
   .pour-grid video { width: 100%; aspect-ratio: 4 / 3; display: block; border-radius: 4px; background: #1e1e21; }
+  #transfer-grid video { aspect-ratio: 16 / 9; }
   .pour-trials, .transfer-tabs { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center; margin-top: 12px; }
   .pour-trials span { color: #777; margin-right: 4px; font-size: 0.95rem; }
   .pour-trials button, .transfer-tabs button { min-width: 38px; padding: 6px 12px; border: 1px solid #dbdbdb; border-radius: 4px; background: #fff; color: #363636; cursor: pointer; font-size: 0.95rem; }
@@ -1277,10 +1292,10 @@ Pour 25 mL from flask_B into beaker_A. Rinse and clean beaker_A.</code></pre>
 </style>
 
 <script>
-  // Pouring accuracy: nine pours of one trial in a 3x3 grid, started together. When all have ended they play again.
-  (function () {
-    const grid = document.getElementById("pour-grid");
-    if (!grid) return;
+  // A 3x3 grid of clips (reagent x target mass) that start together. Finished cells hold their last
+  // frame, and when all nine have ended they play again. Returns poster(path), which shows the first
+  // frames, and load(path), which plays the clips, each given the path of a clip without its extension.
+  function videoGrid(grid) {
     const reagents = [["water", "Water"], ["syrup", "Syrup"], ["sugar", "Powdered sugar"]];
     const targets = ["10g", "30g", "50g"];
     const videos = [];
@@ -1299,36 +1314,63 @@ Pour 25 mL from flask_B into beaker_A. Rinse and clean beaker_A.</code></pre>
         videos.push(video);
       }
     }
-    let current = 0;
+    let generation = 0;
     function playAll() { for (const v of videos) { v.currentTime = 0; v.play().catch(() => {}); } }
-    function load(trial) {
-      current = trial;
-      const number = String(trial).padStart(2, "0");
-      for (const v of videos) {
-        v.poster = "static/videos/real/pour/" + v.dataset.name + "_" + number + ".jpg";
-        v.src = "static/videos/real/pour/" + v.dataset.name + "_" + number + ".mp4";
-        v.preload = "auto";
-      }
-      document.querySelectorAll("#pour-trials button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.trial == trial)));
-      Promise.all(videos.map(v => new Promise(ok => v.readyState >= 3 ? ok() : v.addEventListener("canplay", ok, { once: true }))))
-        .then(() => { if (current === trial) playAll(); });
-    }
     for (const v of videos) {
       v.addEventListener("ended", () => { if (videos.every(x => x.ended)) setTimeout(playAll, 1500); });
+    }
+    function poster(path) { for (const v of videos) v.poster = path(v.dataset.name) + ".jpg"; }
+    function load(path) {
+      const mine = ++generation;
+      poster(path);
+      for (const v of videos) {
+        v.src = path(v.dataset.name) + ".mp4";
+        v.preload = "auto";
+      }
+      Promise.all(videos.map(v => new Promise(ok => v.readyState >= 3 ? ok() : v.addEventListener("canplay", ok, { once: true }))))
+        .then(() => { if (mine === generation) playAll(); });
+    }
+    return { poster, load };
+  }
+
+  // Load a grid only when it comes into view, so the page does not fetch its clips up front.
+  function whenVisible(element, callback) {
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) { observer.disconnect(); callback(); }
+    }, { rootMargin: "200px" });
+    observer.observe(element);
+  }
+
+  // Pouring accuracy: the nine pours of one trial, chosen with the trial buttons.
+  (function () {
+    const grid = document.getElementById("pour-grid");
+    if (!grid) return;
+    const clips = videoGrid(grid);
+    const trialPath = trial => name => "static/videos/real/pour/" + name + "_" + String(trial).padStart(2, "0");
+    function show(trial) {
+      document.querySelectorAll("#pour-trials button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.trial == trial)));
+      clips.load(trialPath(trial));
     }
     const trials = document.getElementById("pour-trials");
     for (let trial = 1; trial <= 10; trial++) {
       const button = document.createElement("button");
       button.textContent = trial;
       button.dataset.trial = trial;
-      button.addEventListener("click", () => load(trial));
+      button.addEventListener("click", () => show(trial));
       trials.appendChild(button);
     }
-    // Load the first trial when the grid comes into view, so the page does not fetch nine clips up front.
-    const observer = new IntersectionObserver(entries => {
-      if (entries.some(e => e.isIntersecting)) { observer.disconnect(); load(1); }
-    }, { rootMargin: "200px" });
-    observer.observe(grid);
+    clips.poster(trialPath(1));
+    whenVisible(grid, () => show(1));
+  })();
+
+  // Physical Transfer: the nine runs, one per reagent and target mass.
+  (function () {
+    const grid = document.getElementById("transfer-grid");
+    if (!grid) return;
+    const clips = videoGrid(grid);
+    const path = name => "static/videos/real/transfer/" + name;
+    clips.poster(path);
+    whenVisible(grid, () => clips.load(path));
   })();
 
   // Transfer: one film per reagent, switched by the buttons above it.
